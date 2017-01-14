@@ -1,0 +1,10 @@
+sudo: false
+language: scala
+jdk: oraclejdk7
+scala:
+  - 2.11.8
+  - 2.10.6
+matrix:
+  include:
+    - scala: 2.12.0
+      jdk: oraclejdk8
