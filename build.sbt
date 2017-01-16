@@ -48,6 +48,7 @@ lazy val root = Project(
     }
   },
   libraryDependencies ++= Seq(
+    "org.wartremover" %% "wartremover" % "1.2.1",
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     "org.scalatest" %% "scalatest" % "3.0.0" % "test"
   ),
