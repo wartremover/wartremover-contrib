@@ -30,3 +30,9 @@ scala> for {
      | y <- x to 3
      | } yield x * y
 res1: List[Int] = List(1, 2, 3, 4, 6, 9)
+```
+
+### SealedCaseClass
+
+Reports an error/warning when a sealed case class is seen. As per FinalCaseClass wart, case classes
+should always be `final`. And, in Scala combining `final` and `sealed` together is not allowed.
