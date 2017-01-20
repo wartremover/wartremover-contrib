@@ -4,7 +4,7 @@ package test
 import org.scalatest.FunSuite
 
 import org.wartremover.test.WartTestTraverser
-import org.wartremover.warts.NoNeedForMonad
+import org.wartremover.contrib.warts.NoNeedForMonad
 
 class NoNeedForMonadTest extends FunSuite with ResultAssertions {
   test("Report cases where Applicative is enough") {
