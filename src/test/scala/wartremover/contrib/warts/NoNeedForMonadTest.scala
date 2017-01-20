@@ -78,7 +78,7 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
 
   test("NoNeedForMonad wart obeys SuppressWarnings") {
     val result = WartTestTraverser(NoNeedForMonad) {
-      @SuppressWarnings(Array("org.wartremover.warts.NoNeedForMonad"))
+      @SuppressWarnings(Array("org.wartremover.contrib.warts.NoNeedForMonad"))
       val foo = {
         for {
           x <- List(1, 2, 3)
