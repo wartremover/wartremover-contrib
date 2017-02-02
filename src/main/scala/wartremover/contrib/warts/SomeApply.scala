@@ -1,4 +1,4 @@
-package wartremover.contrib.warts
+package org.wartremover.contrib.warts
 
 import org.wartremover.{WartTraverser, WartUniverse}
 
@@ -15,9 +15,11 @@ object SomeApply extends WartTraverser {
         tree match {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
+
           case Apply(TypeApply(Select(Select(Ident(pkg), obj), method), _), _)
             if pkg == scala && obj == some && method == app =>
             u.error(tree.pos, "Some.apply is disabled - use Option.apply instead")
+
           case v =>
             super.traverse(tree)
         }

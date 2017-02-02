@@ -1,4 +1,4 @@
-package wartremover.contrib.warts
+package org.wartremover.contrib.warts
 
 import org.scalatest.FunSuite
 import org.wartremover.contrib.test.ResultAssertions
@@ -31,6 +31,13 @@ class SomeApplyTest extends FunSuite with ResultAssertions {
         case Some(test) => println(test)
         case None => println("not gonna happen")
       }
+    }
+    assertEmpty(result)
+  }
+  test("obeys SuppressWarnings") {
+    val result = WartTestTraverser(SomeApply) {
+      @SuppressWarnings(Array("org.wartremover.contrib.warts.SomeApply"))
+      val x = Some(null)
     }
     assertEmpty(result)
   }
