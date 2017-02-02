@@ -36,3 +36,28 @@ res1: List[Int] = List(1, 2, 3, 4, 6, 9)
 
 Reports an error/warning when a sealed case class is seen. As per FinalCaseClass wart, case classes
 should always be `final`. And, in Scala combining `final` and `sealed` together is not allowed.
+
+### SomeApply
+
+`Some.apply` may break typing in two ways: First, when it is used with a null value, creating an instance of `Some(null)` instead of the (usually) expected `None`, and; Second, when it causes type inference to infer `Some[T]` instead of the (usually) expected `Option[T]`. Use `Option.apply` instead, to cover both cases.
+
+```scala
+def someOfNull(foo: String) = {
+  // Won't compile: Some.apply is disabled - use Option.apply instead
+  val expectedSafeFoo: Option[String] = Some(foo) // If foo == null, Some(null)
+  val actualSafeFoo: Option[String] = Option(foo) // If foo == null, None
+}
+```
+
+```scala
+def typeInference() = {
+  // Won't compile: Some.apply is disabled - use Option.apply instead
+  val maybeFoo = Some("bar") // maybeFoo has type Some[String], not Option[String]...
+  
+  // ...so the following code would not have compiled
+  maybeFoo match {
+    case Some(value) => // ...
+    case None => // ...
+  }
+}
+```
