@@ -73,28 +73,30 @@ object ExposedTuples extends WartTraverser {
     )
 
     new u.Traverser {
-
       override def traverse(tree: Tree): Unit = {
         tree match {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
 
           // Do not print out multiple errors for the same line, since internal implementation of vals and vars may
-          // cause this
+          // cause this. Do not traverse into these places since we wouldn't have done anyway.
           case _ if errorAlreadyExists(tree.pos) =>
-            super.traverse(tree)
 
           // Return values
-          case DefDef(modifiers, name, _, _, returnType: TypeTree, _) if !modifiers.hasFlag(Flag.PRIVATE) && name.toString != "unapply" && typeTreeContainsTuple(returnType) =>
+          case DefDef(modifiers, name, _, _, returnType: TypeTree, _) if !modifiers.hasFlag(Flag.PRIVATE) && !modifiers.hasFlag(Flag.LOCAL) && name.toString != "unapply" && typeTreeContainsTuple(returnType) =>
             addError(tree.pos)
 
           // Parameters
-          case DefDef(modifiers, _, _, parameterLists, _, _) if !modifiers.hasFlag(Flag.PRIVATE) && parameterLists.exists(_.exists(valDefContainsTuple)) =>
+          case DefDef(modifiers, _, _, parameterLists, _, _) if !modifiers.hasFlag(Flag.PRIVATE) && !modifiers.hasFlag(Flag.LOCAL) && parameterLists.exists(_.exists(valDefContainsTuple)) =>
             addError(tree.pos)
 
           // Val/var declarations that are not covered by the above definitions
           case ValDef(modifiers, _, returnType: TypeTree, _) if publicUnscopedValues.contains(modifiers.flags) && typeTreeContainsTuple(returnType) =>
             addError(tree.pos)
+
+          // Do not traverse into value / variable / lazy values and method definitions since nothing inside them is
+          // publicly exposed.
+          case _: ValOrDefDef =>
 
           case _ =>
             super.traverse(tree)

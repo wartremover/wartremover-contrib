@@ -626,6 +626,169 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     assertError(result)(ExposedTuples.message)
   }
 
+  test("can expose a tuple from a local def") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        def bar71(): (String, Int) = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local def parameter") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        def bar72(baz: (String, Int)) = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple from a local def inside a class") {
+    val result = WartTestTraverser(ExposedTuples) {
+      class Foo {
+        def foo: Unit = {
+          def bar73(): (String, Int) = ???
+        }
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local def parameter inside a class") {
+    val result = WartTestTraverser(ExposedTuples) {
+      class Foo {
+        def foo: Unit = {
+          def bar74(baz: (String, Int)) = ???
+        }
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local value") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        val bar75: (String, Int) = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local value lambda") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        val bar76: Unit => (String, Int) = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local value lambda's parameter") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        val bar77: ((String, Int)) => Unit = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local variable") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        var bar75b: (String, Int) = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local variable lambda") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        var bar76b: Unit => (String, Int) = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local variable lambda's parameter") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        var bar77b: ((String, Int)) => Unit = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local lazy value") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        lazy val bar75c: (String, Int) = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local lazy value lambda") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        lazy val bar76c: Unit => (String, Int) = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can expose a tuple as a local lazy value lambda's parameter") {
+    val result = WartTestTraverser(ExposedTuples) {
+      def foo: Unit = {
+        lazy val bar77c: ((String, Int)) => Unit = ???
+      }
+    }
+    assertEmpty(result)
+  }
+
+  test("can't expose a tuple as a value lambda") {
+    val result = WartTestTraverser(ExposedTuples) {
+      val bar78: ((String, Int)) => Unit = ???
+    }
+    assertError(result)(ExposedTuples.message)
+  }
+
+  test("can't expose a tuple as a variable lambda") {
+    val result = WartTestTraverser(ExposedTuples) {
+      var bar79: ((String, Int)) => Unit = ???
+    }
+    assertError(result)(ExposedTuples.message)
+  }
+
+  test("can't expose a tuple as a lazy value lambda") {
+    val result = WartTestTraverser(ExposedTuples) {
+      lazy val bar80: ((String, Int)) => Unit = ???
+    }
+    assertError(result)(ExposedTuples.message)
+  }
+
+  test("can't expose a tuple as a value lambda's return value") {
+    val result = WartTestTraverser(ExposedTuples) {
+      val bar81: Unit => (String, Int) = ???
+    }
+    assertError(result)(ExposedTuples.message)
+  }
+
+  test("can't expose a tuple as a variable lambda's return value") {
+    val result = WartTestTraverser(ExposedTuples) {
+      var bar82: Unit => (String, Int) = ???
+    }
+    assertError(result)(ExposedTuples.message)
+  }
+
+  test("can't expose a tuple as a lazy value lambda's return value") {
+    val result = WartTestTraverser(ExposedTuples) {
+      lazy val bar83: Unit => (String, Int) = ???
+    }
+    assertError(result)(ExposedTuples.message)
+  }
+
   test("obeys SuppressWarnings") {
     val result = WartTestTraverser(ExposedTuples) {
       @SuppressWarnings(Array("org.wartremover.contrib.warts.ExposedTuples"))
