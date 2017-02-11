@@ -190,7 +190,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         var bar23: (Int, String) = ???
       }
     }
-    assertErrors(result)(ExposedTuples.message, 2)
+    assertError(result)(ExposedTuples.message)
   }
 
   test("can't expose a tuple from a protected variable in a class") {
@@ -199,7 +199,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected var bar24: (Int, String) = ???
       }
     }
-    assertErrors(result)(ExposedTuples.message, 2)
+    assertError(result)(ExposedTuples.message)
   }
 
   test("can expose a tuple from a private variable in a class") {
@@ -217,7 +217,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] var bar26: (Int, String) = ???
       }
     }
-    assertErrors(result)(ExposedTuples.message, 2)
+    assertError(result)(ExposedTuples.message)
   }
 
   test("can't expose a tuple from a variable inside another type") {
@@ -418,7 +418,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         implicit var bar51: (Int, String) = ???
       }
     }
-    assertErrors(result)(ExposedTuples.message, 2)
+    assertError(result)(ExposedTuples.message)
   }
 
   test("can't expose a tuple from a protected implicit variable in a class") {
@@ -427,7 +427,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected implicit var bar52: (Int, String) = ???
       }
     }
-    assertErrors(result)(ExposedTuples.message, 2)
+    assertError(result)(ExposedTuples.message)
   }
 
   test("can expose a tuple from a private implicit variable in a class") {
@@ -445,7 +445,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] implicit var bar54: (Int, String) = ???
       }
     }
-    assertErrors(result)(ExposedTuples.message, 2)
+    assertError(result)(ExposedTuples.message)
   }
 
   test("can't expose a tuple from an implicit variable inside another type") {
