@@ -1,6 +1,29 @@
 # wartremover-contrib
 Additional warts for wartremover.
 
+## Warts
+
+Here is a list of warts under the `org.wartremover.contrib.warts` package.
+
+### ExposedTuples
+
+Tuples are described not by their semantic meaning, but by their types alone, which requires users of your API to either create that meaning themselves using unapply or to use the ugly _1, _2, ... accessors.
+
+Public API should refrain from exposing tuples and should instead consider using custom case classes to add semantic meaning.
+
+```scala
+// Won't compile:
+// | Avoid using tuples in public interfaces, as they only supply type information.
+// | Consider using a custom case class to add semantic meaning.
+def badFoo(customerTotal: (String, Long)) = {
+  // Code
+}
+```
+```scala
+// Custom case class with added semantic meaning
+final case class CustomerAccount(customerId: String, accountTotal: Long)
+
+// Will compile
 def goodFoo(customerTotal: CustomerAccount) = {
   // Code
 }
@@ -33,6 +56,20 @@ scala> for {
 res1: List[Int] = List(1, 2, 3, 4, 6, 9)
 ```
 
+### OldTime
+
+Forbids use of deprecated time APIs in favor of the [Java 8 Time API](https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html).
+
+Disabled types:
+
+* `java.util.Date`
+* `java.util.Calendar`
+* `java.util.GregorianCalendar`
+* `java.util.TimeZone`
+* `java.text.DateFormat`
+* `java.text.SimpleDateFormat`
+* `org.joda.time._`
+
 ### SealedCaseClass
 
 Reports an error/warning when a sealed case class is seen. As per FinalCaseClass wart, case classes
@@ -62,17 +99,3 @@ def typeInference() = {
   }
 }
 ```
-
-### StrictTime
-
-Forbids use of deprecated time APIs in favor of the [Java 8 Time API](https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html).
-
-Disabled types:
-
-* `java.util.Date`
-* `java.util.Calendar`
-* `java.util.GregorianCalendar`
-* `java.util.TimeZone`
-* `java.text.DateFormat`
-* `java.text.SimpleDateFormat`
-* `org.joda.time._`
