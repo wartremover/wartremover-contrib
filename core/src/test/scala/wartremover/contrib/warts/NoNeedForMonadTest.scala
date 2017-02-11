@@ -18,7 +18,7 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
     }
     val noWarnings = WartTestTraverser(NoNeedForMonad) {
       for {
-        x <- List(1,2,3)
+        x <- List(1, 2, 3)
         y <- x to 3
       } yield x * y
 
@@ -59,7 +59,6 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
       } yield res
     }
 
-
     assertWarnings(etaExpanded)(NoNeedForMonad.message, 1)
 
     assertEmpty(extendsFunction)
@@ -69,7 +68,7 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
     val noWarnings = WartTestTraverser(NoNeedForMonad) {
       for {
         Some(x) <- List(Option(1), Option(2))
-        (y, z)  <- (0 to x).zipWithIndex
+        (y, z) <- (0 to x).zipWithIndex
       } yield x + y * z
     }
 
