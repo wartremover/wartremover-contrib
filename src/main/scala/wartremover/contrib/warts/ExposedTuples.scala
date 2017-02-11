@@ -55,7 +55,7 @@ object ExposedTuples extends WartTraverser {
             u.error(tree.pos, message)
 
           // Val/var declarations that are not covered by the above definitions
-          case ValDef(Modifiers(flags, _, _), _, returnType: TypeTree, _) if publicUnscopedValues.contains(flags) && typeTreeContainsTuple(returnType) =>
+          case ValDef(modifiers, _, returnType: TypeTree, _) if publicUnscopedValues.contains(modifiers.flags) && typeTreeContainsTuple(returnType) =>
             u.error(tree.pos, message)
 
           case _ =>
