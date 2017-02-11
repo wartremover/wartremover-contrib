@@ -3,9 +3,33 @@ Additional warts for wartremover.
 
 ## Warts
 
-### NoNeedForMonad
-
 Here is a list of warts under the `org.wartremover.contrib.warts` package.
+
+### ExposedTuples
+
+Tuples are described not by their semantic meaning, but by their types alone, which requires users of your API to either create that meaning themselves using unapply or to use the ugly _1, _2, ... accessors.
+
+Public API should refrain from exposing tuples and should instead consider using custom case classes to add semantic meaning.
+
+```scala
+// Won't compile:
+// | Avoid using tuples in public interfaces, as they only supply type information.
+// | Consider using a custom case class to add semantic meaning.
+def badFoo(customerTotal: (String, Long)) = {
+  // Code
+}
+```
+```scala
+// Custom case class with added semantic meaning
+final case class CustomerAccount(customerId: String, accountTotal: Long)
+
+// Will compile
+def goodFoo(customerTotal: CustomerAccount) = {
+  // Code
+}
+```
+
+### NoNeedForMonad
 
 Sometimes an additional power of `Monad` is not needed, and
 `Applicative` is enough. This issues a warning in such cases
