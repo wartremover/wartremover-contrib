@@ -18,7 +18,7 @@ object ExposedTuples extends WartTraverser {
 
     def addError(pos: Position): Unit = {
       try {
-        u.error(pos, message)
+        error(u)(pos, message)
         linesWithError.add(LineInFile(pos.source.path, pos.line))
       } catch {
         case _: UnsupportedOperationException =>

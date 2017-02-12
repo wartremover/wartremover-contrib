@@ -6,9 +6,9 @@ import org.wartremover.test.WartTestTraverser
 
 class OldTimeTest extends FunSuite with ResultAssertions {
 
-  val javaError = "The old Java time API is disabled. Use Java 8 java.time._ API instead."
+  val javaError = "[wartremover:OldTime] The old Java time API is disabled. Use Java 8 java.time._ API instead."
 
-  val jodaError = "JodaTime is disabled. Use Java 8 java.time._ API instead."
+  val jodaError = "[wartremover:OldTime] JodaTime is disabled. Use Java 8 java.time._ API instead."
 
   test("disable Joda time wildcard imports") {
     val result = WartTestTraverser(OldTime) {

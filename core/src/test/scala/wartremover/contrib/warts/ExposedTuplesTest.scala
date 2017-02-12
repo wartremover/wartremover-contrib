@@ -6,11 +6,13 @@ import org.wartremover.test.WartTestTraverser
 
 class ExposedTuplesTest extends FunSuite with ResultAssertions {
 
+  val message = "[wartremover:ExposedTuples] " + ExposedTuples.message
+
   test("can't expose a tuple from a public method") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       def bar1(): (Int, String) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public method in a class") {
@@ -19,7 +21,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         def bar2(): (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected method in a class") {
@@ -28,7 +30,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected def bar3(): (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private method in a class") {
@@ -46,14 +48,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] def bar5(): (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a method inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       def bar6(): Seq[(Int, String)] = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a method if it's the base type of another type") {
@@ -67,7 +69,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       def bar8(baz: (Int, String)) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public method as a parameter in a class") {
@@ -76,7 +78,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         def bar9(baz: (Int, String)) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected method as a parameter in a class") {
@@ -85,7 +87,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected def bar10(baz: (Int, String)) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private method as a parameter in a class") {
@@ -103,14 +105,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] def bar12(baz: (Int, String)) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a method as a parameter inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       def bar13(baz: Seq[(Int, String)]) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a method as a parameter if it's the base type of another type") {
@@ -124,7 +126,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       val bar15: (Int, String) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public value in a class") {
@@ -133,7 +135,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         val bar16: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected value in a class") {
@@ -142,7 +144,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected val bar17: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private value in a class") {
@@ -160,14 +162,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] val bar19: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a value inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       val bar20: Seq[(Int, String)] = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a value if it's the base type of another type") {
@@ -181,7 +183,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       var bar22: (Int, String) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public variable in a class") {
@@ -190,7 +192,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         var bar23: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected variable in a class") {
@@ -199,7 +201,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected var bar24: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private variable in a class") {
@@ -217,14 +219,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] var bar26: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a variable inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       var bar27: Seq[(Int, String)] = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a variable if it's the base type of another type") {
@@ -238,7 +240,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       lazy val bar29: (Int, String) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public lazy value in a class") {
@@ -247,7 +249,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         lazy val bar30: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected lazy value in a class") {
@@ -256,7 +258,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected lazy val bar31: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private lazy value in a class") {
@@ -274,14 +276,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] lazy val bar33: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a lazy value inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       lazy val bar34: Seq[(Int, String)] = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a lazy value if it's the base type of another type") {
@@ -295,7 +297,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       implicit def bar36(): (Int, String) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public implicit method in a class") {
@@ -304,7 +306,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         implicit def bar37(): (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected implicit method in a class") {
@@ -313,7 +315,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected implicit def bar38(): (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private implicit method in a class") {
@@ -331,14 +333,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] implicit def bar40(): (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from an implicit method inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       implicit def bar41(): Seq[(Int, String)] = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from an implicit method if it's the base type of another type") {
@@ -352,7 +354,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       implicit val bar43: (Int, String) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public implicit value in a class") {
@@ -361,7 +363,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         implicit val bar44: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected implicit value in a class") {
@@ -370,7 +372,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected implicit val bar45: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private implicit value in a class") {
@@ -388,14 +390,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] implicit val bar47: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from an implicit value inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       implicit val bar48: Seq[(Int, String)] = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from an implicit value if it's the base type of another type") {
@@ -409,7 +411,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       implicit var bar50: (Int, String) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public implicit variable in a class") {
@@ -418,7 +420,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         implicit var bar51: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected implicit variable in a class") {
@@ -427,7 +429,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected implicit var bar52: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private implicit variable in a class") {
@@ -445,14 +447,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] implicit var bar54: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from an implicit variable inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       implicit var bar55: Seq[(Int, String)] = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from an implicit variable if it's the base type of another type") {
@@ -466,7 +468,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       lazy implicit val bar57: (Int, String) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public implicit lazy value in a class") {
@@ -475,7 +477,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         lazy implicit val bar58: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected implicit lazy value in a class") {
@@ -484,7 +486,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected lazy implicit val bar59: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private implicit lazy value in a class") {
@@ -502,14 +504,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] lazy implicit val bar61: (Int, String) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from an implicit lazy value inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       lazy implicit val bar62: Seq[(Int, String)] = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from an implicit lazy value if it's the base type of another type") {
@@ -523,7 +525,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       def bar64(implicit baz: (Int, String)) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a public method as an implicit parameter in a class") {
@@ -532,7 +534,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         def bar65(implicit baz: (Int, String)) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected method as an implicit parameter in a class") {
@@ -541,7 +543,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         protected def bar66(implicit baz: (Int, String)) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private method as an implicit parameter in a class") {
@@ -559,14 +561,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
         private[warts] def bar68(implicit baz: (Int, String)) = ???
       }
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a method as an implicit parameter inside another type") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       def bar69(implicit baz: Seq[(Int, String)]) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a method as an implicit parameter if it's the base type of another type") {
@@ -602,14 +604,14 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       class Foo(tuple: (Int, String))
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple from a protected constructor") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       class Foo protected (tuple: (Int, String))
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a private constructor") {
@@ -623,7 +625,7 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       class Foo private[warts] (tuple: (Int, String))
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can expose a tuple from a local def") {
@@ -751,42 +753,42 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       val bar78: ((String, Int)) => Unit = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple as a variable lambda") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       var bar79: ((String, Int)) => Unit = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple as a lazy value lambda") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       lazy val bar80: ((String, Int)) => Unit = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple as a value lambda's return value") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       val bar81: Unit => (String, Int) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple as a variable lambda's return value") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       var bar82: Unit => (String, Int) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("can't expose a tuple as a lazy value lambda's return value") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       lazy val bar83: Unit => (String, Int) = ???
     }
-    assertError(result)(ExposedTuples.message)
+    assertError(result)(message)
   }
 
   test("obeys SuppressWarnings") {

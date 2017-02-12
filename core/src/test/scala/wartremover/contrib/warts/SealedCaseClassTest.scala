@@ -6,12 +6,12 @@ import org.scalatest.FunSuite
 import org.wartremover.contrib.warts.SealedCaseClass
 import org.wartremover.test.WartTestTraverser
 
-class FinalCaseClassTest extends FunSuite {
+class SealedCaseClassTest extends FunSuite {
   test("can't declare sealed case classes") {
     val result = WartTestTraverser(SealedCaseClass) {
       sealed case class Foo(i: Int)
     }
-    assertResult(List("case classes must not be sealed"), "result.errors")(result.errors)
+    assertResult(List("[wartremover:SealedCaseClass] case classes must not be sealed"), "result.errors")(result.errors)
     assertResult(List.empty, "result.warnings")(result.warnings)
   }
   test("can declare non-sealed case classes") {

@@ -12,7 +12,7 @@ object SealedCaseClass extends WartTraverser {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
           case ClassDef(mods, _, _, _) if mods.hasFlag(CASE) && mods.hasFlag(SEALED) =>
-            u.error(tree.pos, "case classes must not be sealed")
+            error(u)(tree.pos, "case classes must not be sealed")
           case t => super.traverse(tree)
         }
       }

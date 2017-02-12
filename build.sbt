@@ -2,7 +2,7 @@ import ReleaseTransformations._
 import com.typesafe.sbt.pgp.PgpKeys._
 import com.typesafe.sbt.pgp.PgpSettings.useGpg
 
-val wartremoverVersion = "1.3.1"
+val wartremoverVersion = "2.0.0"
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",

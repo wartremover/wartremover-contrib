@@ -7,6 +7,9 @@ import org.wartremover.test.WartTestTraverser
 import org.wartremover.contrib.warts.NoNeedForMonad
 
 class NoNeedForMonadTest extends FunSuite with ResultAssertions {
+
+  val message = "[wartremover:NoNeedForMonad] " + NoNeedForMonad.message
+
   test("Report cases where Applicative is enough") {
     val withWarnings = WartTestTraverser(NoNeedForMonad) {
       for {
@@ -25,7 +28,7 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
       Option(1).flatMap(i => Option(i + 1).map(j => i + j))
     }
 
-    assertWarnings(withWarnings)(NoNeedForMonad.message, 2)
+    assertWarnings(withWarnings)(message, 2)
 
     assertEmpty(noWarnings)
   }
@@ -59,7 +62,7 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
       } yield res
     }
 
-    assertWarnings(etaExpanded)(NoNeedForMonad.message, 1)
+    assertWarnings(etaExpanded)(message, 1)
 
     assertEmpty(extendsFunction)
   }
