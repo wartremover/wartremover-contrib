@@ -1,6 +1,14 @@
 # wartremover-contrib
 Additional warts for wartremover.
 
+## Usage
+
+Add the following to your `project/plugins.sbt`:
+
+```scala
+addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.0.0")
+```
+
 ## Warts
 
 Here is a list of warts under the `org.wartremover.contrib.warts` package.
