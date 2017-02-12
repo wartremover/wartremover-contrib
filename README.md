@@ -9,6 +9,8 @@ Add the following to your `project/plugins.sbt`:
 addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.0.0")
 ```
 
+To use `wartremover-contrib` with other build managers, please refer to [here](other_ways.md).
+
 ## Warts
 
 Here is a list of warts under the `org.wartremover.contrib.warts` package.
