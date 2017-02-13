@@ -6,9 +6,9 @@ import org.wartremover.test.WartTestTraverser
 
 class OldTimeTest extends FunSuite with ResultAssertions {
 
-  val javaError = "[wartremover:OldTime] The old Java time API is disabled. Use Java 8 java.time._ API instead."
+  val javaError = "The old Java time API is disabled. Use Java 8 java.time._ API instead."
 
-  val jodaError = "[wartremover:OldTime] JodaTime is disabled. Use Java 8 java.time._ API instead."
+  val jodaError = "JodaTime is disabled. Use Java 8 java.time._ API instead."
 
   test("disable Joda time wildcard imports") {
     val result = WartTestTraverser(OldTime) {
@@ -160,7 +160,7 @@ class OldTimeTest extends FunSuite with ResultAssertions {
       import java.util.{ Date, Calendar }
       import java.util.{ GregorianCalendar, TimeZone }
     }
-    assert(result.errors == List(javaError, javaError))
+    assertErrors(result)(javaError, 2)
   }
 
   test("disable combined java and joda time imports") {
@@ -168,7 +168,10 @@ class OldTimeTest extends FunSuite with ResultAssertions {
       import java.util.{ Date, Calendar }
       import org.joda.time.Interval
     }
-    assert(result.errors == List(javaError, jodaError))
+    assertResult(List(
+      "[wartremover:OldTime] " + javaError,
+      "[wartremover:OldTime] " + jodaError), "result.errors")(result.errors)
+    assertResult(List.empty, "result.warnings")(result.warnings)
   }
 
   test("still allow importing java.util._") {
@@ -196,7 +199,7 @@ class OldTimeTest extends FunSuite with ResultAssertions {
       import java.util._
       val x = new Date()
     }
-    assert(result.errors == List(javaError, javaError))
+    assertErrors(result)(javaError, 2)
   }
   test("disable creating instances of java.util.Date (1)") {
     val result = WartTestTraverser(OldTime) {
@@ -288,7 +291,7 @@ class OldTimeTest extends FunSuite with ResultAssertions {
     val result = WartTestTraverser(OldTime) {
       val x = List.empty[java.util.Date]
     }
-    assert(result.errors == List(javaError, javaError))
+    assertErrors(result)(javaError, 2)
   }
   test("disable using org.joda.time.LocalDate as a type parameter (1)") {
     val result = WartTestTraverser(OldTime) {
@@ -300,6 +303,6 @@ class OldTimeTest extends FunSuite with ResultAssertions {
     val result = WartTestTraverser(OldTime) {
       val x = List.empty[org.joda.time.LocalDate]
     }
-    assert(result.errors == List(jodaError, jodaError))
+    assertErrors(result)(jodaError, 2)
   }
 }
