@@ -10,21 +10,24 @@ class SomeApplyTest extends FunSuite with ResultAssertions {
     val result = WartTestTraverser(SomeApply) {
       Some(null)
     }
-    assertError(result)("[wartremover:SomeApply] Some.apply is disabled - use Option.apply instead")
+    assertError(result)("Some.apply is disabled - use Option.apply instead")
   }
+
   test("can't use Some.apply with a literal") {
     val result = WartTestTraverser(SomeApply) {
       Some(1)
     }
-    assertError(result)("[wartremover:SomeApply] Some.apply is disabled - use Option.apply instead")
+    assertError(result)("Some.apply is disabled - use Option.apply instead")
   }
+
   test("can't use Some.apply with an identifier") {
     val result = WartTestTraverser(SomeApply) {
       val x = 1
       Some(x)
     }
-    assertError(result)("[wartremover:SomeApply] Some.apply is disabled - use Option.apply instead")
+    assertError(result)("Some.apply is disabled - use Option.apply instead")
   }
+
   test("can use Some.unapply in pattern matching") {
     val result = WartTestTraverser(SomeApply) {
       Option("test") match {
@@ -34,6 +37,7 @@ class SomeApplyTest extends FunSuite with ResultAssertions {
     }
     assertEmpty(result)
   }
+
   test("obeys SuppressWarnings") {
     val result = WartTestTraverser(SomeApply) {
       @SuppressWarnings(Array("org.wartremover.contrib.warts.SomeApply"))

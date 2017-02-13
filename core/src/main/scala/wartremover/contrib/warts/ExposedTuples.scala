@@ -6,8 +6,7 @@ import scala.collection.mutable
 
 object ExposedTuples extends WartTraverser {
   val message: String =
-    """Avoid using tuples in public interfaces, as they only supply type information.
-      |Consider using a custom case class to add semantic meaning.""".stripMargin
+    "Avoid using tuples in public interfaces, as they only supply type information. Consider using a custom case class to add semantic meaning."
 
   private final case class LineInFile(path: String, line: Int)
 
