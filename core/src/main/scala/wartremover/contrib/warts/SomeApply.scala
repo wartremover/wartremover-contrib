@@ -1,6 +1,5 @@
-package org.wartremover.contrib.warts
-
-import org.wartremover.{ WartTraverser, WartUniverse }
+package org.wartremover
+package contrib.warts
 
 object SomeApply extends WartTraverser {
   def apply(u: WartUniverse): u.Traverser = {

@@ -1,7 +1,8 @@
-package org.wartremover.contrib.warts
+package org.wartremover
+package contrib.test
 
 import org.scalatest.FunSuite
-import org.wartremover.contrib.test.ResultAssertions
+import org.wartremover.contrib.warts.SomeApply
 import org.wartremover.test.WartTestTraverser
 
 class SomeApplyTest extends FunSuite with ResultAssertions {

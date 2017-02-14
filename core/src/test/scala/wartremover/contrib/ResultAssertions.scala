@@ -1,5 +1,5 @@
-package org.wartremover.contrib
-package test
+package org.wartremover
+package contrib.test
 
 import org.scalatest.Assertions
 
