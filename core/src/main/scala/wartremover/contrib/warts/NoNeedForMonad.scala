@@ -1,7 +1,5 @@
-package org.wartremover.contrib.warts
-
-import org.wartremover.{ WartTraverser, WartUniverse }
-import org.wartremover.test.WartTestTraverser
+package org.wartremover
+package contrib.warts
 
 object NoNeedForMonad extends WartTraverser {
   val message = """No need for Monad here (Applicative should suffice).

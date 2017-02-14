@@ -1,6 +1,5 @@
-package org.wartremover.contrib.warts
-
-import org.wartremover.{ WartTraverser, WartUniverse }
+package org.wartremover
+package contrib.warts
 
 import scala.collection.mutable
 

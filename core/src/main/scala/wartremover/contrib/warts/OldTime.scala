@@ -1,6 +1,5 @@
-package org.wartremover.contrib.warts
-
-import org.wartremover._
+package org.wartremover
+package contrib.warts
 
 /**
  * Forbids use of

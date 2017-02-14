@@ -2,7 +2,6 @@ package org.wartremover
 package contrib.test
 
 import org.scalatest.FunSuite
-
 import org.wartremover.contrib.warts.UnsafeInheritance
 import org.wartremover.test.WartTestTraverser
 

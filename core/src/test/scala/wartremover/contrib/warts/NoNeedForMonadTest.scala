@@ -1,10 +1,9 @@
-package org.wartremover.contrib
-package test
+package org.wartremover
+package contrib.test
 
 import org.scalatest.FunSuite
-
-import org.wartremover.test.WartTestTraverser
 import org.wartremover.contrib.warts.NoNeedForMonad
+import org.wartremover.test.WartTestTraverser
 
 class NoNeedForMonadTest extends FunSuite with ResultAssertions {
 
