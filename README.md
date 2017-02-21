@@ -9,6 +9,11 @@ Add the following to your `project/plugins.sbt`:
 addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.0.0")
 ```
 
+```scala
+// In build.sbt
+wartremoverErrors += Wart.OldTime // Or whichever warts you want to add
+```
+
 To use `wartremover-contrib` with other build managers, please refer to [here](other_ways.md).
 
 ## Warts
