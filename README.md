@@ -1,5 +1,5 @@
 # wartremover-contrib
-Additional warts for wartremover.
+A selection of additional warts for wartremover managed by the community.
 
 ## Usage
 
