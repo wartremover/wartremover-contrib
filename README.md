@@ -115,6 +115,19 @@ def typeInference() = {
 }
 ```
 
+### SymbolicName
+
+Symbolic names don't affect program correctness directly, however this language feature makes it harder to reason about the code, and that leads to bugs.
+
+As a general rule, symbolic names have two valid use-cases: domain-specific languages, logically mathematical operations. Otherwise they can be replaced by normal readable names.
+
+A name is considered symbolic if the number of characters that aren't letters or underscore is greater than 2.
+
+```scala
+// Won't compile: Symbolic name is disabled
+def :+:(): Unit = {}
+```
+
 ### UnsafeInheritance
 
 Overriding method implementation can break parent's contract.
