@@ -20,6 +20,25 @@ To use `wartremover-contrib` with other build managers, please refer to [here](o
 
 Here is a list of warts under the `org.wartremover.contrib.warts` package.
 
+### Apply
+
+`apply` slightly reduces amount of code, but makes code much less readable, and in conjunction with parenless methods can lead to bugs.
+
+`list.toSet(true)`
+
+A short name can make code more meaningful:
+
+`list.toSet.contains(true)`.
+
+```scala
+class C {
+  def apply(...) = ... // Won't compile: apply is disabled
+}
+object C {
+  def apply() = new C // Compiles: object's apply is enabled
+}
+```
+
 ### ExposedTuples
 
 Tuples are described not by their semantic meaning, but by their types alone, which requires users of your API to either create that meaning themselves using unapply or to use the ugly _1, _2, ... accessors.
