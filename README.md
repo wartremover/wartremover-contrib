@@ -63,6 +63,32 @@ def goodFoo(customerTotal: CustomerAccount) = {
 }
 ```
 
+### MissingOverride
+
+Though `override` may be optional, it is safer to add it every time.
+Consider the following code:
+
+```scala
+trait T {
+  def f1(): Unit
+}
+
+class C extends T {
+  def f1() = ...
+  def f2() = ...
+}
+```
+
+Renaming `T.f1` to `T.f2` leads to dead code and unexpected behavior in `C`.
+
+It is advised to use this rule with `UnsafeInheritance` to avoid default implementation override:
+
+```scala
+trait T {
+  def f1(): Unit = ...
+}
+```
+
 ### NoNeedForMonad
 
 Sometimes an additional power of `Monad` is not needed, and
