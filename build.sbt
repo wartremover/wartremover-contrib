@@ -2,7 +2,10 @@ import ReleaseTransformations._
 import com.typesafe.sbt.pgp.PgpKeys._
 import com.typesafe.sbt.pgp.PgpSettings.useGpg
 
-val wartremoverVersion = "2.0.0"
+val wartremoverVersion = "2.2.1"
+val scala210 = "2.10.6"
+val scala211 = "2.11.11"
+val scala212 = "2.12.3"
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
@@ -12,9 +15,9 @@ lazy val commonSettings = Seq(
   ),
   publishMavenStyle := true,
   publishArtifact in Test := false,
-  publishTo <<= version { (v: String) =>
+  publishTo := {
     val nexus = "https://oss.sonatype.org/"
-    if (v.trim.endsWith("SNAPSHOT"))
+    if (version.value.trim.endsWith("SNAPSHOT"))
       Some("snapshots" at nexus + "content/repositories/snapshots")
     else
       Some("releases"  at nexus + "service/local/staging/deploy/maven2")
@@ -31,43 +34,42 @@ lazy val commonSettings = Seq(
         <name>Chris Neveu</name>
         <url>http://chrisneveu.com</url>
       </developer>
-    </developers>
+    </developers>,
+  scalaVersion := scala212,
+  sbtVersion := {
+    scalaBinaryVersion.value match {
+      case "2.10" => "0.13.16"
+      case _      => "1.0.2"
+    }
+  }
 )
 
 lazy val root = Project(
   id = "wartremover-contrib",
   base = file("."),
-  aggregate = Seq(core)
+  aggregate = Seq(core, sbtPlug)
 ).settings(commonSettings ++ Seq(
   publishArtifact := false,
-  crossScalaVersions := Seq("2.11.8", "2.10.6", "2.12.0"),
-  crossVersion := CrossVersion.binary,
+  releaseCrossBuild := true,
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
     inquireVersions,
-    runTest,
+    releaseStepCommandAndRemaining("+test"),
     setReleaseVersion,
     commitReleaseVersion,
     tagRelease,
-    publishArtifacts.copy(action = st => { // publish *everything* with `sbt "release cross"`
-    val extracted = Project.extract(st)
-      val ref = extracted.get(thisProjectRef)
-      extracted.runAggregated(publishSigned in Global in ref, st)
-    }),
+    releaseStepCommandAndRemaining("+publishSigned"),
     setNextVersion,
     commitNextVersion,
     pushChanges
   )
-): _*)
+): _*).enablePlugins(CrossPerProjectPlugin)
 
 lazy val core = Project(
   id = "core",
-  base = file("core"),
-  aggregate = Seq(sbtPlug)
+  base = file("core")
 ).settings(commonSettings ++ Seq(
   name := "wartremover-contrib",
-  scalaVersion := (crossScalaVersions in ThisBuild).value.head,
-  fork in Test := true,
   addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
   libraryDependencies := {
     CrossVersion.partialVersion(scalaVersion.value) match {
@@ -77,14 +79,22 @@ lazy val core = Project(
         libraryDependencies.value
     }
   },
+  crossScalaVersions := Seq(scala210, scala211, scala212),
   libraryDependencies ++= Seq(
     "org.wartremover" %% "wartremover" % wartremoverVersion,
-    "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    "org.scalatest" %% "scalatest" % "3.0.0" % "test"
-  ),
-  // a hack (?) to make `compile` and `+compile` tasks etc. behave sanely
-  aggregate := CrossVersion.partialVersion((scalaVersion in Global).value) == Some((2, 10))
-): _*)
+    "org.scalatest" %% "scalatest" % "3.0.4" % Test
+  )
+): _*).enablePlugins(CrossPerProjectPlugin)
+
+/**
+  * Workaround for https://github.com/sbt/sbt/issues/3393.
+  */
+def addSbtPluginHack(dependency: ModuleID): Setting[Seq[ModuleID]] =
+  libraryDependencies += {
+    val sbtV = (sbtBinaryVersion in pluginCrossBuild).value
+    val scalaV = (scalaBinaryVersion in update).value
+    Defaults.sbtPluginExtra(dependency, sbtV, scalaV)
+  }
 
 lazy val sbtPlug: Project = Project(
   id = "sbt-plugin",
@@ -92,9 +102,9 @@ lazy val sbtPlug: Project = Project(
 ).settings(commonSettings ++ Seq(
   sbtPlugin := true,
   name := "sbt-wartremover-contrib",
-  scalaVersion := "2.10.6",
-  addSbtPlugin("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
-  sourceGenerators in Compile <+= Def.task {
+  crossScalaVersions := Seq(scala210, scala212),
+  addSbtPluginHack("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
+  sourceGenerators in Compile += Def.task {
     val base = (sourceManaged in Compile).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
     val wartsDir = core.base / "src" / "main" / "scala" / "wartremover" / "contrib" / "warts"
@@ -113,4 +123,4 @@ lazy val sbtPlug: Project = Project(
     IO.write(file, content)
     Seq(file)
   }
-): _*)
+): _*).enablePlugins(CrossPerProjectPlugin)
