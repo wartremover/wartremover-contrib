@@ -1,6 +1,6 @@
 package org.wartremover.contrib.warts
 
-import org.wartremover.{ WartTraverser, WartUniverse }
+import org.wartremover.{WartTraverser, WartUniverse}
 
 object RefinedClasstag extends WartTraverser {
 
@@ -19,10 +19,16 @@ object RefinedClasstag extends WartTraverser {
       }
     }
 
+    def checkIfRefined(typeArgs: List[Tree], msg: String => String): Unit = {
+      typeArgs.foreach {
+        case arg @ RefinedTypeTree(tpe) =>
+          error(u)(arg.pos, msg(tpe.toString))
+        case _ =>
+      }
+    }
+
     val classTag: TermName = "ClassTag"
     val applyMethod: TermName = "apply"
-    val scala: TermName = "scala"
-    val reflect: TermName = "reflect"
     val manifestFactory: TermName = "ManifestFactory"
     val intersectionType: TermName = "intersectionType"
 
@@ -35,19 +41,11 @@ object RefinedClasstag extends WartTraverser {
           case t if hasWartAnnotation(u)(t) =>
 
           case TypeApply(Select(Ident(`classTag`), `applyMethod`), args) =>
-            args.foreach {
-              case arg @ RefinedTypeTree(tpe) =>
-                error(u)(arg.pos, ctMessage(tpe.toString))
-              case _ =>
-            }
+            checkIfRefined(args, ctMessage)
             super.traverse(tree)
 
-          case TypeApply(Select(Select(Select(Ident(`scala`), `reflect`), `manifestFactory`), `intersectionType`), args) =>
-            args.foreach {
-              case arg @ RefinedTypeTree(tpe) =>
-                error(u)(arg.pos, mfMessage(tpe.toString))
-              case _ =>
-            }
+          case TypeApply(Select(Select(_, `manifestFactory`), `intersectionType`), args) =>
+            checkIfRefined(args, mfMessage)
             super.traverse(tree)
 
           case _ =>
