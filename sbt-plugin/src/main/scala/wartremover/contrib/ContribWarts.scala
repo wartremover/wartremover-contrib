@@ -6,7 +6,7 @@ import wartremover.contrib.ContribWart
 import wartremover.WartRemover
 import wartremover.WartRemover.autoImport.wartremoverClasspaths
 
-object Warts extends AutoPlugin {
+object ContribWarts extends AutoPlugin {
 
   object autoImport {
     val ContribWart = wartremover.contrib.ContribWart
