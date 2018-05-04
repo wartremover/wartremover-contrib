@@ -47,14 +47,6 @@ object OldTime extends WartTraverser {
         // Ignore trees marked by SuppressWarnings
         case t if hasWartAnnotation(u)(t) =>
 
-        // import org.joda.time
-        case Import(tree, _) if isJodaTime(tree.symbol) =>
-          error(u)(tree.pos, jodaError)
-
-        // import java.util.Date, etc.
-        case Import(tree, selectors) if isJavaTimeImport(tree, selectors) =>
-          error(u)(tree.pos, javaError)
-
         // forbid use of any type from org.joda
         case TypeTree() if isJodaTime(tree.symbol) =>
           error(u)(tree.pos, jodaError)
