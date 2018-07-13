@@ -11,7 +11,7 @@ object SymbolicName extends WartTraverser {
     def isSymbolic(name: String) = validChars.replaceAllIn(name, "").length > 2
 
     new u.Traverser {
-      override def traverse(tree: Tree) {
+      override def traverse(tree: Tree): Unit = {
         tree match {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
