@@ -6,6 +6,7 @@ val wartremoverVersion = "2.3.0"
 val scala210 = "2.10.7"
 val scala211 = "2.11.12"
 val scala212 = "2.12.6"
+val scala213 = "2.13.0-M4"
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
@@ -70,7 +71,16 @@ lazy val core = Project(
   base = file("core")
 ).settings(commonSettings ++ Seq(
   name := "wartremover-contrib",
-  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
+  libraryDependencies ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, v)) if v >= 13 =>
+        // if scala 2.13.0-M4 or later, macro annotations merged into scala-reflect
+        // https://github.com/scala/scala/pull/6606
+        Nil
+      case _ =>
+        Seq(compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full))
+    }
+  },
   libraryDependencies := {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, 10)) =>
@@ -79,10 +89,10 @@ lazy val core = Project(
         libraryDependencies.value
     }
   },
-  crossScalaVersions := Seq(scala210, scala211, scala212),
+  crossScalaVersions := Seq(scala210, scala211, scala212, scala213),
   libraryDependencies ++= Seq(
     "org.wartremover" %% "wartremover" % wartremoverVersion,
-    "org.scalatest" %% "scalatest" % "3.0.4" % Test
+    "org.scalatest" %% "scalatest" % "3.0.6-SNAP1" % Test
   )
 ): _*).enablePlugins(CrossPerProjectPlugin)
 
