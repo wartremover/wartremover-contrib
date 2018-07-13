@@ -1,4 +1,7 @@
 # wartremover-contrib
+
+[![Build Status](https://travis-ci.org/wartremover/wartremover-contrib.svg?branch=master)](https://travis-ci.org/wartremover/wartremover-contrib)
+
 A selection of additional warts for wartremover managed by the community.
 
 ## Usage
