@@ -2,10 +2,10 @@ import ReleaseTransformations._
 import com.typesafe.sbt.pgp.PgpKeys._
 import com.typesafe.sbt.pgp.PgpSettings.useGpg
 
-val wartremoverVersion = "2.2.1"
-val scala210 = "2.10.6"
-val scala211 = "2.11.11"
-val scala212 = "2.12.3"
+val wartremoverVersion = "2.3.0"
+val scala210 = "2.10.7"
+val scala211 = "2.11.12"
+val scala212 = "2.12.6"
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
@@ -38,8 +38,8 @@ lazy val commonSettings = Seq(
   scalaVersion := scala212,
   sbtVersion := {
     scalaBinaryVersion.value match {
-      case "2.10" => "0.13.16"
-      case _      => "1.0.2"
+      case "2.10" => "0.13.17"
+      case _      => "1.1.6"
     }
   }
 )
@@ -70,7 +70,7 @@ lazy val core = Project(
   base = file("core")
 ).settings(commonSettings ++ Seq(
   name := "wartremover-contrib",
-  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
+  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
   libraryDependencies := {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, 10)) =>
