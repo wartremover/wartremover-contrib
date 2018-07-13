@@ -19,8 +19,7 @@ object OldTime extends WartTraverser {
     "java.util.GregorianCalendar",
     "java.util.TimeZone",
     "java.text.DateFormat",
-    "java.text.SimpleDateFormat"
-  )
+    "java.text.SimpleDateFormat")
 
   def apply(u: WartUniverse): u.Traverser = {
     import u.universe._

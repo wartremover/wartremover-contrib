@@ -14,4 +14,6 @@ matrix:
       jdk: openjdk7
     - scala: 2.13.0-M4
       jdk: openjdk7
-script: sbt "+++$TRAVIS_SCALA_VERSION compile" "+++$TRAVIS_SCALA_VERSION test"
+script:
+- sbt "+++$TRAVIS_SCALA_VERSION compile" "+++$TRAVIS_SCALA_VERSION test"
+- git diff --exit-code # check scalariform

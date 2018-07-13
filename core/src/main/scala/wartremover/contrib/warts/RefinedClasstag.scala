@@ -1,6 +1,6 @@
 package org.wartremover.contrib.warts
 
-import org.wartremover.{WartTraverser, WartUniverse}
+import org.wartremover.{ WartTraverser, WartUniverse }
 
 object RefinedClasstag extends WartTraverser {
 

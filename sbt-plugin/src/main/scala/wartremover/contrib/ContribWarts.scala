@@ -23,6 +23,5 @@ object ContribWarts extends AutoPlugin {
         .find(_.name.contains("wartremover-contrib"))
         .map(_.toURI.toString)
         .toList
-    }
-  )
+    })
 }

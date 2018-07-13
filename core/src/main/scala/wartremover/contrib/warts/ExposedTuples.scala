@@ -67,8 +67,7 @@ object ExposedTuples extends WartTraverser {
       NoFlags, Flag.IMPLICIT,
       Flag.MUTABLE, Flag.MUTABLE | Flag.IMPLICIT,
       Flag.LAZY, Flag.LAZY | Flag.IMPLICIT,
-      Flag.PROTECTED | Flag.LAZY, Flag.PROTECTED | Flag.LAZY | Flag.IMPLICIT
-    )
+      Flag.PROTECTED | Flag.LAZY, Flag.PROTECTED | Flag.LAZY | Flag.IMPLICIT)
 
     new u.Traverser {
       override def traverse(tree: Tree): Unit = {
