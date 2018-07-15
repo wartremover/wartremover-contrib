@@ -599,6 +599,15 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     assertEmpty(result)
   }
 
+  test("can't expose a tuple from a implicit class") {
+    val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
+      object X {
+        implicit class Foo(tuple: (Int, String))
+      }
+    }
+    assertError(result.copy(errors = result.errors.distinct))(ExposedTuples.message)
+  }
+
   test("can't expose a tuple from a public constructor") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       class Foo(tuple: (Int, String))
@@ -794,6 +803,11 @@ class ExposedTuplesTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
       @SuppressWarnings(Array("org.wartremover.contrib.warts.ExposedTuples"))
       def bar(): (Int, String) = ???
+
+      object X {
+        @SuppressWarnings(Array("org.wartremover.contrib.warts.ExposedTuples"))
+        implicit class TupleOps[A, B](tuple: (A, B))
+      }
     }
     assertEmpty(result)
   }

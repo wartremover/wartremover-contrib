@@ -85,7 +85,18 @@ object ExposedTuples extends WartTraverser {
 
           // Parameters
           case DefDef(modifiers, _, _, parameterLists, _, _) if !modifiers.hasFlag(Flag.PRIVATE) && !modifiers.hasFlag(Flag.LOCAL) && parameterLists.exists(_.exists(valDefContainsTuple)) =>
-            addError(tree.pos)
+            // https://github.com/wartremover/wartremover-contrib/issues/20
+            // TODO avoid `asInstanceOf`
+            val suppress = tree
+              .symbol
+              .asInstanceOf[scala.tools.nsc.Global#Symbol]
+              .companionClass
+              .annotations
+              .exists(a => isWartAnnotation(u)(a.asInstanceOf[u.universe.Annotation]))
+
+            if (!suppress) {
+              addError(tree.pos)
+            }
 
           // Val/var declarations that are not covered by the above definitions
           case ValDef(modifiers, _, returnType: TypeTree, _) if publicUnscopedValues.contains(modifiers.flags) && typeTreeContainsTuple(returnType) =>
