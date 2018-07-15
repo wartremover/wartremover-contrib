@@ -15,8 +15,11 @@ object NoNeedForMonad extends WartTraverser {
         case fq"$lhs <- $rhs" =>
           lhs match {
             case Bind(name, _) => List((Ident(name): Tree, rhs))
-            case Apply(_, bindings: List[Tree]) => bindings.map {
-              case Bind(name, _) => (Ident(name): Tree, rhs)
+            case Apply(_, bindings: List[Tree]) => bindings.flatMap {
+              case Bind(name, _) =>
+                Seq((Ident(name): Tree, rhs))
+              case _ =>
+                Nil
             }
           }
         case _ =>

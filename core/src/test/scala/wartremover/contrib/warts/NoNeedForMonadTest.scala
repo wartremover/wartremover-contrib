@@ -71,6 +71,7 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
       for {
         Some(x) <- List(Option(1), Option(2))
         (y, z) <- (0 to x).zipWithIndex
+        (a, _) <- (0 to y).zipWithIndex
       } yield x + y * z
     }
 
