@@ -118,7 +118,11 @@ lazy val sbtPlug: Project = Project(
     val base = (sourceManaged in Compile).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
     val wartsDir = core.base / "src" / "main" / "scala" / "wartremover" / "contrib" / "warts"
-    val warts: Seq[String] = wartsDir.listFiles.toSeq.map(_.getName.replaceAll("""\.scala$""", "")).sorted
+    val warts: Seq[String] = wartsDir
+      .listFiles
+      .withFilter(f => f.getName.endsWith("\\.scala") && f.isFile)
+      .map(_.getName.replaceAll("""\.scala$""", ""))
+      .sorted
     val content =
       s"""package wartremover.contrib
          |import wartremover.Wart
