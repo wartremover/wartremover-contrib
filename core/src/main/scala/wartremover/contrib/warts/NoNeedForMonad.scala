@@ -4,7 +4,7 @@ package contrib.warts
 object NoNeedForMonad extends WartTraverser {
   val message = """No need for Monad here (Applicative should suffice).
                  | > "If the extra power provided by Monad isn’t needed, it’s usually a good idea to use Applicative instead."
-                 | Typeclassopedia (http://www.haskell.org/haskellwiki/Typeclassopedia)
+                 | Typeclassopedia (https://wiki.haskell.org/Typeclassopedia)
                  | Apart from a cleaner code, using Applicatives instead of Monads can in general case result in a more parallel code.
                  | For more context, please refer to the aforementioned Typeclassopedia, http://comonad.com/reader/2012/abstracting-with-applicatives/, or http://www.serpentine.com/blog/2008/02/06/the-basics-of-applicative-functors-put-to-practical-work/""".stripMargin
   def apply(u: WartUniverse): u.Traverser = {
