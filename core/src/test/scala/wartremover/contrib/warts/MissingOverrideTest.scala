@@ -42,4 +42,13 @@ class MissingOverrideTest extends FunSuite with ResultAssertions {
     }
     assertEmpty(result)
   }
+
+  test("issue #28. PartialFunction") {
+    val result = WartTestTraverser(MissingOverride) {
+      val list = List(1, 2, 3)
+      list.collect { case 3 => "test" }
+    }
+    assertEmpty(result)
+  }
+
 }
