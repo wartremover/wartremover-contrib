@@ -120,7 +120,7 @@ lazy val sbtPlug: Project = Project(
     val wartsDir = core.base / "src" / "main" / "scala" / "wartremover" / "contrib" / "warts"
     val warts: Seq[String] = wartsDir
       .listFiles
-      .withFilter(f => f.getName.endsWith("\\.scala") && f.isFile)
+      .withFilter(f => f.getName.endsWith(".scala") && f.isFile)
       .map(_.getName.replaceAll("""\.scala$""", ""))
       .sorted
     val content =
