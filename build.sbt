@@ -49,7 +49,8 @@ lazy val root = Project(
   id = "wartremover-contrib",
   base = file("."),
   aggregate = Seq(core, sbtPlug)
-).settings(commonSettings ++ Seq(
+).settings(
+  commonSettings,
   publishArtifact := false,
   releaseCrossBuild := true,
   releaseProcess := Seq[ReleaseStep](
@@ -64,12 +65,13 @@ lazy val root = Project(
     commitNextVersion,
     pushChanges
   )
-): _*).enablePlugins(CrossPerProjectPlugin)
+).enablePlugins(CrossPerProjectPlugin)
 
 lazy val core = Project(
   id = "core",
   base = file("core")
-).settings(commonSettings ++ Seq(
+).settings(
+  commonSettings,
   name := "wartremover-contrib",
   libraryDependencies ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
@@ -101,7 +103,7 @@ lazy val core = Project(
         "org.scalatest" %% "scalatest" % "3.0.6-SNAP1" % Test
       )
   }
-): _*).enablePlugins(CrossPerProjectPlugin)
+).enablePlugins(CrossPerProjectPlugin)
 
 /**
   * Workaround for https://github.com/sbt/sbt/issues/3393.
@@ -116,7 +118,8 @@ def addSbtPluginHack(dependency: ModuleID): Setting[Seq[ModuleID]] =
 lazy val sbtPlug: Project = Project(
   id = "sbt-plugin",
   base = file("sbt-plugin")
-).settings(commonSettings ++ Seq(
+).settings(
+  commonSettings,
   sbtPlugin := true,
   name := "sbt-wartremover-contrib",
   crossScalaVersions := Seq(scala210, scala212),
@@ -144,4 +147,4 @@ lazy val sbtPlug: Project = Project(
     IO.write(file, content)
     Seq(file)
   }
-): _*).enablePlugins(CrossPerProjectPlugin)
+).enablePlugins(CrossPerProjectPlugin)
