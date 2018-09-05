@@ -4,15 +4,17 @@ scala:
   - 2.10.7
   - 2.11.12
   - 2.12.6
-  - 2.13.0-M4
 jdk:
   - openjdk7
   - oraclejdk8
 matrix:
+  include:
+    - scala: 2.13.0-M5
+      jdk: oraclejdk8
+      script:
+      - sbt "+++$TRAVIS_SCALA_VERSION compile"
   exclude:
     - scala: 2.12.6
-      jdk: openjdk7
-    - scala: 2.13.0-M4
       jdk: openjdk7
 script:
 - sbt "+++$TRAVIS_SCALA_VERSION compile" "+++$TRAVIS_SCALA_VERSION test"

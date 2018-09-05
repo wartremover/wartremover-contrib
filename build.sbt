@@ -6,7 +6,7 @@ val wartremoverVersion = "2.3.5"
 val scala210 = "2.10.7"
 val scala211 = "2.11.12"
 val scala212 = "2.12.6"
-val scala213 = "2.13.0-M4"
+val scala213 = "2.13.0-M5"
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
@@ -91,9 +91,16 @@ lazy val core = Project(
   },
   crossScalaVersions := Seq(scala210, scala211, scala212, scala213),
   libraryDependencies ++= Seq(
-    "org.wartremover" %% "wartremover" % wartremoverVersion,
-    "org.scalatest" %% "scalatest" % "3.0.6-SNAP1" % Test
-  )
+    "org.wartremover" %% "wartremover" % wartremoverVersion
+  ),
+  libraryDependencies ++= {
+    if (scalaVersion.value == "2.13.0-M5")
+      Nil
+    else
+      Seq(
+        "org.scalatest" %% "scalatest" % "3.0.6-SNAP1" % Test
+      )
+  }
 ): _*).enablePlugins(CrossPerProjectPlugin)
 
 /**
