@@ -24,7 +24,7 @@ trait ResultAssertions extends Assertions {
     assertResult(List.fill(times)(message), "result.warnings")(result.warnings.map(skipTraverserPrefix))
   }
 
-  private val messageFormat = """^\[wartremover:\S+\] (.+)$""".r
+  private val messageFormat = """\[wartremover:\S+\] ([\s\S]+)""".r
 
   private def skipTraverserPrefix(msg: String) = msg match {
     case messageFormat(rest) => rest
