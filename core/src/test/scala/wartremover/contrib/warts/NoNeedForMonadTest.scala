@@ -7,14 +7,14 @@ import org.wartremover.test.WartTestTraverser
 
 class NoNeedForMonadTest extends FunSuite with ResultAssertions {
 
-  val message = "[wartremover:NoNeedForMonad] " + NoNeedForMonad.message
-
   test("Report cases where Applicative is enough") {
     val withWarnings = WartTestTraverser(NoNeedForMonad) {
       for {
         x <- List(1, 2, 3)
         y <- List(2, 3, 4)
-      } yield x * y
+      } yield {
+        x * y
+      }
 
       Option(1).flatMap(i => Option(2).map(j => i + j))
     }
@@ -22,12 +22,14 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
       for {
         x <- List(1, 2, 3)
         y <- x to 3
-      } yield x * y
+      } yield {
+        x * y
+      }
 
       Option(1).flatMap(i => Option(i + 1).map(j => i + j))
     }
 
-    assertWarnings(withWarnings)(message, 2)
+    assertWarnings(withWarnings)(NoNeedForMonad.message, 2)
 
     assertEmpty(noWarnings)
   }
@@ -38,7 +40,9 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
       val xs = for {
         y <- Nil
         x <- Option(3) map fun
-      } yield x
+      } yield {
+        x
+      }
 
       Option(3).flatMap { case t => Some(t) }
     }
@@ -54,14 +58,18 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
       for {
         x <- Option(1)
         res <- test(x)
-      } yield res
+      } yield {
+        res
+      }
       for {
         x <- Option(2)
         res <- test2(x)
-      } yield res
+      } yield {
+        res
+      }
     }
 
-    assertWarnings(etaExpanded)(message, 1)
+    assertWarnings(etaExpanded)(NoNeedForMonad.message, 1)
 
     assertEmpty(extendsFunction)
   }
@@ -72,7 +80,9 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
         Some(x) <- List(Option(1), Option(2))
         (y, z) <- (0 to x).zipWithIndex
         (a, _) <- (0 to y).zipWithIndex
-      } yield x + y * z
+      } yield {
+        x + y * z
+      }
     }
 
     assertEmpty(noWarnings)
@@ -85,7 +95,9 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
         for {
           x <- List(1, 2, 3)
           y <- List(2, 3, 4)
-        } yield x * y
+        } yield {
+          x * y
+        }
 
         Option(1).flatMap(i => Option(2).map(j => i + j))
       }
@@ -109,7 +121,9 @@ class NoNeedForMonadTest extends FunSuite with ResultAssertions {
       for {
         a <- List(1)
         b = a
-      } yield b
+      } yield {
+        b
+      }
     }
   }
 }
