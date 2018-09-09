@@ -13,6 +13,11 @@ matrix:
       jdk: oraclejdk8
       script:
       - sbt "+++$TRAVIS_SCALA_VERSION compile"
+    - scala: scripted-test
+      jdk: oraclejdk8
+      env: SCRIPT=";+ core/publishLocal;+ sbt-plugin/scripted"
+      script:
+      - sbt "${SCRIPT}"
   exclude:
     - scala: 2.12.6
       jdk: openjdk7
