@@ -176,6 +176,23 @@ A name is considered symbolic if the number of characters that aren't letters or
 def :+:(): Unit = {}
 ```
 
+### UnintendedLaziness
+
+The `mapValues` and `filterKeys` methods of maps implicitly turn a strictly evaluated collection into a lazily evaluated one.
+This has been [the subject of many debates](https://issues.scala-lang.org/browse/SI-4776) and will be fixed in the new collections library in Scala 2.13, but until then should be avoided.
+
+You should instead consider using the explicit call to the `view` or `toStream` methods. 
+
+```scala
+val map: Map[Int, Int] = ???
+
+// Won't compile
+val positivesLazyMap = map.filterKeys(_ > 0)
+
+// Won't compile
+val incrementedLazyMap = map.mapValues(_ + 1)
+```
+
 ### UnsafeInheritance
 
 Overriding method implementation can break parent's contract.
