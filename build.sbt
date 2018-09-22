@@ -56,7 +56,6 @@ lazy val root = Project(
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
     inquireVersions,
-    releaseStepCommandAndRemaining("+test"),
     setReleaseVersion,
     commitReleaseVersion,
     tagRelease,
