@@ -3,7 +3,7 @@ language: scala
 scala:
   - 2.10.7
   - 2.11.12
-  - 2.12.6
+  - 2.12.7
 jdk:
   - openjdk7
   - oraclejdk8
@@ -19,7 +19,7 @@ matrix:
       script:
       - sbt "${SCRIPT}"
   exclude:
-    - scala: 2.12.6
+    - scala: 2.12.7
       jdk: openjdk7
 script:
 - sbt "+++$TRAVIS_SCALA_VERSION compile" "+++$TRAVIS_SCALA_VERSION test"
