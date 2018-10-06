@@ -9,6 +9,8 @@ jdk:
   - oraclejdk8
 matrix:
   include:
+    - scala: 2.12.7
+      jdk: openjdk11
     - scala: 2.13.0-M5
       jdk: oraclejdk8
       script:
