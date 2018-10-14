@@ -4,6 +4,7 @@ scala:
   - 2.10.7
   - 2.11.12
   - 2.12.7
+  - 2.13.0-M5
 jdk:
   - openjdk7
   - oraclejdk8
@@ -11,10 +12,6 @@ matrix:
   include:
     - scala: 2.12.7
       jdk: openjdk11
-    - scala: 2.13.0-M5
-      jdk: oraclejdk8
-      script:
-      - sbt "+++$TRAVIS_SCALA_VERSION compile"
     - scala: scripted-test
       jdk: oraclejdk8
       env: SCRIPT=";+ core/publishLocal;+ sbt-plugin/scripted"
@@ -22,6 +19,8 @@ matrix:
       - sbt "${SCRIPT}"
   exclude:
     - scala: 2.12.7
+      jdk: openjdk7
+    - scala: 2.13.0-M5
       jdk: openjdk7
 script:
 - sbt "+++$TRAVIS_SCALA_VERSION compile" "+++$TRAVIS_SCALA_VERSION test"

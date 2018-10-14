@@ -97,12 +97,9 @@ lazy val core = Project(
     "org.wartremover" %% "wartremover" % wartremoverVersion
   ),
   libraryDependencies ++= {
-    if (scalaVersion.value == "2.13.0-M5")
-      Nil
-    else
-      Seq(
-        "org.scalatest" %% "scalatest" % "3.0.6-SNAP1" % Test
-      )
+    Seq(
+      "org.scalatest" %% "scalatest" % "3.0.6-SNAP3" % Test
+    )
   }
 ).enablePlugins(CrossPerProjectPlugin)
 

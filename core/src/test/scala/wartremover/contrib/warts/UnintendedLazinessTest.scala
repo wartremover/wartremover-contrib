@@ -7,7 +7,7 @@ import org.wartremover.test.WartTestTraverser
 
 class UnintendedLazinessTest extends FunSuite with ResultAssertions {
   private lazy val isScala213: Boolean = try {
-    ClassLoader.getSystemClassLoader.loadClass("scala.collection.GenMapLike")
+    Class.forName("scala.collection.GenMapLike")
     false
   } catch {
     case _: ClassNotFoundException => true
