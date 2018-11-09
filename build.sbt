@@ -98,7 +98,7 @@ lazy val core = Project(
   ),
   libraryDependencies ++= {
     Seq(
-      "org.scalatest" %% "scalatest" % "3.0.6-SNAP3" % Test
+      "org.scalatest" %% "scalatest" % "3.0.6-SNAP5" % Test
     )
   }
 ).enablePlugins(CrossPerProjectPlugin)
