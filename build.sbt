@@ -39,7 +39,7 @@ lazy val commonSettings = Seq(
   scalaVersion := scala212,
   sbtVersion := {
     scalaBinaryVersion.value match {
-      case "2.10" => "0.13.17"
+      case "2.10" => "0.13.18"
       case _      => "1.1.6"
     }
   }
