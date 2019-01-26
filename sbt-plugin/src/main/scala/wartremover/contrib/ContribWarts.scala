@@ -18,16 +18,6 @@ object ContribWarts extends AutoPlugin {
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
     libraryDependencies += "org.wartremover" %% "wartremover-contrib" % ContribWart.ContribVersion$ % Provided,
-    libraryDependencies ++= {
-      // https://github.com/wartremover/wartremover/issues/106#issuecomment-51963190
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 10)) =>
-          Seq(compilerPlugin(
-            "org.scalamacros" % "paradise" % wartremover.contrib.ContribWart.macroParadiseVersion cross CrossVersion.full))
-        case _ =>
-          Nil
-      }
-    },
     wartremoverClasspaths ++= {
       (dependencyClasspath in Compile).value.files
         .find(_.name.contains("wartremover-contrib"))

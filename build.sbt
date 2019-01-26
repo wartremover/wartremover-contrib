@@ -2,8 +2,7 @@ import ReleaseTransformations._
 import com.typesafe.sbt.pgp.PgpKeys._
 import com.typesafe.sbt.pgp.PgpSettings.useGpg
 
-val wartremoverVersion = "2.3.7"
-val scala210 = "2.10.7"
+val wartremoverVersion = "2.4.0"
 val scala211 = "2.11.12"
 val scala212 = "2.12.8"
 val scala213 = "2.13.0-M5"
@@ -37,18 +36,11 @@ lazy val commonSettings = Seq(
       </developer>
     </developers>,
   scalaVersion := scala212,
-  sbtVersion := {
-    scalaBinaryVersion.value match {
-      case "2.10" => "0.13.18"
-      case _      => "1.1.6"
-    }
-  }
 )
 
 lazy val root = Project(
   id = "wartremover-contrib",
   base = file("."),
-  aggregate = Seq(core, sbtPlug)
 ).settings(
   commonSettings,
   publishArtifact := false,
@@ -64,7 +56,10 @@ lazy val root = Project(
     commitNextVersion,
     pushChanges
   )
-).enablePlugins(CrossPerProjectPlugin)
+).aggregate(
+  core,
+  sbtPlug,
+)
 
 def macroParadiseVersion = "2.1.1"
 
@@ -74,25 +69,7 @@ lazy val core = Project(
 ).settings(
   commonSettings,
   name := "wartremover-contrib",
-  libraryDependencies ++= {
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, v)) if v >= 13 =>
-        // if scala 2.13.0-M4 or later, macro annotations merged into scala-reflect
-        // https://github.com/scala/scala/pull/6606
-        Nil
-      case _ =>
-        Seq(compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full))
-    }
-  },
-  libraryDependencies := {
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 10)) =>
-        libraryDependencies.value :+ ("org.scalamacros" %% "quasiquotes" % "2.0.1")
-      case _ =>
-        libraryDependencies.value
-    }
-  },
-  crossScalaVersions := Seq(scala210, scala211, scala212, scala213),
+  crossScalaVersions := Seq(scala211, scala212, scala213),
   libraryDependencies ++= Seq(
     "org.wartremover" %% "wartremover" % wartremoverVersion
   ),
@@ -101,7 +78,7 @@ lazy val core = Project(
       "org.scalatest" %% "scalatest" % "3.0.6-SNAP6" % Test
     )
   }
-).enablePlugins(CrossPerProjectPlugin)
+)
 
 /**
   * Workaround for https://github.com/sbt/sbt/issues/3393.
@@ -120,9 +97,8 @@ lazy val sbtPlug: Project = Project(
   commonSettings,
   sbtPlugin := true,
   name := "sbt-wartremover-contrib",
-  ScriptedPlugin.scriptedSettings,
-  ScriptedPlugin.scriptedBufferLog := false,
-  ScriptedPlugin.scriptedLaunchOpts ++= {
+  scriptedBufferLog := false,
+  scriptedLaunchOpts ++= {
     val javaVmArgs = {
       import scala.collection.JavaConverters._
       java.lang.management.ManagementFactory.getRuntimeMXBean.getInputArguments.asScala.toList
@@ -131,8 +107,8 @@ lazy val sbtPlug: Project = Project(
       a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith)
     )
   },
-  ScriptedPlugin.scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
-  crossScalaVersions := Seq(scala210, scala212),
+  scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
+  crossScalaVersions := Seq(scala212),
   addSbtPluginHack("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
   sourceGenerators in Compile += Def.task {
     val base = (sourceManaged in Compile).value
@@ -159,4 +135,4 @@ lazy val sbtPlug: Project = Project(
     IO.write(file, content)
     Seq(file)
   }
-).enablePlugins(CrossPerProjectPlugin)
+).enablePlugins(ScriptedPlugin)

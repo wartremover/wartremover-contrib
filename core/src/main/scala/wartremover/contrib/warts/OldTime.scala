@@ -25,15 +25,6 @@ object OldTime extends WartTraverser {
     import u.universe._
     import u.universe.Flag._
 
-    implicit class TypeOps(self: Type) { // 2.10 compat
-      def typeArgs: List[Type] = self match {
-        case PolyType(args, _) => args.map(_.typeSignature)
-        case TypeRef(_, _, args) => args
-        case ExistentialType(_, u) => u.typeArgs
-        case _ => List.empty[Type]
-      }
-    }
-
     def isJodaTime(s: Symbol): Boolean = s.fullName.startsWith("org.joda.time")
 
     def isJavaTime(s: Symbol): Boolean = javaTime.contains(s.fullName)
