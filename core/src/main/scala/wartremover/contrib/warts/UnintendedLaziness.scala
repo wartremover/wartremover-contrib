@@ -24,8 +24,8 @@ object UnintendedLaziness extends WartTraverser {
 
     maybeGenMapLikeSymbol
       .map { genMapLikeSymbol =>
-        val filterKeys: TermName = "filterKeys"
-        val mapValues: TermName = "mapValues"
+        val filterKeys = TermName("filterKeys")
+        val mapValues = TermName("mapValues")
 
         new u.Traverser {
           override def traverse(tree: Tree): Unit = {

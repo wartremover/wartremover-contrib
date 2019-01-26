@@ -13,7 +13,7 @@ object RefinedClasstag extends WartTraverser {
     object RefinedTypeTree {
       def unapply(typ: Tree): Option[Type] = {
         typ.tpe match {
-          case RefinedType(_) => Some(typ.tpe)
+          case RefinedType(_, _) => Some(typ.tpe)
           case _ => None
         }
       }
@@ -27,10 +27,10 @@ object RefinedClasstag extends WartTraverser {
       }
     }
 
-    val classTag: TermName = "ClassTag"
-    val applyMethod: TermName = "apply"
-    val manifestFactory: TermName = "ManifestFactory"
-    val intersectionType: TermName = "intersectionType"
+    val classTag = TermName("ClassTag")
+    val applyMethod = TermName("apply")
+    val manifestFactory = TermName("ManifestFactory")
+    val intersectionType = TermName("intersectionType")
 
     new u.Traverser {
 

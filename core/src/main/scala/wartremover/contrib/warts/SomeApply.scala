@@ -5,9 +5,9 @@ object SomeApply extends WartTraverser {
   def apply(u: WartUniverse): u.Traverser = {
     import u.universe._
 
-    val scala: TermName = "scala"
-    val some: TermName = "Some"
-    val app: TermName = "apply"
+    val scala = TermName("scala")
+    val some = TermName("Some")
+    val app = TermName("apply")
 
     new u.Traverser {
       override def traverse(tree: Tree): Unit = {
