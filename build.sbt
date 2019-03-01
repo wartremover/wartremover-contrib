@@ -76,7 +76,7 @@ lazy val core = Project(
   ),
   libraryDependencies ++= {
     Seq(
-      "org.scalatest" %% "scalatest" % "3.0.6-SNAP6" % Test
+      "org.scalatest" %% "scalatest" % "3.0.6" % Test
     )
   }
 )
