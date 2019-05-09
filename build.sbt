@@ -2,7 +2,7 @@ import ReleaseTransformations._
 import com.typesafe.sbt.pgp.PgpKeys._
 import com.typesafe.sbt.pgp.PgpSettings.useGpg
 
-val wartremoverVersion = "2.4.1"
+val wartremoverVersion = "2.4.2"
 val scala211 = "2.11.12"
 val scala212 = "2.12.8"
 val scala213 = "2.13.0-RC1"
