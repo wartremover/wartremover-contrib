@@ -5,7 +5,7 @@ import com.typesafe.sbt.pgp.PgpSettings.useGpg
 val wartremoverVersion = "2.4.2"
 val scala211 = "2.11.12"
 val scala212 = "2.12.8"
-val scala213 = "2.13.0-RC2"
+val scala213 = "2.13.0-RC3"
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
@@ -76,7 +76,7 @@ lazy val core = Project(
   ),
   libraryDependencies ++= {
     Seq(
-      "org.scalatest" %% "scalatest" % "3.1.0-SNAP11" % Test
+      "org.scalatest" %% "scalatest" % "3.0.8-RC5" % Test
     )
   }
 )
