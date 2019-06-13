@@ -1,17 +1,17 @@
 sudo: false
 language: scala
+dist: xenial
 scala:
   - 2.11.12
   - 2.12.8
   - 2.13.0
 jdk:
-  - oraclejdk8
+  - openjdk8
 matrix:
   include:
     - scala: 2.12.8
       jdk: openjdk11
     - scala: scripted-test
-      jdk: oraclejdk8
       env: SCRIPT=";+ core/publishLocal;+ sbt-plugin/scripted"
       script:
       - sbt "${SCRIPT}"
