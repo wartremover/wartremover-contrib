@@ -16,13 +16,7 @@ lazy val commonSettings = Seq(
   ),
   publishMavenStyle := true,
   publishArtifact in Test := false,
-  publishTo := {
-    val nexus = "https://oss.sonatype.org/"
-    if (version.value.trim.endsWith("SNAPSHOT"))
-      Some("snapshots" at nexus + "content/repositories/snapshots")
-    else
-      Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-  },
+  publishTo := sonatypePublishToBundle.value,
   homepage := Some(url("https://www.wartremover.org")),
   pomExtra :=
     <scm>
@@ -52,6 +46,7 @@ lazy val root = Project(
     commitReleaseVersion,
     tagRelease,
     releaseStepCommandAndRemaining("+publishSigned"),
+    releaseStepCommand("sonatypeBundleRelease"),
     setNextVersion,
     commitNextVersion,
     pushChanges
