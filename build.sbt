@@ -1,6 +1,4 @@
 import ReleaseTransformations._
-import com.typesafe.sbt.pgp.PgpKeys._
-import com.typesafe.sbt.pgp.PgpSettings.useGpg
 
 val wartremoverVersion = "2.4.2"
 val scala211 = "2.11.12"
@@ -26,7 +24,6 @@ lazy val commonSettings = Seq(
       Some("releases"  at nexus + "service/local/staging/deploy/maven2")
   },
   homepage := Some(url("https://www.wartremover.org")),
-  useGpg := false,
   pomExtra :=
     <scm>
       <url>git@github.com:wartremover/wartremover-contrib.git</url>
