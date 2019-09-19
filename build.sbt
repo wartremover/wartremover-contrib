@@ -75,16 +75,6 @@ lazy val core = Project(
   }
 )
 
-/**
-  * Workaround for https://github.com/sbt/sbt/issues/3393.
-  */
-def addSbtPluginHack(dependency: ModuleID): Setting[Seq[ModuleID]] =
-  libraryDependencies += {
-    val sbtV = (sbtBinaryVersion in pluginCrossBuild).value
-    val scalaV = (scalaBinaryVersion in update).value
-    Defaults.sbtPluginExtra(dependency, sbtV, scalaV)
-  }
-
 lazy val sbtPlug: Project = Project(
   id = "sbt-plugin",
   base = file("sbt-plugin")
@@ -104,7 +94,7 @@ lazy val sbtPlug: Project = Project(
   },
   scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
   crossScalaVersions := Seq(scala212),
-  addSbtPluginHack("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
+  addSbtPlugin("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
   sourceGenerators in Compile += Def.task {
     val base = (sourceManaged in Compile).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
