@@ -2,7 +2,7 @@ import ReleaseTransformations._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val wartremoverVersion = "2.4.2"
+val wartremoverVersion = "2.4.3"
 val scala211 = "2.11.12"
 val scala212 = "2.12.8"
 val scala213 = "2.13.0"
@@ -66,7 +66,7 @@ lazy val core = Project(
   name := "wartremover-contrib",
   crossScalaVersions := Seq(scala211, scala212, scala213),
   libraryDependencies ++= Seq(
-    "org.wartremover" %% "wartremover" % wartremoverVersion
+    "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.full
   ),
   libraryDependencies ++= {
     Seq(
