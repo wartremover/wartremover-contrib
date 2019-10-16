@@ -4,8 +4,8 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 val wartremoverVersion = "2.4.3"
 val scala211 = "2.11.12"
-val scala212 = "2.12.8"
-val scala213 = "2.13.0"
+val scala212 = "2.12.10"
+val scala213 = "2.13.1"
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
