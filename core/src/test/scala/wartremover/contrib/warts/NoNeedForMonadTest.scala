@@ -1,11 +1,11 @@
 package org.wartremover
 package contrib.test
 
-import org.scalatest.FunSuite
 import org.wartremover.contrib.warts.NoNeedForMonad
 import org.wartremover.test.WartTestTraverser
+import org.scalatest.funsuite.AnyFunSuite
 
-class NoNeedForMonadTest extends FunSuite with ResultAssertions {
+class NoNeedForMonadTest extends AnyFunSuite with ResultAssertions {
 
   test("Report cases where Applicative is enough") {
     val withWarnings = WartTestTraverser(NoNeedForMonad) {

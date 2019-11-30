@@ -1,11 +1,11 @@
 package org.wartremover
 package contrib.test
 
-import org.scalatest.FunSuite
 import org.wartremover.contrib.warts.MissingOverride
 import org.wartremover.test.WartTestTraverser
+import org.scalatest.funsuite.AnyFunSuite
 
-class MissingOverrideTest extends FunSuite with ResultAssertions {
+class MissingOverrideTest extends AnyFunSuite with ResultAssertions {
   test("Method must have override modifier") {
     val result = WartTestTraverser(MissingOverride) {
       trait T {
