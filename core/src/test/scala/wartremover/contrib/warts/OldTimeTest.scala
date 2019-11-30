@@ -1,11 +1,11 @@
 package org.wartremover
 package contrib.test
 
-import org.scalatest.FunSuite
 import org.wartremover.contrib.warts.OldTime
 import org.wartremover.test.WartTestTraverser
+import org.scalatest.funsuite.AnyFunSuite
 
-class OldTimeTest extends FunSuite with ResultAssertions {
+class OldTimeTest extends AnyFunSuite with ResultAssertions {
 
   val javaError = "The old Java time API is disabled. Use Java 8 java.time._ API instead."
 

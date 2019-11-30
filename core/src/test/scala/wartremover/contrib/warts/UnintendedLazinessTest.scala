@@ -1,11 +1,11 @@
 package org.wartremover
 package contrib.test
 
-import org.scalatest.FunSuite
 import org.wartremover.contrib.warts.UnintendedLaziness
 import org.wartremover.test.WartTestTraverser
+import org.scalatest.funsuite.AnyFunSuite
 
-class UnintendedLazinessTest extends FunSuite with ResultAssertions {
+class UnintendedLazinessTest extends AnyFunSuite with ResultAssertions {
   private lazy val isScala213: Boolean = try {
     Class.forName("scala.collection.GenMapLike")
     false
