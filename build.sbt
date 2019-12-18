@@ -111,6 +111,7 @@ lazy val sbtPlug: Project = Project(
          |object ContribWart {
          |  val ContribVersion$$ = "${version.value}"
          |  lazy val All: collection.Seq[Wart] = List(${warts mkString ", "})
+         |  def allBut(ws: Wart*): collection.Seq[Wart] = All.filterNot(w => ws.exists(_.clazz == w.clazz))
          |  private[wartremover] lazy val ContribWarts = List(${warts mkString ", "})
          |  /** A fully-qualified class name of a custom Wart implementing `org.wartremover.WartTraverser`. */
          |  private[this] def w(nm: String): Wart = new Wart(s"org.wartremover.contrib.warts.$$nm")
