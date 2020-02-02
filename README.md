@@ -205,3 +205,25 @@ class C extends T {
   override def positive = -1
 }
 ```
+
+### DiscardedFuture
+
+The `andThen` method receives a side-effecting callback, whose return value are discarded.
+This is confusing, because it is different from Function types' `andThen` which compose two instances of functions (e.g. `f andThen g`).
+The `flatMap` method, which can chain the result to other `Future`, may be more appropriate than `andThen`.
+
+```scala
+val f: Future[Int] = fooAsync()
+
+// Won't compile
+f.andThen { 
+  case i if i > 100 => Future.successful(0)
+  case _ => Future.succesful(42)
+}
+
+// Will compile
+f.andThen { 
+  case i if i > 100 => println("side-effect")
+  case _ => println("other side-effect")
+}
+```
