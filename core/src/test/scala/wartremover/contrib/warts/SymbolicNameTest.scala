@@ -45,4 +45,21 @@ class SymbolicNameTest extends AnyFunSuite with ResultAssertions {
     }
     assertEmpty(result)
   }
+
+  test("issue 48") {
+    // https://github.com/wartremover/wartremover-contrib/issues/48
+    val result = WartTestTraverser(SymbolicName) {
+      case class Foo(
+        a: Boolean = false,
+        b: Boolean = false,
+        c: Boolean = false,
+        d: Boolean = false)
+      val a = Foo(a = true)
+      val b = Foo(b = true)
+      val c = Foo(c = true)
+      val d = Foo(d = true)
+    }
+    assertEmpty(result)
+  }
+
 }
