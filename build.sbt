@@ -66,7 +66,7 @@ lazy val core = Project(
   name := "wartremover-contrib",
   crossScalaVersions := Seq(scala211, scala212, scala213),
   libraryDependencies ++= Seq(
-    "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.full
+    "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.binary
   ),
   libraryDependencies ++= {
     Seq(
