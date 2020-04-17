@@ -12,7 +12,7 @@ matrix:
     - scala: 2.12.11
       jdk: openjdk11
     - scala: scripted-test
-      env: SCRIPT=";+ core/publishLocal;+ sbt-plugin/scripted"
+      env: SCRIPT=";+ coreBinary/publishLocal;+ sbt-plugin/scripted"
       script:
       - sbt "${SCRIPT}"
 script:

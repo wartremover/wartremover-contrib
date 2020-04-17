@@ -3,9 +3,20 @@ import ReleaseTransformations._
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 val wartremoverVersion = "2.4.5"
-val scala211 = "2.11.12"
-val scala212 = "2.12.11"
-val scala213 = "2.13.1"
+
+val scala211Versions = Seq("2.11.12")
+val scala212Versions = Seq("2.12.10", "2.12.11")
+val scala213Versions = Seq("2.13.0", "2.13.1")
+
+def latest(versions: Seq[String]) = {
+  val prefix = versions.head.split('.').init.mkString("", ".", ".")
+  assert(versions.forall(_ startsWith prefix))
+  prefix + versions.map(_.drop(prefix.length).toLong).max
+}
+
+val scala211Latest = latest(scala211Versions)
+val scala212Latest = latest(scala212Versions)
+val scala213Latest = latest(scala213Versions)
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
@@ -31,48 +42,54 @@ lazy val commonSettings = Seq(
         <url>http://chrisneveu.com</url>
       </developer>
     </developers>,
-  scalaVersion := scala212,
+  scalaVersion := scala212Latest,
 )
 
-lazy val root = Project(
-  id = "wartremover-contrib",
-  base = file("."),
-).settings(
-  commonSettings,
-  publishArtifact := false,
-  releaseCrossBuild := true,
-  releaseProcess := Seq[ReleaseStep](
-    checkSnapshotDependencies,
-    inquireVersions,
-    setReleaseVersion,
-    commitReleaseVersion,
-    tagRelease,
-    releaseStepCommandAndRemaining("+publishSigned"),
-    releaseStepCommand("sonatypeBundleRelease"),
-    setNextVersion,
-    commitNextVersion,
-    pushChanges
-  )
-).aggregate(
-  core,
-  sbtPlug,
+commonSettings
+publishArtifact := false
+releaseCrossBuild := true
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  releaseStepCommandAndRemaining("+publishSigned"),
+  releaseStepCommand("sonatypeBundleRelease"),
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
 )
 
-lazy val core = Project(
-  id = "core",
-  base = file("core")
-).settings(
+lazy val coreSettings = Def.settings(
   commonSettings,
   name := "wartremover-contrib",
-  crossScalaVersions := Seq(scala211, scala212, scala213),
+  libraryDependencies ++= Seq(
+    "org.scalatest" %% "scalatest" % "3.1.1" % Test
+  )
+)
+
+lazy val coreBinary = project.in(file("core")).settings(
+  coreSettings,
+  crossScalaVersions := Seq(scala211Latest, scala212Latest, scala213Latest),
+  crossVersion := CrossVersion.binary,
   libraryDependencies ++= Seq(
     "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.binary
   ),
-  libraryDependencies ++= {
-    Seq(
-      "org.scalatest" %% "scalatest" % "3.1.1" % Test
-    )
-  }
+)
+
+lazy val coreFull = project.in(file("core-full")).settings(
+  coreSettings,
+  crossScalaVersions := Seq(scala211Versions, scala212Versions, scala213Versions).flatten,
+  Compile / scalaSource := (coreBinary / Compile / scalaSource).value,
+  crossVersion := CrossVersion.full,
+  crossTarget := {
+    // workaround for https://github.com/sbt/sbt/issues/5097
+    target.value / s"scala-${scalaVersion.value}"
+  },
+  libraryDependencies ++= Seq(
+    "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.full
+  ),
 )
 
 lazy val sbtPlug: Project = Project(
@@ -96,12 +113,12 @@ lazy val sbtPlug: Project = Project(
     )
   },
   scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
-  crossScalaVersions := Seq(scala212),
+  crossScalaVersions := Seq(scala212Latest),
   addSbtPlugin("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
   sourceGenerators in Compile += Def.task {
     val base = (sourceManaged in Compile).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
-    val wartsDir = core.base / "src" / "main" / "scala" / "wartremover" / "contrib" / "warts"
+    val wartsDir = coreBinary.base / "src" / "main" / "scala" / "wartremover" / "contrib" / "warts"
     val warts: Seq[String] = wartsDir
       .listFiles
       .withFilter(f => f.getName.endsWith(".scala") && f.isFile)
