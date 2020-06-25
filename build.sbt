@@ -6,7 +6,7 @@ val wartremoverVersion = "2.4.9"
 
 val scala211Versions = Seq("2.11.12")
 val scala212Versions = Seq("2.12.10", "2.12.11")
-val scala213Versions = Seq("2.13.0", "2.13.1", "2.13.2")
+val scala213Versions = Seq("2.13.0", "2.13.1", "2.13.2", "2.13.3")
 
 def latest(versions: Seq[String]) = {
   val prefix = versions.head.split('.').init.mkString("", ".", ".")
