@@ -208,7 +208,7 @@ class C extends T {
 
 ### DiscardedFuture
 
-The `andThen` method receives a side-effecting callback, whose return value are discarded.
+[Future's `andThen` method](https://www.scala-lang.org/api/2.13.3/scala/concurrent/Future.html#andThen[U](pf:PartialFunction[scala.util.Try[T],U])(implicitexecutor:scala.concurrent.ExecutionContext):scala.concurrent.Future[T]) receives a side-effecting callback, whose return value are discarded.
 This is confusing, because it is different from Function types' `andThen` which compose two instances of functions (e.g. `f andThen g`).
 The `flatMap` method, which can chain the result to other `Future`, may be more appropriate than `andThen`.
 
@@ -222,7 +222,7 @@ f.andThen {
 }
 
 // Will compile
-f.andThen { 
+f.flatMap { 
   case i if i > 100 => println("side-effect")
   case _ => println("other side-effect")
 }
