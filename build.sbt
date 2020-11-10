@@ -65,7 +65,7 @@ lazy val coreSettings = Def.settings(
   commonSettings,
   name := "wartremover-contrib",
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "3.2.2" % Test
+    "org.scalatest" %% "scalatest" % "3.2.3" % Test
   )
 )
 
