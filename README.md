@@ -1,6 +1,7 @@
 # wartremover-contrib
 
 [![Build Status](https://travis-ci.com/wartremover/wartremover-contrib.svg?branch=master)](https://travis-ci.com/wartremover/wartremover-contrib)
+[![Maven Central](https://img.shields.io/maven-central/v/org.wartremover/wartremover-contrib_2.12.12?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.wartremover%22%20AND%20a:%22sbt-wartremover-contrib%22)
 
 A selection of additional warts for wartremover managed by the community.
 
@@ -9,7 +10,7 @@ A selection of additional warts for wartremover managed by the community.
 Add the following to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.10")
+addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.11")
 ```
 
 ```scala
