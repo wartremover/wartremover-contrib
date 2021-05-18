@@ -29,7 +29,7 @@ lazy val commonSettings = Seq(
     "-deprecation"
   ),
   publishMavenStyle := true,
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   publishTo := sonatypePublishToBundle.value,
   homepage := Some(url("https://www.wartremover.org")),
   pomExtra :=
@@ -116,8 +116,8 @@ lazy val sbtPlug: Project = Project(
   scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
   crossScalaVersions := Seq(scala212Latest),
   addSbtPlugin("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
-  sourceGenerators in Compile += Def.task {
-    val base = (sourceManaged in Compile).value
+  (Compile / sourceGenerators) += Def.task {
+    val base = (Compile / sourceManaged).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
     val wartsDir = coreBinary.base / "src" / "main" / "scala" / "wartremover" / "contrib" / "warts"
     val warts: Seq[String] = wartsDir
