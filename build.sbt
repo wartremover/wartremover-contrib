@@ -99,9 +99,6 @@ lazy val sbtPlug: Project = Project(
 ).settings(
   commonSettings,
   sbtPlugin := true,
-  // Don't update to sbt 1.3.x
-  // https://github.com/sbt/sbt/issues/5049
-  sbtVersion := "1.2.8",
   name := "sbt-wartremover-contrib",
   scriptedBufferLog := false,
   scriptedLaunchOpts ++= {
