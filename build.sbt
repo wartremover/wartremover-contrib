@@ -2,7 +2,7 @@ import ReleaseTransformations._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val wartremoverVersion = "2.4.13"
+val wartremoverVersion = "2.4.15"
 
 val scala211Versions = Seq("2.11.12")
 val scala212Versions = Seq("2.12.10", "2.12.11", "2.12.12", "2.12.13")
@@ -99,9 +99,6 @@ lazy val sbtPlug: Project = Project(
 ).settings(
   commonSettings,
   sbtPlugin := true,
-  // Don't update to sbt 1.3.x
-  // https://github.com/sbt/sbt/issues/5049
-  sbtVersion := "1.2.8",
   name := "sbt-wartremover-contrib",
   scriptedBufferLog := false,
   scriptedLaunchOpts ++= {
