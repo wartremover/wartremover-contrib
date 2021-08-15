@@ -1,4 +1,4 @@
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.7")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.9")
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "1.0.0")
 
