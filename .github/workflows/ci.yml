@@ -20,7 +20,7 @@ jobs:
             java: 8
             os: windows-latest
           - name: "test"
-            java: 11
+            java: 17
             os: ubuntu-latest
     runs-on: ${{ matrix.os }}
     steps:
