@@ -2,11 +2,11 @@ import ReleaseTransformations._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val wartremoverVersion = "2.4.13"
+val wartremoverVersion = "2.4.16"
 
 val scala211Versions = Seq("2.11.12")
-val scala212Versions = Seq("2.12.10", "2.12.11", "2.12.12")
-val scala213Versions = Seq("2.13.0", "2.13.1", "2.13.2", "2.13.3", "2.13.4")
+val scala212Versions = Seq("2.12.10", "2.12.11", "2.12.12", "2.12.13", "2.12.14", "2.12.15")
+val scala213Versions = Seq("2.13.0", "2.13.1", "2.13.2", "2.13.3", "2.13.4", "2.13.5", "2.13.6", "2.13.7", "2.13.8")
 
 def latest(versions: Seq[String]) = {
   val prefix = versions.head.split('.').init.mkString("", ".", ".")
@@ -29,7 +29,7 @@ lazy val commonSettings = Seq(
     "-deprecation"
   ),
   publishMavenStyle := true,
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   publishTo := sonatypePublishToBundle.value,
   homepage := Some(url("https://www.wartremover.org")),
   pomExtra :=
@@ -66,7 +66,7 @@ lazy val coreSettings = Def.settings(
   commonSettings,
   name := "wartremover-contrib",
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "3.2.3" % Test
+    "org.scalatest" %% "scalatest" % "3.2.11" % Test
   )
 )
 
@@ -99,9 +99,6 @@ lazy val sbtPlug: Project = Project(
 ).settings(
   commonSettings,
   sbtPlugin := true,
-  // Don't update to sbt 1.3.x
-  // https://github.com/sbt/sbt/issues/5049
-  sbtVersion := "1.2.8",
   name := "sbt-wartremover-contrib",
   scriptedBufferLog := false,
   scriptedLaunchOpts ++= {
@@ -116,8 +113,8 @@ lazy val sbtPlug: Project = Project(
   scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
   crossScalaVersions := Seq(scala212Latest),
   addSbtPlugin("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
-  sourceGenerators in Compile += Def.task {
-    val base = (sourceManaged in Compile).value
+  (Compile / sourceGenerators) += Def.task {
+    val base = (Compile / sourceManaged).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
     val wartsDir = coreBinary.base / "src" / "main" / "scala" / "wartremover" / "contrib" / "warts"
     val warts: Seq[String] = wartsDir
