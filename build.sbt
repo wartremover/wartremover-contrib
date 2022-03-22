@@ -65,6 +65,12 @@ releaseProcess := Seq[ReleaseStep](
 lazy val coreSettings = Def.settings(
   commonSettings,
   name := "wartremover-contrib",
+  Test / scalacOptions += {
+    val hash = (Compile / sources).value.map { f =>
+      sbt.internal.inc.HashUtil.farmHash(f.toPath)
+    }.sum
+    s"-Dplease-recompile-because-main-source-files-changed-${hash}"
+  },
   libraryDependencies ++= Seq(
     "joda-time" % "joda-time" % "2.10.14" % Test,
     "org.scalatest" %% "scalatest" % "3.2.11" % Test
