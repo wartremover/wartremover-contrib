@@ -18,6 +18,6 @@ object ContribWarts extends AutoPlugin {
   override def requires: Plugins = WartRemover
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
-    wartremoverDependencies += "org.wartremover" %% "wartremover-contrib" % ContribWart.ContribVersion$ cross wartremoverCrossVersion.value
+    wartremoverDependencies += "org.wartremover" %% "wartremover-contrib" % ContribWart.ContribVersion cross wartremoverCrossVersion.value
   )
 }
