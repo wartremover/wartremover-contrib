@@ -15,7 +15,8 @@ object SomeApply extends WartTraverser {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
 
-          case Apply(TypeApply(Select(Select(Ident(pkg), obj), method), _), _) if pkg == scala && obj == some && method == app =>
+          case Apply(TypeApply(Select(Select(Ident(pkg), obj), method), _), _)
+              if pkg == scala && obj == some && method == app =>
             error(u)(tree.pos, "Some.apply is disabled - use Option.apply instead")
 
           case v =>

@@ -1,11 +1,14 @@
 package org.wartremover.contrib.warts
 
-import org.wartremover.{ WartTraverser, WartUniverse }
+import org.wartremover.WartTraverser
+import org.wartremover.WartUniverse
 
 object RefinedClasstag extends WartTraverser {
 
-  def ctMessage(typeName: String): String = s"Refined types should not be used in Classtags since only the first type will be checked at runtime. Type found: $typeName"
-  def mfMessage(typeName: String): String = s"Refined types should not be used in Manifests since only the first type will be checked at runtime. Type found: $typeName"
+  def ctMessage(typeName: String): String =
+    s"Refined types should not be used in Classtags since only the first type will be checked at runtime. Type found: $typeName"
+  def mfMessage(typeName: String): String =
+    s"Refined types should not be used in Manifests since only the first type will be checked at runtime. Type found: $typeName"
 
   def apply(u: WartUniverse): u.Traverser = {
     import u.universe._

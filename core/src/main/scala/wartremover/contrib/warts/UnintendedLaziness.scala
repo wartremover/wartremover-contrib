@@ -22,29 +22,27 @@ object UnintendedLaziness extends WartTraverser {
           None
       }
 
-    maybeGenMapLikeSymbol
-      .map { genMapLikeSymbol =>
-        val filterKeys = TermName("filterKeys")
-        val mapValues = TermName("mapValues")
+    maybeGenMapLikeSymbol.map { genMapLikeSymbol =>
+      val filterKeys = TermName("filterKeys")
+      val mapValues = TermName("mapValues")
 
-        new u.Traverser {
-          override def traverse(tree: Tree): Unit = {
-            tree match {
-              // Ignore trees marked by SuppressWarnings
-              case t if hasWartAnnotation(u)(t) =>
+      new u.Traverser {
+        override def traverse(tree: Tree): Unit = {
+          tree match {
+            // Ignore trees marked by SuppressWarnings
+            case t if hasWartAnnotation(u)(t) =>
 
-              case t @ Apply(Select(map, `filterKeys`), _) if map.tpe.baseType(genMapLikeSymbol) != NoType =>
-                error(u)(t.pos, errorForFilterKeys)
+            case t @ Apply(Select(map, `filterKeys`), _) if map.tpe.baseType(genMapLikeSymbol) != NoType =>
+              error(u)(t.pos, errorForFilterKeys)
 
-              case t @ Apply(TypeApply(Select(map, `mapValues`), _), _) if map.tpe.baseType(genMapLikeSymbol) != NoType =>
-                error(u)(t.pos, errorForMapValues)
+            case t @ Apply(TypeApply(Select(map, `mapValues`), _), _) if map.tpe.baseType(genMapLikeSymbol) != NoType =>
+              error(u)(t.pos, errorForMapValues)
 
-              case _ =>
-                super.traverse(tree)
-            }
+            case _ =>
+              super.traverse(tree)
           }
         }
       }
-      .getOrElse(new u.Traverser)
+    }.getOrElse(new u.Traverser)
   }
 }

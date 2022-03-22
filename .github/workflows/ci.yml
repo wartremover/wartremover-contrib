@@ -34,7 +34,7 @@ jobs:
       run: |
         case ${{ matrix.name }} in
           "test-cross")
-            sbt -v "+compile" "+test"
+            sbt -v scalafmtSbtCheck "+ scalafmtCheckAll" "+compile" "+test"
             ;;
           "scripted")
             sbt -v "+ publishLocal" "+ sbt-plugin/scripted"
@@ -46,6 +46,5 @@ jobs:
             echo "unknown job"
             exit 1
         esac
-    - run: git diff --exit-code # check scalariform
     - shell: bash
       run: rm -rf "$HOME/.ivy2/local" || true

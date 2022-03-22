@@ -18,10 +18,11 @@ object UnsafeInheritance extends WartTraverser {
         tree match {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
-          case t: DefDef if !isSynthetic(u)(t)
-            && !t.symbol.asMethod.isConstructor
-            && !t.symbol.asMethod.isAccessor
-            && overridableImplementation(t) =>
+          case t: DefDef
+              if !isSynthetic(u)(t)
+                && !t.symbol.asMethod.isConstructor
+                && !t.symbol.asMethod.isAccessor
+                && overridableImplementation(t) =>
             error(u)(t.pos, "Method must be final or abstract")
           case _ =>
             super.traverse(tree)

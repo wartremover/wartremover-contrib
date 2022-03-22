@@ -4,7 +4,8 @@ import sbt._
 import sbt.Keys._
 import wartremover.contrib.ContribWart
 import wartremover.WartRemover
-import wartremover.WartRemover.autoImport.{ wartremoverDependencies, wartremoverCrossVersion }
+import wartremover.WartRemover.autoImport.wartremoverDependencies
+import wartremover.WartRemover.autoImport.wartremoverCrossVersion
 
 object ContribWarts extends AutoPlugin {
 
@@ -17,5 +18,6 @@ object ContribWarts extends AutoPlugin {
   override def requires: Plugins = WartRemover
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
-    wartremoverDependencies += "org.wartremover" %% "wartremover-contrib" % ContribWart.ContribVersion$ cross wartremoverCrossVersion.value)
+    wartremoverDependencies += "org.wartremover" %% "wartremover-contrib" % ContribWart.ContribVersion$ cross wartremoverCrossVersion.value
+  )
 }
