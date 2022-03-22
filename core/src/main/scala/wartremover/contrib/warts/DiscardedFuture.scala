@@ -25,9 +25,8 @@ object DiscardedFuture extends WartTraverser {
         tree match {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
-          case Apply(Apply(method, List(callback)), _) if method.symbol == andThenMethod && callback.tpe
-            .typeArgs(1)
-            .typeSymbol == futureTypeSymbol =>
+          case Apply(Apply(method, List(callback)), _)
+              if method.symbol == andThenMethod && callback.tpe.typeArgs(1).typeSymbol == futureTypeSymbol =>
             error(u)(tree.pos, message)
             super.traverse(tree)
           case _ =>

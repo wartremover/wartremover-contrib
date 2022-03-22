@@ -8,19 +8,13 @@ object NoNeedImport extends WartTraverser {
    * @param existsWildCard        Exists `import aaa.bbb.{ _ }` or not
    * @param existsRegular         Exists `import aaa.bbb.{ c }` or not
    */
-  case class ImportTypeContainer(
-    existsNameToWildCard: Boolean,
-    existsWildCard: Boolean,
-    existsRegular: Boolean)
+  case class ImportTypeContainer(existsNameToWildCard: Boolean, existsWildCard: Boolean, existsRegular: Boolean)
 
   def apply(u: WartUniverse): u.Traverser = {
     import u.universe._
 
     val init: ImportTypeContainer =
-      ImportTypeContainer(
-        existsNameToWildCard = false,
-        existsWildCard = false,
-        existsRegular = false)
+      ImportTypeContainer(existsNameToWildCard = false, existsWildCard = false, existsRegular = false)
 
     def isRename(origName: Name, rename: Name) = {
       val maybeRename = Option(rename) // 'rename' can be null
@@ -40,16 +34,13 @@ object NoNeedImport extends WartTraverser {
                 // If `import aaa.bbb.{ _ => ccc }` or `import aaa.bbb.{ _ => _ }`
                 // would be written, it should be the same meaning of
                 // `import aaa.bbb._` so we don't need to care the 3rd parameter of the `ImportSelector`
-                acc.copy(
-                  existsWildCard = true)
+                acc.copy(existsWildCard = true)
               case (acc, ImportSelector(_, _, termNames.WILDCARD, _)) =>
-                acc.copy(
-                  existsNameToWildCard = true)
+                acc.copy(existsNameToWildCard = true)
               case (acc, ImportSelector(origName, _, rename, _)) if !isRename(origName, rename) =>
                 // We are avoiding rename imports like `import aaa.bbb.{ ccc => ddd } since these
                 // are valid in the context of wildcard imports
-                acc.copy(
-                  existsRegular = true)
+                acc.copy(existsRegular = true)
               case (acc, _) =>
                 acc
             } match {
@@ -59,15 +50,11 @@ object NoNeedImport extends WartTraverser {
               case ImportTypeContainer(true, false, _) =>
                 // In case `import aaa.bbb.{ ccc => _, ddd }`,
                 // a programmer could remove `ccc => _`.
-                error(u)(
-                  tree.pos,
-                  "Import into the wildcard(`something => _`) is meaningless. Remove it.")
+                error(u)(tree.pos, "Import into the wildcard(`something => _`) is meaningless. Remove it.")
               case ImportTypeContainer(false, true, true) =>
                 // In case there is a wildcard and at least one regular (non-rename) import
                 // (the case where there is a renamed import and a wildcard is okay)
-                error(u)(
-                  tree.pos,
-                  "The wildcard import exists. Remove other explicitly names of the `import`.")
+                error(u)(tree.pos, "The wildcard import exists. Remove other explicitly names of the `import`.")
               case _ =>
             }
 

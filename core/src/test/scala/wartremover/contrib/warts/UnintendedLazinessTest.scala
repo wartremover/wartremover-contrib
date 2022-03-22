@@ -6,12 +6,13 @@ import org.wartremover.test.WartTestTraverser
 import org.scalatest.funsuite.AnyFunSuite
 
 class UnintendedLazinessTest extends AnyFunSuite with ResultAssertions {
-  private lazy val isScala213: Boolean = try {
-    Class.forName("scala.collection.GenMapLike")
-    false
-  } catch {
-    case _: ClassNotFoundException => true
-  }
+  private lazy val isScala213: Boolean =
+    try {
+      Class.forName("scala.collection.GenMapLike")
+      false
+    } catch {
+      case _: ClassNotFoundException => true
+    }
 
   test("Can't call filterKeys on a map") {
     val map = Map.empty[String, Int]

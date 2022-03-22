@@ -70,28 +70,32 @@ lazy val coreSettings = Def.settings(
   )
 )
 
-lazy val coreBinary = project.in(file("core")).settings(
-  coreSettings,
-  crossScalaVersions := Seq(scala211Latest, scala212Latest, scala213Latest),
-  crossVersion := CrossVersion.binary,
-  libraryDependencies ++= Seq(
-    "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.binary
-  ),
-)
+lazy val coreBinary = project
+  .in(file("core"))
+  .settings(
+    coreSettings,
+    crossScalaVersions := Seq(scala211Latest, scala212Latest, scala213Latest),
+    crossVersion := CrossVersion.binary,
+    libraryDependencies ++= Seq(
+      "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.binary
+    ),
+  )
 
-lazy val coreFull = project.in(file("core-full")).settings(
-  coreSettings,
-  crossScalaVersions := Seq(scala211Versions, scala212Versions, scala213Versions).flatten,
-  Compile / scalaSource := (coreBinary / Compile / scalaSource).value,
-  crossVersion := CrossVersion.full,
-  crossTarget := {
-    // workaround for https://github.com/sbt/sbt/issues/5097
-    target.value / s"scala-${scalaVersion.value}"
-  },
-  libraryDependencies ++= Seq(
-    "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.full
-  ),
-)
+lazy val coreFull = project
+  .in(file("core-full"))
+  .settings(
+    coreSettings,
+    crossScalaVersions := Seq(scala211Versions, scala212Versions, scala213Versions).flatten,
+    Compile / scalaSource := (coreBinary / Compile / scalaSource).value,
+    crossVersion := CrossVersion.full,
+    crossTarget := {
+      // workaround for https://github.com/sbt/sbt/issues/5097
+      target.value / s"scala-${scalaVersion.value}"
+    },
+    libraryDependencies ++= Seq(
+      "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.full
+    ),
+  )
 
 lazy val sbtPlug: Project = Project(
   id = "sbt-plugin",
@@ -106,9 +110,7 @@ lazy val sbtPlug: Project = Project(
       import scala.collection.JavaConverters._
       java.lang.management.ManagementFactory.getRuntimeMXBean.getInputArguments.asScala.toList
     }
-    javaVmArgs.filter(
-      a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith)
-    )
+    javaVmArgs.filter(a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith))
   },
   scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
   crossScalaVersions := Seq(scala212Latest),
@@ -117,8 +119,7 @@ lazy val sbtPlug: Project = Project(
     val base = (Compile / sourceManaged).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
     val wartsDir = coreBinary.base / "src" / "main" / "scala" / "wartremover" / "contrib" / "warts"
-    val warts: Seq[String] = wartsDir
-      .listFiles
+    val warts: Seq[String] = wartsDir.listFiles
       .withFilter(f => f.getName.endsWith(".scala") && f.isFile)
       .map(_.getName.replaceAll("""\.scala$""", ""))
       .sorted

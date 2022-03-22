@@ -2,7 +2,6 @@ package org.wartremover
 package contrib.test
 
 import org.scalatest.Assertions
-
 import org.wartremover.test.WartTestTraverser
 
 trait ResultAssertions extends Assertions {

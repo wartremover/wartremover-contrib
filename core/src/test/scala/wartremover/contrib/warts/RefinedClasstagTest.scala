@@ -4,7 +4,6 @@ package contrib.warts
 import org.wartremover.contrib.test.ResultAssertions
 import org.wartremover.contrib.warts.RefinedClasstag
 import org.wartremover.test.WartTestTraverser
-
 import scala.reflect.ClassTag
 import scala.reflect.runtime.universe._
 import org.scalatest.funsuite.AnyFunSuite

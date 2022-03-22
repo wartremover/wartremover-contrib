@@ -15,12 +15,13 @@ object NoNeedForMonad extends WartTraverser {
         case fq"$lhs <- $rhs" =>
           lhs match {
             case Bind(name, _) => List((Ident(name): Tree, rhs))
-            case Apply(_, bindings: List[Tree]) => bindings.flatMap {
-              case Bind(name, _) =>
-                Seq((Ident(name): Tree, rhs))
-              case _ =>
-                Nil
-            }
+            case Apply(_, bindings: List[Tree]) =>
+              bindings.flatMap {
+                case Bind(name, _) =>
+                  Seq((Ident(name): Tree, rhs))
+                case _ =>
+                  Nil
+              }
           }
         case _ =>
           Nil
@@ -41,15 +42,17 @@ object NoNeedForMonad extends WartTraverser {
     def processFlatMapChain(tree: Tree): Unit = {
       def extractFuns(fname: String, tree: Tree): List[Tree] =
         tree.collect {
-          case Apply(Select(_, termName), fn) if (termName.toString == fname) => fn
-          case Apply(TypeApply(Select(_, termName), _), fn) if (termName.toString == fname) => fn
+          case Apply(Select(_, termName), fn) if termName.toString == fname => fn
+          case Apply(TypeApply(Select(_, termName), _), fn) if termName.toString == fname => fn
         }.flatten
 
       def asFuncTransform(args: List[Tree], body: Tree) =
-        (args.map {
-          case arg @ ValDef(_, name, _, _) =>
+        (
+          args.map { case arg @ ValDef(_, name, _, _) =>
             Ident(name): Tree
-        }, body)
+          },
+          body
+        )
 
       def processBodyArgs(tr: Tree) = tr match {
         case q"(..$args) => $body" => Some(asFuncTransform(args, body))
@@ -62,15 +65,14 @@ object NoNeedForMonad extends WartTraverser {
 
       if (!subTreeBody.isEmpty && !subTreeFun.isEmpty) {
         val yields = subTreeBody.map(_._2)
-        val results = subTreeFun.flatMap {
-          case (args, body) =>
-            args.map { arg =>
-              // Argument should occur in the body of the function the number of times
-              // it occurs in the yield statement
-              // (i.e. only occurrences in the yield statement are allowed).
-              val countInYield = yields.flatMap(_.filter(_ equalsStructure arg)).size
-              body.filter(_ equalsStructure arg).size == countInYield
-            }
+        val results = subTreeFun.flatMap { case (args, body) =>
+          args.map { arg =>
+            // Argument should occur in the body of the function the number of times
+            // it occurs in the yield statement
+            // (i.e. only occurrences in the yield statement are allowed).
+            val countInYield = yields.flatMap(_.filter(_ equalsStructure arg)).size
+            body.filter(_ equalsStructure arg).size == countInYield
+          }
         }
 
         if (results.forall(identity))
@@ -87,8 +89,9 @@ object NoNeedForMonad extends WartTraverser {
           // Will propagate to matching desugared chain of maps/flatMaps.
           case q"for (..$enums) yield $body" => processForComprehension(tree, enums, body)
           case q"for (..$enums) $body" => processForComprehension(tree, enums, body)
-          case tr @ Apply(Select(_, termName), _) if (termName.toString == "flatMap") => processFlatMapChain(tr)
-          case tr @ Apply(TypeApply(Select(_, termName), _), _) if (termName.toString == "flatMap") => processFlatMapChain(tr)
+          case tr @ Apply(Select(_, termName), _) if termName.toString == "flatMap" => processFlatMapChain(tr)
+          case tr @ Apply(TypeApply(Select(_, termName), _), _) if termName.toString == "flatMap" =>
+            processFlatMapChain(tr)
           case _ => super.traverse(tree)
         }
       }

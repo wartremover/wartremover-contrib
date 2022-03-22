@@ -64,10 +64,15 @@ object ExposedTuples extends WartTraverser {
 
     // No FlagOps.& :(
     val publicUnscopedValues = Seq(
-      NoFlags, Flag.IMPLICIT,
-      Flag.MUTABLE, Flag.MUTABLE | Flag.IMPLICIT,
-      Flag.LAZY, Flag.LAZY | Flag.IMPLICIT,
-      Flag.PROTECTED | Flag.LAZY, Flag.PROTECTED | Flag.LAZY | Flag.IMPLICIT)
+      NoFlags,
+      Flag.IMPLICIT,
+      Flag.MUTABLE,
+      Flag.MUTABLE | Flag.IMPLICIT,
+      Flag.LAZY,
+      Flag.LAZY | Flag.IMPLICIT,
+      Flag.PROTECTED | Flag.LAZY,
+      Flag.PROTECTED | Flag.LAZY | Flag.IMPLICIT
+    )
 
     new u.Traverser {
       override def traverse(tree: Tree): Unit = {
@@ -80,15 +85,19 @@ object ExposedTuples extends WartTraverser {
           case _ if errorAlreadyExists(tree.pos) =>
 
           // Return values
-          case DefDef(modifiers, name, _, _, returnType: TypeTree, _) if !modifiers.hasFlag(Flag.PRIVATE) && !modifiers.hasFlag(Flag.LOCAL) && name.toString != "unapply" && typeTreeContainsTuple(returnType) =>
+          case DefDef(modifiers, name, _, _, returnType: TypeTree, _)
+              if !modifiers.hasFlag(Flag.PRIVATE) && !modifiers.hasFlag(
+                Flag.LOCAL
+              ) && name.toString != "unapply" && typeTreeContainsTuple(returnType) =>
             addError(tree.pos)
 
           // Parameters
-          case DefDef(modifiers, _, _, parameterLists, _, _) if !modifiers.hasFlag(Flag.PRIVATE) && !modifiers.hasFlag(Flag.LOCAL) && parameterLists.exists(_.exists(valDefContainsTuple)) =>
+          case DefDef(modifiers, _, _, parameterLists, _, _)
+              if !modifiers.hasFlag(Flag.PRIVATE) && !modifiers
+                .hasFlag(Flag.LOCAL) && parameterLists.exists(_.exists(valDefContainsTuple)) =>
             // https://github.com/wartremover/wartremover-contrib/issues/20
             // TODO avoid `asInstanceOf`
-            val suppress = tree
-              .symbol
+            val suppress = tree.symbol
               .asInstanceOf[scala.tools.nsc.Global#Symbol]
               .companionClass
               .annotations
@@ -99,7 +108,8 @@ object ExposedTuples extends WartTraverser {
             }
 
           // Val/var declarations that are not covered by the above definitions
-          case ValDef(modifiers, _, returnType: TypeTree, _) if publicUnscopedValues.contains(modifiers.flags) && typeTreeContainsTuple(returnType) =>
+          case ValDef(modifiers, _, returnType: TypeTree, _)
+              if publicUnscopedValues.contains(modifiers.flags) && typeTreeContainsTuple(returnType) =>
             addError(tree.pos)
 
           // Do not traverse into value / variable / lazy values and method definitions since nothing inside them is
