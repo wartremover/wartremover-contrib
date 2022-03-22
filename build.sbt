@@ -104,6 +104,7 @@ lazy val sbtPlug: Project = Project(
 ).settings(
   commonSettings,
   sbtPlugin := true,
+  scriptedBatchExecution := false,
   name := "sbt-wartremover-contrib",
   scriptedBufferLog := false,
   scriptedLaunchOpts ++= {
