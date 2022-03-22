@@ -1,5 +1,4 @@
-package wartremover
-package contrib.warts
+package org.wartremover.contrib.test
 
 import org.wartremover.contrib.test.ResultAssertions
 import org.wartremover.contrib.warts.RefinedClasstag

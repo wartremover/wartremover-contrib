@@ -66,6 +66,7 @@ lazy val coreSettings = Def.settings(
   commonSettings,
   name := "wartremover-contrib",
   libraryDependencies ++= Seq(
+    "joda-time" % "joda-time" % "2.10.14" % Test,
     "org.scalatest" %% "scalatest" % "3.2.11" % Test
   )
 )

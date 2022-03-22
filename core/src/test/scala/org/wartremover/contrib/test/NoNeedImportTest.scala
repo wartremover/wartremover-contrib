@@ -1,4 +1,4 @@
-package wartremover.contrib.warts
+package org.wartremover.contrib.test
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.wartremover.contrib.test.ResultAssertions
