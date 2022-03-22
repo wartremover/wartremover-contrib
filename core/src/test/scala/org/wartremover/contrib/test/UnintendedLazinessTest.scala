@@ -50,7 +50,7 @@ class UnintendedLazinessTest extends AnyFunSuite with ResultAssertions {
   }
 
   test("Can call filterKeys on anything that's not a map") {
-    val notAMap = new {
+    object notAMap {
       def filterKeys(p: String => Boolean): Map[String, Int] = ???
     }
 
@@ -61,7 +61,7 @@ class UnintendedLazinessTest extends AnyFunSuite with ResultAssertions {
   }
 
   test("Can't call mapValues on anything that's not a map") {
-    val notAMap = new {
+    object notAMap {
       def mapValues[W](f: Int => W): Map[String, W] = ???
     }
 
@@ -76,7 +76,7 @@ class UnintendedLazinessTest extends AnyFunSuite with ResultAssertions {
 
     val result = WartTestTraverser(UnintendedLaziness) {
       @SuppressWarnings(Array("org.wartremover.contrib.warts.UnintendedLaziness"))
-      val _ = {
+      val foo = {
         map.filterKeys(_.isEmpty)
         map.mapValues(_ + 1)
       }
