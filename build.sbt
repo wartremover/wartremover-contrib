@@ -118,7 +118,7 @@ lazy val sbtPlug: Project = Project(
   (Compile / sourceGenerators) += Def.task {
     val base = (Compile / sourceManaged).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
-    val wartsDir = coreBinary.base / "src" / "main" / "scala" / "wartremover" / "contrib" / "warts"
+    val wartsDir = coreBinary.base / "src" / "main" / "scala-2" / "wartremover" / "contrib" / "warts"
     val warts: Seq[String] = wartsDir.listFiles
       .withFilter(f => f.getName.endsWith(".scala") && f.isFile)
       .map(_.getName.replaceAll("""\.scala$""", ""))
