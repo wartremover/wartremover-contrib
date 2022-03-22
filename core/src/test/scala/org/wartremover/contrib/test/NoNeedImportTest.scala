@@ -1,7 +1,6 @@
 package org.wartremover.contrib.test
 
 import org.scalatest.funsuite.AnyFunSuite
-import org.wartremover.contrib.test.ResultAssertions
 import org.wartremover.contrib.warts.NoNeedImport
 import org.wartremover.test.WartTestTraverser
 
