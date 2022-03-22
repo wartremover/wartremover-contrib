@@ -3,7 +3,6 @@ package org.wartremover.contrib.test
 import org.wartremover.contrib.warts.RefinedClasstag
 import org.wartremover.test.WartTestTraverser
 import scala.reflect.ClassTag
-import scala.reflect.runtime.universe._
 import org.scalatest.funsuite.AnyFunSuite
 
 class RefinedClasstagTest extends AnyFunSuite with ResultAssertions {
@@ -14,18 +13,22 @@ class RefinedClasstagTest extends AnyFunSuite with ResultAssertions {
 
   def methodWithManifest[T]()(implicit mf: Manifest[T]): Unit = {}
 
+  private[this] val AwithB = {
+    val clazz = this.getClass.getName
+    s"${clazz}.A with ${clazz}.B"
+  }
   test("can't use refined types with classTags") {
     val result: WartTestTraverser.Result = WartTestTraverser(RefinedClasstag) {
       methodWithClassTag[A with B]()
     }
-    assertError(result)(RefinedClasstag.ctMessage(typeOf[A with B].toString))
+    assertError(result)(RefinedClasstag.ctMessage(AwithB))
   }
 
   test("can't use refined types with manifests") {
     val result: WartTestTraverser.Result = WartTestTraverser(RefinedClasstag) {
       methodWithManifest[A with B]()
     }
-    assertError(result)(RefinedClasstag.mfMessage(typeOf[A with B].toString))
+    assertError(result)(RefinedClasstag.mfMessage(AwithB))
   }
 
   test("can use single trait or an object in classtags") {
