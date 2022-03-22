@@ -122,6 +122,11 @@ lazy val sbtPlug: Project = Project(
       .withFilter(f => f.getName.endsWith(".scala") && f.isFile)
       .map(_.getName.replaceAll("""\.scala$""", ""))
       .sorted
+    val expectCount = 13
+    assert(
+      warts.size == expectCount,
+      s"${warts.size} != ${expectCount}. please update build.sbt when add or remove wart"
+    )
     val content =
       s"""package wartremover.contrib
          |import wartremover.Wart
