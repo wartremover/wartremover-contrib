@@ -19,7 +19,6 @@ val scala212Latest = latest(scala212Versions)
 val scala213Latest = latest(scala213Versions)
 
 lazy val commonSettings = Seq(
-  scriptedBatchExecution := false,
   organization := "org.wartremover",
   licenses := Seq(
     "The Apache Software License, Version 2.0" ->
