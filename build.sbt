@@ -2,11 +2,11 @@ import ReleaseTransformations._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val wartremoverVersion = "2.4.19"
+val wartremoverVersion = "3.0.0-RC1"
 
-val scala211Versions = Seq("2.11.12")
-val scala212Versions = Seq("2.12.10", "2.12.11", "2.12.12", "2.12.13", "2.12.14", "2.12.15")
-val scala213Versions = Seq("2.13.0", "2.13.1", "2.13.2", "2.13.3", "2.13.4", "2.13.5", "2.13.6", "2.13.7", "2.13.8")
+val scala212Versions = Seq("2.12.13", "2.12.14", "2.12.15")
+val scala213Versions = Seq("2.13.6", "2.13.7", "2.13.8")
+val scala3Versions = Seq("3.1.1", "3.1.2-RC2")
 
 def latest(versions: Seq[String]) = {
   val prefix = versions.head.split('.').init.mkString("", ".", ".")
@@ -14,9 +14,9 @@ def latest(versions: Seq[String]) = {
   prefix + versions.map(_.drop(prefix.length).toLong).max
 }
 
-val scala211Latest = latest(scala211Versions)
 val scala212Latest = latest(scala212Versions)
 val scala213Latest = latest(scala213Versions)
+val scala3Latest = scala3Versions.last // TODO more better way
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
@@ -80,7 +80,7 @@ lazy val coreBinary = project
   .in(file("core"))
   .settings(
     coreSettings,
-    crossScalaVersions := Seq(scala211Latest, scala212Latest, scala213Latest),
+    crossScalaVersions := Seq(scala212Latest, scala213Latest, scala3Latest),
     crossVersion := CrossVersion.binary,
     libraryDependencies ++= Seq(
       "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.binary
@@ -91,7 +91,7 @@ lazy val coreFull = project
   .in(file("core-full"))
   .settings(
     coreSettings,
-    crossScalaVersions := Seq(scala211Versions, scala212Versions, scala213Versions).flatten,
+    crossScalaVersions := Seq(scala212Versions, scala213Versions, scala3Versions).flatten,
     Compile / scalaSource := (coreBinary / Compile / scalaSource).value,
     crossVersion := CrossVersion.full,
     crossTarget := {
