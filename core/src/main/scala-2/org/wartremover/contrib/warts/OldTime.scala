@@ -1,6 +1,8 @@
 package org.wartremover
 package contrib.warts
 
+import scala.collection.mutable
+
 /**
  * Forbids use of
  *  - java.util.{ Date, Calendar, GregorianCalendar, TimeZone }
@@ -22,6 +24,8 @@ object OldTime extends WartTraverser {
     "java.text.SimpleDateFormat"
   )
 
+  private[this] final case class LineInFile(path: String, line: Int)
+
   def apply(u: WartUniverse): u.Traverser = {
     import u.universe._
     import u.universe.Flag._
@@ -33,52 +37,64 @@ object OldTime extends WartTraverser {
     def isJavaTimeImport(tree: Tree, selectors: List[ImportSelector]): Boolean =
       selectors.map(tree.symbol.fullName + "." + _.name).exists(javaTime.contains)
 
+    val linesWithError = mutable.Set.empty[LineInFile]
+
+    def addError(pos: Position, message: String): Unit = {
+      error(u)(pos, message)
+      linesWithError.add(LineInFile(pos.source.path, pos.line))
+    }
+
+    def errorAlreadyExists(pos: Position): Boolean = {
+      linesWithError.contains(LineInFile(pos.source.path, pos.line))
+    }
+
     new u.Traverser {
       override def traverse(tree: Tree): Unit = tree match {
         // Ignore trees marked by SuppressWarnings
         case t if hasWartAnnotation(u)(t) =>
+        case _ if errorAlreadyExists(tree.pos) =>
 
         // forbid use of any type from org.joda
         case TypeTree() if isJodaTime(tree.symbol) =>
-          error(u)(tree.pos, jodaError)
+          addError(tree.pos, jodaError)
 
         // forbid use of any type that's part of the old java time API
         case TypeTree() if isJavaTime(tree.symbol) =>
-          error(u)(tree.pos, javaError)
+          addError(tree.pos, javaError)
 
         case tt @ TypeTree() =>
           tt.tpe match {
             // forbid org.joda.time types in type bounds
             case TypeBounds(a, b) if isJodaTime(a.typeSymbol) || isJodaTime(b.typeSymbol) =>
-              error(u)(tree.pos, jodaError)
+              addError(tree.pos, jodaError)
             // forbid old java time API types in type bounds
             case TypeBounds(a, b) if isJavaTime(a.typeSymbol) || isJavaTime(b.typeSymbol) =>
-              error(u)(tree.pos, javaError)
+              addError(tree.pos, javaError)
             // forbid org.joda.time types as type arguments
             case _ if tt.tpe.typeArgs.exists(t => isJodaTime(t.typeSymbol)) =>
-              error(u)(tree.pos, jodaError)
+              addError(tree.pos, jodaError)
             // forbid old java time API types as type arguments
             case _ if tt.tpe.typeArgs.exists(t => isJavaTime(t.typeSymbol)) =>
-              error(u)(tree.pos, javaError)
+              addError(tree.pos, javaError)
             case _ =>
               super.traverse(tree)
           }
 
         // forbid use of org.joda.time members
         case Select(qual, name) if qual.toString.startsWith("org.joda.time") =>
-          error(u)(tree.pos, jodaError)
+          addError(tree.pos, jodaError)
 
         // forbid use of old java time API members
         case Select(qual, name) if javaTime.contains(qual.toString + "." + name) =>
-          error(u)(tree.pos, javaError)
+          addError(tree.pos, javaError)
 
         // forbid org.joda.time types in type applications
         case TypeApply(fun, args) if args.exists(t => isJodaTime(t.symbol)) =>
-          error(u)(tree.pos, jodaError)
+          addError(tree.pos, jodaError)
 
         // forbid old java time API types in type applications
         case TypeApply(fun, args) if args.exists(t => isJavaTime(t.symbol)) =>
-          error(u)(tree.pos, javaError)
+          addError(tree.pos, javaError)
 
         case _ =>
           super.traverse(tree)
