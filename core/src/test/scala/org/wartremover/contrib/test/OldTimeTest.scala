@@ -23,7 +23,7 @@ class OldTimeTest extends AnyFunSuite with ResultAssertions {
       import java.util._
       val x = new Date()
     }
-    assertErrors(result)(javaError, 2)
+    assertError(result)(javaError)
   }
   test("disable creating instances of java.util.Date (1)") {
     val result = WartTestTraverser(OldTime) {
@@ -115,7 +115,7 @@ class OldTimeTest extends AnyFunSuite with ResultAssertions {
     val result = WartTestTraverser(OldTime) {
       val x = List.empty[java.util.Date]
     }
-    assertErrors(result)(javaError, 2)
+    assertError(result)(javaError)
   }
   test("disable using org.joda.time.LocalDate as a type parameter (1)") {
     val result = WartTestTraverser(OldTime) {
@@ -127,6 +127,6 @@ class OldTimeTest extends AnyFunSuite with ResultAssertions {
     val result = WartTestTraverser(OldTime) {
       val x = List.empty[org.joda.time.LocalDate]
     }
-    assertErrors(result)(jodaError, 2)
+    assertError(result)(jodaError)
   }
 }
