@@ -105,6 +105,11 @@ class NoNeedForMonadTest extends AnyFunSuite with ResultAssertions {
   test("should not cause MatchError") {
     WartTestTraverser(NoNeedForMonad) {
       for {
+        a <- Option(2)
+        _ <- Option(3)
+      } yield a
+
+      for {
         a <- List(1)
         b = a
       } yield b

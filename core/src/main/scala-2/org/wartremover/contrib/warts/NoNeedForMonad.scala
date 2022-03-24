@@ -22,6 +22,8 @@ object NoNeedForMonad extends WartTraverser {
                 case _ =>
                   Nil
               }
+            case _ => // TODO ?
+              Nil
           }
         case _ =>
           Nil
