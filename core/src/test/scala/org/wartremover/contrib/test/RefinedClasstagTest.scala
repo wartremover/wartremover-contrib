@@ -2,9 +2,11 @@ package org.wartremover.contrib.test
 
 import org.wartremover.contrib.warts.RefinedClasstag
 import org.wartremover.test.WartTestTraverser
+import scala.annotation.nowarn
 import scala.reflect.ClassTag
 import org.scalatest.funsuite.AnyFunSuite
 
+@nowarn("msg=Manifest")
 class RefinedClasstagTest extends AnyFunSuite with ResultAssertions {
 
   import RefinedClasstagTest._
