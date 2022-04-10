@@ -82,6 +82,18 @@ lazy val coreBinary = project
     coreSettings,
     crossScalaVersions := Seq(scala212Latest, scala213Latest, scala3Latest),
     crossVersion := CrossVersion.binary,
+    libraryDependencies ++= {
+      if (scalaBinaryVersion.value == "3") {
+        Seq(
+          "org.scala-lang" %% "scala3-tasty-inspector" % scalaVersion.value % Test,
+          "io.get-coursier" % "coursier" % "2.1.0-M5" % Test cross CrossVersion.for3Use2_13 exclude ("io.argonaut", "*") exclude ("org.scala-lang.modules", "scala-xml_2.13"),
+          "org.scala-sbt" %% "io" % "1.6.0" % Test,
+          "org.wartremover" %% "wartremover-inspector" % wartremoverVersion % Test,
+        )
+      } else {
+        Nil
+      }
+    },
     libraryDependencies ++= Seq(
       "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.binary
     ),
