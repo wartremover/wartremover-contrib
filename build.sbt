@@ -138,11 +138,13 @@ lazy val sbtPlug: Project = Project(
     val base = (Compile / sourceManaged).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
     val wartsDir = coreBinary.base / "src" / "main" / "scala-2" / "org" / "wartremover" / "contrib" / "warts"
+    val deprecatedWarts = Set("NoNeedImport")
     val warts: Seq[String] = wartsDir.listFiles
       .withFilter(f => f.getName.endsWith(".scala") && f.isFile)
       .map(_.getName.replaceAll("""\.scala$""", ""))
+      .filterNot(deprecatedWarts)
       .sorted
-    val expectCount = 13
+    val expectCount = 12
     assert(
       warts.size == expectCount,
       s"${warts.size} != ${expectCount}. please update build.sbt when add or remove wart"
@@ -158,6 +160,7 @@ lazy val sbtPlug: Project = Project(
          |  def allBut(ws: Wart*): List[Wart] = All.filterNot(w => ws.exists(_.clazz == w.clazz))
          |  /** A fully-qualified class name of a custom Wart implementing `org.wartremover.WartTraverser`. */
          |  private[this] def w(nm: String): Wart = new Wart(s"org.wartremover.contrib.warts.$$nm")
+         |  @deprecated("move to core https://github.com/wartremover/wartremover/commit/25b3a07a912c5f82f", "2.0.0") def NoNeedImport: Wart = _root_.wartremover.Wart.NoNeedImport
          |""".stripMargin +
         warts.map(w => s"""  val $w: Wart = w("${w}")""").mkString("", "\n", "\n") +
         s"""  val All: List[Wart] = List(${warts mkString ", "})""" +
