@@ -69,11 +69,13 @@ class WartRemoverInspectorTest extends AnyFunSuite {
     }.toMap
   }
 
-  private def isNightlyScala: Boolean =
-    classOf[Quotes].getProtectionDomain.getCodeSource.getLocation.getPath contains "NIGHTLY"
+  private def isNewScala: Boolean = {
+    val path = classOf[Quotes].getProtectionDomain.getCodeSource.getLocation.getPath
+    !Seq("3.1.1", "3.1.2").exists(path contains _)
+  }
 
   test("cats") {
-    if (isNightlyScala) {
+    if (isNewScala) {
       val result = inspectLibrary("org.typelevel" %% "cats-core" % "2.7.0")
       assert(
         result("cats-kernel_3-2.7.0.jar") === Map(
@@ -103,7 +105,7 @@ class WartRemoverInspectorTest extends AnyFunSuite {
       assert(result("simulacrum-scalafix-annotations_3-0.5.4.jar") === Map.empty)
       assert(result.size === 5)
     } else {
-      // need NIGHTLY build due to Scala 3 bug
+      // avoid old scala versions due to Scala 3 bug
       pending
     }
   }
