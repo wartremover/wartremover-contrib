@@ -9,7 +9,7 @@ A selection of additional warts for wartremover managed by the community.
 Add the following to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.13")
+addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "2.0.0")
 ```
 
 ```scala
