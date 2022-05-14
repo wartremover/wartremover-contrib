@@ -21,21 +21,21 @@ class OldTimeTest extends AnyFunSuite with ResultAssertions {
   test("disable use of java.util.Date as a val (2)") {
     val result = WartTestTraverser(OldTime) {
       import java.util._
-      val x = new Date()
+      val x = new Date
     }
     assertErrors(result)(javaError, 2)
   }
   test("disable creating instances of java.util.Date (1)") {
     val result = WartTestTraverser(OldTime) {
       import java.util._
-      new Date()
+      new Date
     }
     assertError(result)(javaError)
   }
   test("disable creating instances of java.util.Date (2)") {
     val result = WartTestTraverser(OldTime) {
       import java.util._
-      val x: Object = new Date()
+      val x: Object = new Date
     }
     assertError(result)(javaError)
   }

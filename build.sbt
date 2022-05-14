@@ -119,10 +119,10 @@ lazy val sbtPlug: Project = Project(
     }
     javaVmArgs.filter(a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith))
   },
-  scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
+  scriptedLaunchOpts += "-Dplugin.version=" + version.value,
   crossScalaVersions := Seq(scala212Latest),
   addSbtPlugin("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
-  (Compile / sourceGenerators) += Def.task {
+  Compile / sourceGenerators += Def.task {
     val base = (Compile / sourceManaged).value
     val file = base / "wartremover" / "contrib" / "Wart.scala"
     val wartsDir = coreBinary.base / "src" / "main" / "scala-2" / "org" / "wartremover" / "contrib" / "warts"
