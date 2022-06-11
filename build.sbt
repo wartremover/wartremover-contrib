@@ -4,7 +4,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 val wartremoverVersion = "3.0.4"
 
-val scala212Versions = Seq("2.12.13", "2.12.14", "2.12.16")
+val scala212Versions = Seq("2.12.13", "2.12.14", "2.12.15", "2.12.16")
 val scala213Versions = Seq("2.13.6", "2.13.7", "2.13.8")
 val scala3Versions = Seq("3.1.1", "3.1.2", "3.1.3-RC5")
 
