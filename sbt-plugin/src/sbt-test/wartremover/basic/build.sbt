@@ -1,3 +1,3 @@
-crossScalaVersions := Seq("2.12.15", "2.13.8", "3.1.2")
+crossScalaVersions := Seq("2.12.16", "2.13.8", "3.1.2")
 
 wartremoverErrors ++= ContribWart.All
