@@ -6,7 +6,7 @@ val wartremoverVersion = "3.0.5"
 
 val scala212Versions = Seq("2.12.13", "2.12.14", "2.12.15", "2.12.16")
 val scala213Versions = Seq("2.13.6", "2.13.7", "2.13.8")
-val scala3Versions = Seq("3.1.1", "3.1.2", "3.1.3")
+val scala3Versions = Seq("3.1.1", "3.1.2", "3.1.3", "3.2.0-RC1")
 
 def latest(versions: Seq[String]) = {
   val prefix = versions.head.split('.').init.mkString("", ".", ".")
@@ -16,7 +16,7 @@ def latest(versions: Seq[String]) = {
 
 val scala212Latest = latest(scala212Versions)
 val scala213Latest = latest(scala213Versions)
-val scala3Latest = scala3Versions.last // TODO more better way
+val scala3Latest = scala3Versions.filterNot(_ contains "-RC").last // TODO more better way
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
