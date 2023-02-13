@@ -1,6 +1,6 @@
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.17")
 
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.1.0")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.1.1")
 
 addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
 
