@@ -30,7 +30,7 @@ lazy val commonSettings = Seq(
   publishMavenStyle := true,
   Test / publishArtifact := false,
   publishTo := sonatypePublishToBundle.value,
-  homepage := Some(url("https://www.wartremover.org")),
+  homepage := Some(url("https://github.com/wartremover/wartremover-contrib")),
   pomExtra :=
     <scm>
       <url>git@github.com:wartremover/wartremover-contrib.git</url>
