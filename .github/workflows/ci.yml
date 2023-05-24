@@ -40,7 +40,7 @@ jobs:
             sbt -v "+ publishLocal" "+ sbt-plugin/scripted"
             ;;
           "test")
-            sbt -v test '++ 3.2.2!' coreBinary/test
+            sbt -v test '++ 3.3.0!' coreBinary/test
             ;;
           *)
             echo "unknown job"
