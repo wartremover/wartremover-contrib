@@ -87,7 +87,7 @@ lazy val coreBinary = project
         Seq(
           "org.scala-lang" %% "scala3-tasty-inspector" % scalaVersion.value % Test,
           "io.get-coursier" % "coursier" % "2.1.4" % Test cross CrossVersion.for3Use2_13 exclude ("io.argonaut", "*") exclude ("org.scala-lang.modules", "scala-xml_2.13"),
-          "org.scala-sbt" %% "io" % "1.8.1" % Test,
+          "org.scala-sbt" %% "io" % "1.9.0" % Test,
           "org.wartremover" %% "wartremover-inspector" % wartremoverVersion % Test,
         )
       } else {
