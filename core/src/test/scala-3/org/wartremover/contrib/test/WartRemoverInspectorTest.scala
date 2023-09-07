@@ -76,34 +76,26 @@ class WartRemoverInspectorTest extends AnyFunSuite {
 
   test("cats") {
     if (isNewScala) {
-      val result = inspectLibrary("org.typelevel" %% "cats-core" % "2.7.0")
+      val result = inspectLibrary("org.typelevel" %% "cats-core" % "2.10.0")
       assert(
-        result("cats-kernel_3-2.7.0.jar") === Map(
-          "SomeApply" -> 27,
-          "MissingOverride" -> 1154,
-          "UnsafeInheritance" -> 1152,
-          "Apply" -> 1,
+        result("cats-kernel_3-2.10.0.jar") === Map(
+          "SomeApply" -> 29,
+          "MissingOverride" -> 379,
+          "UnsafeInheritance" -> 1160,
+          "Apply" -> 3,
         )
       )
       assert(
-        result("scala3-library_3-3.0.2.jar") === Map(
-          "SomeApply" -> 87,
-          "MissingOverride" -> 113,
+        result("scala3-library_3-3.3.0.jar") === Map(
+          "SomeApply" -> 88,
+          "MissingOverride" -> 119,
           "UnsafeInheritance" -> 119,
-          "Apply" -> 126,
+          "Apply" -> 130,
         )
       )
-      assert(
-        result("cats-core_3-2.7.0.jar") === Map(
-          "SomeApply" -> 141,
-          "MissingOverride" -> 1290,
-          "UnsafeInheritance" -> 1342,
-          "Apply" -> 116,
-        )
-      )
-      assert(result("scala-library-2.13.6.jar") === Map.empty)
-      assert(result("simulacrum-scalafix-annotations_3-0.5.4.jar") === Map.empty)
-      assert(result.size === 5)
+      assert(result("cats-core_3-2.10.0.jar") === Map.empty)
+      assert(result("scala-library-2.13.10.jar") === Map.empty)
+      assert(result.size === 4)
     } else {
       // avoid old scala versions due to Scala 3 bug
       pending
