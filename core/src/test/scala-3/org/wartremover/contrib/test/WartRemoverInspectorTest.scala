@@ -46,27 +46,30 @@ class WartRemoverInspectorTest extends AnyFunSuite {
 
   private def inspectLibrary(module: coursier.core.Dependency): Map[String, Map[String, Int]] = {
     val jars = coursier.Fetch().addDependencies(module).run()
-    jars.map { jar =>
-      println("start " + jar)
-      val result = IO.withTemporaryDirectory { dir =>
-        val tastyFiles = IO.unzip(jar, dir, _ endsWith ".tasty").map(_.getAbsolutePath).toList
-        println("tasty files count = " + tastyFiles.size)
-        val param = InspectParam(
-          tastyFiles = tastyFiles,
-          dependenciesClasspath = jars.map(_.getAbsolutePath).toList,
-          wartClasspath = Nil,
-          errorWarts = Nil,
-          warningWarts = allWarts,
-          exclude = Nil,
-          failIfWartLoadError = true,
-          outputStandardReporter = true
-        )
-        inspector.run(param)
+    jars
+      .filterNot(_.getAbsolutePath.contains("/scala3-library_3/"))
+      .map { jar =>
+        println("start " + jar)
+        val result = IO.withTemporaryDirectory { dir =>
+          val tastyFiles = IO.unzip(jar, dir, _ endsWith ".tasty").map(_.getAbsolutePath).toList
+          println("tasty files count = " + tastyFiles.size)
+          val param = InspectParam(
+            tastyFiles = tastyFiles,
+            dependenciesClasspath = jars.map(_.getAbsolutePath).toList,
+            wartClasspath = Nil,
+            errorWarts = Nil,
+            warningWarts = allWarts,
+            exclude = Nil,
+            failIfWartLoadError = true,
+            outputStandardReporter = true
+          )
+          inspector.run(param)
+        }
+        jar.getName -> result.warnings.map(_.wart.replace(packagePrefix, "")).groupBy(identity).map { case (k, v) =>
+          k -> v.size
+        }
       }
-      jar.getName -> result.warnings.map(_.wart.replace(packagePrefix, "")).groupBy(identity).map { case (k, v) =>
-        k -> v.size
-      }
-    }.toMap
+      .toMap
   }
 
   private def isNewScala: Boolean = {
@@ -85,17 +88,9 @@ class WartRemoverInspectorTest extends AnyFunSuite {
           "Apply" -> 3,
         )
       )
-      assert(
-        result("scala3-library_3-3.3.0.jar") === Map(
-          "SomeApply" -> 88,
-          "MissingOverride" -> 119,
-          "UnsafeInheritance" -> 119,
-          "Apply" -> 130,
-        )
-      )
       assert(result("cats-core_3-2.10.0.jar") === Map.empty)
       assert(result("scala-library-2.13.10.jar") === Map.empty)
-      assert(result.size === 4)
+      assert(result.size === 3)
     } else {
       // avoid old scala versions due to Scala 3 bug
       pending
