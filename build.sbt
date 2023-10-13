@@ -5,8 +5,8 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 val wartremoverVersion = "2.4.21"
 
 val scala211Versions = Seq("2.11.12")
-val scala212Versions = (10 to 17).map(n => s"2.12.${n}")
-val scala213Versions = (0 to 10).map(n => s"2.13.${n}")
+val scala212Versions = (10 to 18).map(n => s"2.12.${n}")
+val scala213Versions = (0 to 12).map(n => s"2.13.${n}")
 
 def latest(versions: Seq[String]) = {
   val prefix = versions.head.split('.').init.mkString("", ".", ".")
