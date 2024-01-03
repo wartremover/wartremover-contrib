@@ -18,6 +18,11 @@ trait ResultAssertions extends Assertions {
     assertResult(List.empty, "result.warnings")(result.warnings.map(skipTraverserPrefix))
   }
 
+  def assertWarningAnyTimes(result: WartTestTraverser.Result)(message: String) = {
+    assertResult(List.empty, "result.errors")(result.errors.map(skipTraverserPrefix))
+    assertResult(Set(message), "result.warnings")(result.warnings.map(skipTraverserPrefix).toSet)
+  }
+
   def assertWarnings(result: WartTestTraverser.Result)(message: String, times: Int) = {
     assertResult(List.empty, "result.errors")(result.errors.map(skipTraverserPrefix))
     assertResult(List.fill(times)(message), "result.warnings")(result.warnings.map(skipTraverserPrefix))
