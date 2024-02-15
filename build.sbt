@@ -15,8 +15,8 @@ val scala3Versions = Seq(
   "3.2.2",
   "3.3.0",
   "3.3.1",
-  "3.3.2-RC1",
-  "3.4.0-RC1",
+  "3.3.2",
+  "3.4.0",
 )
 
 def latest(versions: Seq[String]) = {
@@ -27,7 +27,7 @@ def latest(versions: Seq[String]) = {
 
 val scala212Latest = latest(scala212Versions)
 val scala213Latest = latest(scala213Versions)
-val scala3Latest = scala3Versions.filterNot(_ contains "-RC").last // TODO more better way
+val scala3Latest = scala3Versions.filterNot(_ contains "-RC").filter(_ startsWith "3.3.").last // TODO more better way
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
