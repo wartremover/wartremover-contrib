@@ -21,6 +21,7 @@ val scala213Versions = Seq(
   "2.13.10",
   "2.13.11",
   "2.13.12",
+  "2.13.13",
 )
 val scala3Versions = Seq(
   "3.1.1",
