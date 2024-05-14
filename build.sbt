@@ -35,6 +35,7 @@ val scala3Versions = Seq(
   "3.3.3",
   "3.4.0",
   "3.4.1",
+  "3.4.2",
 )
 
 def latest(versions: Seq[String]) = {
