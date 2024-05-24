@@ -4,8 +4,8 @@ import org.wartremover.WartTraverser
 import org.wartremover.WartUniverse
 
 object SymbolicName extends WartTraverser {
-  private[this] val validChars = "[a-zA-Z_]+".r
-  private[this] def isSymbolic(name: String): Boolean = validChars.replaceAllIn(name, "").lengthIs > 2
+  private val validChars = "[a-zA-Z_]+".r
+  private def isSymbolic(name: String): Boolean = validChars.replaceAllIn(name, "").lengthIs > 2
 
   def apply(u: WartUniverse): u.Traverser = {
     new u.Traverser(this) {
