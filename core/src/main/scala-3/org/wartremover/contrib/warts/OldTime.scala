@@ -5,7 +5,7 @@ import org.wartremover.WartUniverse
 import scala.collection.mutable
 
 object OldTime extends WartTraverser {
-  private[this] val oldJavaTime: Set[String] = Set(
+  private val oldJavaTime: Set[String] = Set(
     "java.util.Date",
     "java.util.Calendar",
     "java.util.GregorianCalendar",
@@ -14,10 +14,10 @@ object OldTime extends WartTraverser {
     "java.text.SimpleDateFormat"
   )
 
-  private[this] final case class LineInFile(content: Option[String], startLine: Int)
+  private final case class LineInFile(content: Option[String], startLine: Int)
 
-  private[this] def oldJavaMessage = "The old Java time API is disabled. Use Java 8 java.time._ API instead."
-  private[this] def jodaMessage = "JodaTime is disabled. Use Java 8 java.time._ API instead."
+  private def oldJavaMessage = "The old Java time API is disabled. Use Java 8 java.time._ API instead."
+  private def jodaMessage = "JodaTime is disabled. Use Java 8 java.time._ API instead."
 
   def apply(u: WartUniverse): u.Traverser = {
     val linesWithError = mutable.Set.empty[LineInFile]

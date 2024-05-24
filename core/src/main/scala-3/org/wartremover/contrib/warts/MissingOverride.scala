@@ -7,7 +7,7 @@ object MissingOverride extends WartTraverser {
   def apply(u: WartUniverse): u.Traverser = {
     new u.Traverser(this) {
       import q.reflect.*
-      private[this] def isPartialFunctionIsDefinedAt(t: DefDef): Boolean =
+      private def isPartialFunctionIsDefinedAt(t: DefDef): Boolean =
         (t.name == "isDefinedAt") && (t.returnTpt.tpe =:= TypeRepr.of[Boolean])
 
       override def traverseTree(tree: Tree)(owner: Symbol): Unit = {
