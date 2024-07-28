@@ -2,7 +2,7 @@ import ReleaseTransformations._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val wartremoverVersion = "3.1.7"
+val wartremoverVersion = "3.1.8"
 
 val scala212Versions = Seq(
   "2.12.13",
@@ -37,7 +37,7 @@ val scala3Versions = Seq(
   "3.4.0",
   "3.4.1",
   "3.4.2",
-  "3.5.0-RC4",
+  "3.5.0-RC5",
   "3.5.1-RC1",
 )
 
