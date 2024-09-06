@@ -49,7 +49,7 @@ lazy val commonSettings = Seq(
   organization := "org.wartremover",
   licenses := Seq(
     "The Apache Software License, Version 2.0" ->
-      url("http://www.apache.org/licenses/LICENSE-2.0.txt")
+      url("https://www.apache.org/licenses/LICENSE-2.0.txt")
   ),
   scalacOptions ++= Seq(
     "-deprecation"
