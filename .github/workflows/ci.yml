@@ -37,7 +37,14 @@ jobs:
             sbt -v scalafmtSbtCheck "+ scalafmtCheckAll" "+compile" "+test"
             ;;
           "scripted")
-            sbt -v "+ publishLocal" "+ sbt-plugin/scripted"
+            case ${{ matrix.os }} in
+              "windows-latest")
+                sbt -v "+ publishLocal" "sbt-plugin/scripted"
+                ;;
+              *)
+                sbt -v "+ publishLocal" "+ sbt-plugin/scripted"
+                ;;
+            esac
             ;;
           "test")
             sbt -v test '++ 3.3.4!' coreBinary/test
