@@ -14,7 +14,7 @@ object DefFuture extends WartTraverser {
 
     new Traverser {
 
-      def rshIsFuture(rhs: Tree): Boolean =
+      def isFuture(rhs: Tree): Boolean =
         rhs.tpe.typeSymbol == futureTypeSymbol
 
       override def traverse(tree: Tree): Unit =
@@ -22,16 +22,16 @@ object DefFuture extends WartTraverser {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
 
-          case q"val $name: $tpe = $rhs" if rshIsFuture(rhs) =>
+          case q"val $name: $tpe = $rhs" if isFuture(rhs) =>
             error(u)(tree.pos, valErrorMsg(name.toString, "val"))
 
-          case q"val $name = $rhs" if rshIsFuture(rhs) =>
+          case q"val $name = $rhs" if isFuture(rhs) =>
             error(u)(tree.pos, valErrorMsg(name.toString, "val"))
 
-          case q"lazy val $name: $tpe = $rhs" if rshIsFuture(rhs) =>
+          case q"lazy val $name: $tpe = $rhs" if isFuture(rhs) =>
             error(u)(tree.pos, valErrorMsg(name.toString, "lazy val"))
 
-          case q"lazy val $name = $rhs" if rshIsFuture(rhs) =>
+          case q"lazy val $name = $rhs" if isFuture(rhs) =>
             error(u)(tree.pos, valErrorMsg(name.toString, "lazy val"))
 
           case _ => super.traverse(tree)
