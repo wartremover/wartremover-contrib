@@ -1,4 +1,5 @@
-package org.wartremover.contrib.test
+package org.wartremover
+package contrib.test
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.wartremover.contrib.warts.DefFuture
