@@ -41,6 +41,13 @@ class DefFutureTest extends AnyFunSuite with ResultAssertions {
     assertError(result)(DefFuture.valErrorMsg("fut", "lazy val"))
   }
 
+  test("success if type is not Future") {
+    val result = WartTestTraverser(DefFuture) {
+      def fut = 42
+    }
+    assertEmpty(result)
+  }
+
   test("success if Future is `def`") {
     val result = WartTestTraverser(DefFuture) {
       def fut = mk_fut()
