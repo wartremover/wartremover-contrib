@@ -8,6 +8,7 @@ jobs:
   test:
     timeout-minutes: 120
     strategy:
+      fail-fast: false
       matrix:
         include:
           - name: "test-cross"
