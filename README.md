@@ -227,3 +227,57 @@ f.andThen {
   case _ => println("other side-effect")
 }
 ```
+
+### DefFuture
+In Scala, `Future` is not "referentially transparent" because:
+- `Future` is eagerly evaluated.
+- `Future` is memoized (the result is cached).
+
+1) The execution of this code:
+```scala
+for {
+  _ <- Future(println("Start"))
+  _ <- Future(println("foo"))
+  _ <- Future(println("foo"))
+} yield ()
+```
+will produce on the stdout: ✅
+```
+start
+foo
+foo
+```
+
+2) The execution of this simple refactored code:
+```scala
+val fut = Future(println("foo"))
+
+for {
+  _ <- Future(println("Start"))
+  _ <- fut
+  _ <- fut
+} yield ()
+```
+will produce on the stdout: ❌
+```
+foo
+start
+```
+This is a "surprising" buggy behavior for Scala beginners 🤯.
+
+To return to the situation in 1), the code must be written like this:
+```scala
+def fut = Future(println("foo")) // <--- Note the `def` instead of `val` here.
+
+for {
+  _ <- Future(println("Start"))
+  _ <- fut
+  _ <- fut
+} yield ()
+```
+will produce again on the stdout: ✅
+```
+start
+foo
+foo
+```
