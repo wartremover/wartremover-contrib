@@ -9,7 +9,7 @@ object DefFuture extends WartTraverser {
     new u.Traverser(this) {
       import q.reflect.*
 
-      val futureSymbol    = TypeRepr.of[Future[Any]].typeSymbol
+      val futureSymbol = TypeRepr.of[Future[Any]].typeSymbol
       val typeReprNothing = TypeRepr.of[Nothing]
 
       def isFuture(tpe: TypeRepr): Boolean =
