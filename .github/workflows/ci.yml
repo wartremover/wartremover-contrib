@@ -30,6 +30,7 @@ jobs:
         java-version: ${{matrix.java}}
         distribution: temurin
     - uses: actions/checkout@v4
+    - uses: sbt/setup-sbt@v1
     - uses: coursier/cache-action@v6
     - shell: bash
       run: |
