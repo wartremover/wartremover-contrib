@@ -162,7 +162,7 @@ lazy val sbtPlug: Project = Project(
       case "2.12" =>
         sbtVersion.value
       case _ =>
-        "2.0.0-M2"
+        "2.0.0-M3"
     }
   },
   name := "sbt-wartremover-contrib",
@@ -175,7 +175,7 @@ lazy val sbtPlug: Project = Project(
     javaVmArgs.filter(a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith))
   },
   scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
-  crossScalaVersions := Seq(scala212Latest, scala3Latest),
+  crossScalaVersions := Seq(scala212Latest, "3.6.2"),
   addSbtPlugin("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
   (Compile / sourceGenerators) += Def.task {
     val base = (Compile / sourceManaged).value
