@@ -12,11 +12,17 @@ object UnintendedLaziness extends WartTraverser {
     (err("filterKeys"), err("mapValues"))
   }
 
+  private val methodNames: Seq[String] = Seq(
+    "filterKeys",
+    "mapValues",
+  )
+
   def apply(u: WartUniverse): u.Traverser = {
     new u.Traverser(this) {
       import q.reflect.*
       override def traverseTree(tree: Tree)(owner: Symbol): Unit = {
         tree match {
+          case _ if getSourceCode(tree).fold(false)(src => !methodNames.exists(src.contains)) =>
           case _ if hasWartAnnotation(tree) =>
           case _ if tree.isExpr =>
             tree.asExpr match {

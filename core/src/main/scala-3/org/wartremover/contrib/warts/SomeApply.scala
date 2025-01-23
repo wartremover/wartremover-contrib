@@ -9,6 +9,7 @@ object SomeApply extends WartTraverser {
       import q.reflect.*
       override def traverseTree(tree: Tree)(owner: Symbol): Unit = {
         tree match {
+          case _ if tree.pos.sourceCode.fold(false)(src => !src.contains("Some")) =>
           case _ if hasWartAnnotation(tree) =>
           case _ if tree.isExpr =>
             tree.asExpr match {
