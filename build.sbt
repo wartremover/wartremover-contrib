@@ -29,6 +29,7 @@ val scala3Versions = Seq(
   "3.6.1",
   "3.6.2",
   "3.6.3",
+  "3.6.4",
 )
 
 def latest(versions: Seq[String]) = {
@@ -166,7 +167,7 @@ lazy val sbtPlug: Project = Project(
     javaVmArgs.filter(a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith))
   },
   scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
-  crossScalaVersions := Seq(scala212Latest, "3.6.3"),
+  crossScalaVersions := Seq(scala212Latest, "3.6.4"),
   addSbtPlugin("org.wartremover" %% "sbt-wartremover" % wartremoverVersion),
   (Compile / sourceGenerators) += Def.task {
     val base = (Compile / sourceManaged).value
