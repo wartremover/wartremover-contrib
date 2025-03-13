@@ -2,7 +2,7 @@ import ReleaseTransformations._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val wartremoverVersion = "3.3.0"
+val wartremoverVersion = "3.3.1"
 
 val scala212Versions = Seq(
   "2.12.18",
@@ -154,7 +154,7 @@ lazy val sbtPlug: Project = Project(
       case "2.12" =>
         sbtVersion.value
       case _ =>
-        "2.0.0-M3"
+        "2.0.0-M4"
     }
   },
   name := "sbt-wartremover-contrib",
