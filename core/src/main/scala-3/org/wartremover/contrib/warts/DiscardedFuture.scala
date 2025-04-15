@@ -15,6 +15,7 @@ object DiscardedFuture extends WartTraverser {
       import q.reflect.*
       override def traverseTree(tree: Tree)(owner: Symbol): Unit = {
         tree match {
+          case _ if sourceCodeNotContains(tree, "andThen") =>
           case _ if hasWartAnnotation(tree) =>
           case _ if tree.isExpr =>
             tree.asExpr match {
