@@ -21,7 +21,7 @@ object DiscardedFuture extends WartTraverser {
             tree.asExpr match {
               case '{
                     type t1
-                    ($x1: Future[`t1`]).andThen { $x2: PartialFunction[scala.util.Try[`t1`], Future[t2]] }($ec)
+                    ($x1: Future[`t1`]).andThen { $x2: PartialFunction[scala.util.Try[`t1`], Future[t2]] }(using $ec)
                   } =>
                 error(tree.pos, message)
               case _ =>
