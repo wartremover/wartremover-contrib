@@ -33,23 +33,25 @@ jobs:
     - uses: sbt/setup-sbt@v1
     - uses: coursier/cache-action@v6
     - shell: bash
+      env:
+        JAVA_OPTS: "-Xmx6G"
       run: |
         case ${{ matrix.name }} in
           "test-cross")
-            sbt -v scalafmtSbtCheck "+ scalafmtCheckAll" "+compile" "+test"
+            sbt -v "all scalafmtSbtCheck scalafmtCheckAll" Test/compile test
             ;;
           "scripted")
             case ${{ matrix.os }} in
               "windows-latest")
-                sbt -v "+ publishLocal" "sbt-plugin/scripted"
+                sbt -v publishLocal sbt-pluginJVM2_12/scripted
                 ;;
               *)
-                sbt -v "+ publishLocal" "+ sbt-plugin/scripted"
+                sbt -v publishLocal scripted
                 ;;
             esac
             ;;
           "test")
-            sbt -v test '++ 3.3.4!' coreBinary/test
+            sbt -v "all coreBinaryJVM3/test coreBinaryJVM2_13/test coreBinaryJVM2_12/test"
             ;;
           *)
             echo "unknown job"
