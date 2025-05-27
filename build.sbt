@@ -56,7 +56,7 @@ lazy val commonSettings = Seq(
   ),
   publishMavenStyle := true,
   Test / publishArtifact := false,
-  publishTo := sonatypePublishToBundle.value,
+  publishTo := (if (isSnapshot.value) None else localStaging.value),
   homepage := Some(url("https://github.com/wartremover/wartremover-contrib")),
   pomExtra :=
     <scm>
@@ -80,7 +80,7 @@ releaseProcess := Seq[ReleaseStep](
   commitReleaseVersion,
   tagRelease,
   releaseStepCommandAndRemaining("publishSigned"),
-  releaseStepCommand("sonatypeBundleRelease"),
+  releaseStepCommand("sonaRelease"),
   setNextVersion,
   commitNextVersion,
   pushChanges
@@ -241,3 +241,5 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
     }
   )
   .enablePlugins(ScriptedPlugin)
+
+ThisBuild / sbtPluginPublishLegacyMavenStyle := false

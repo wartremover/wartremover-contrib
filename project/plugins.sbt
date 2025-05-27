@@ -1,7 +1,5 @@
 addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.11.0")
 
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.21")
-
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.3.1")
 
 addSbtPlugin("com.github.sbt" % "sbt-release" % "1.4.0")
