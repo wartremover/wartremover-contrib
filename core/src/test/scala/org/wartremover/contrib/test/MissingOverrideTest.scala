@@ -30,6 +30,18 @@ class MissingOverrideTest extends AnyFunSuite with ResultAssertions {
     assertEmpty(result)
   }
 
+  test("default param") {
+    val result = WartTestTraverser(MissingOverride) {
+      trait A {
+        def f(x: Int = 1): Int
+      }
+      class B extends A {
+        override def f(x: Int = 2): Int = x
+      }
+    }
+    assertEmpty(result)
+  }
+
   test("MissingOverride wart obeys SuppressWarnings") {
     val result = WartTestTraverser(MissingOverride) {
       trait T {

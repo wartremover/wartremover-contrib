@@ -16,7 +16,8 @@ object MissingOverride extends WartTraverser {
           case t: DefDef
               if !t.symbol.flags.is(Flags.Override) && !t.symbol.flags.is(
                 Flags.Synthetic
-              ) && !isPartialFunctionIsDefinedAt(t) && t.symbol.allOverriddenSymbols.nonEmpty =>
+              ) && !isPartialFunctionIsDefinedAt(t) && t.symbol.allOverriddenSymbols.nonEmpty &&
+                !t.name.contains("$default$") =>
             error(tree.pos, "Method must have override modifier")
           case _ =>
             super.traverseTree(tree)(owner)
