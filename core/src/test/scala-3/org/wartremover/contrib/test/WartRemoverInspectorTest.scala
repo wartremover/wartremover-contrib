@@ -72,28 +72,18 @@ class WartRemoverInspectorTest extends AnyFunSuite {
       .toMap
   }
 
-  private def isNewScala: Boolean = {
-    val path = classOf[Quotes].getProtectionDomain.getCodeSource.getLocation.getPath
-    !Seq("3.1.1", "3.1.2").exists(path contains _)
-  }
-
   test("cats") {
-    if (isNewScala) {
-      val result = inspectLibrary("org.typelevel" %% "cats-core" % "2.10.0")
-      assert(
-        result("cats-kernel_3-2.10.0.jar") === Map(
-          "SomeApply" -> 29,
-          "MissingOverride" -> 379,
-          "UnsafeInheritance" -> 1160,
-          "Apply" -> 3,
-        )
+    val result = inspectLibrary("org.typelevel" %% "cats-core" % "2.10.0")
+    assert(
+      result("cats-kernel_3-2.10.0.jar") === Map(
+        "SomeApply" -> 29,
+        "MissingOverride" -> 379,
+        "UnsafeInheritance" -> 1160,
+        "Apply" -> 3,
       )
-      assert(result("cats-core_3-2.10.0.jar") === Map.empty)
-      assert(result("scala-library-2.13.10.jar") === Map.empty)
-      assert(result.size === 3)
-    } else {
-      // avoid old scala versions due to Scala 3 bug
-      pending
-    }
+    )
+    assert(result("cats-core_3-2.10.0.jar") === Map.empty)
+    assert(result("scala-library-2.13.10.jar") === Map.empty)
+    assert(result.size === 3)
   }
 }
