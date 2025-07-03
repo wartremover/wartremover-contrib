@@ -6,12 +6,9 @@ object CaseClassInheritance extends WartTraverser {
     new u.Traverser {
       override def traverse(tree: u.universe.Tree): Unit = {
         def checkClass(c: u.universe.ClassSymbol): Unit = {
-          val caseBases = c.baseClasses
-            .filter(base => base != c && base.isClass && base.asClass.isCaseClass)
+          val caseBases = c.baseClasses.filter(base => base != c && base.isClass && base.asClass.isCaseClass)
           if (caseBases.nonEmpty) {
-            error(u)(
-              tree.pos,
-              s"Case class should not be inherited: ${caseBases.map(_.name).mkString(",")}")
+            error(u)(tree.pos, s"Case class should not be inherited: ${caseBases.map(_.name).mkString(",")}")
           }
         }
 
