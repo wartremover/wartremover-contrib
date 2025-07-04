@@ -231,8 +231,8 @@ f.andThen {
 ### CaseClassInheritance
 
 Reports an error when a case class is being inherited. The reason behind this is similar to
-another wartremover rule `FinalCaseClass`, however `CaseClassInheritance` prohibits the code
-that one class inherits another case class, no matter the case class is defined as final or not.
+another wart `FinalCaseClass`, however `CaseClassInheritance` prohibits the code
+where one class inherits another case class, no matter the case class is defined as final or not.
 
 ```scala
 case class Car()
