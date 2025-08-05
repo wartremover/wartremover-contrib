@@ -32,7 +32,7 @@ class CaseClassInheritanceTest extends AnyFunSuite with ResultAssertions {
     assertEmpty(result)
   }
 
-  test("case class inheritance disallowed: in nested scope") {
+  test("case class inheritance disallowed: nested type") {
     val result = WartTestTraverser(CaseClassInheritance) {
       object Cars {
         case class Car()
@@ -53,7 +53,7 @@ class CaseClassInheritanceTest extends AnyFunSuite with ResultAssertions {
     assertEmpty(result)
   }
 
-  test("obeys SuppressWarnings: annotate nested type") {
+  test("obeys SuppressWarnings: nested type") {
     val result = WartTestTraverser(CaseClassInheritance) {
       object Cars {
         case class Car()
