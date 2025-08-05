@@ -24,8 +24,8 @@ object CaseClassInheritance extends WartTraverser {
             val c = d.symbol.asClass
             checkClass(c)
           case _ =>
-            super.traverse(tree)
         }
+        super.traverse(tree)
       }
     }
   }

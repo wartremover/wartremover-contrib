@@ -22,8 +22,8 @@ object CaseClassInheritance extends WartTraverser {
           case d: ClassDef =>
             checkClass(d.symbol)
           case _ =>
-            super.traverseTree(tree)(owner)
         }
+        super.traverseTree(tree)(owner)
       }
     }
   }

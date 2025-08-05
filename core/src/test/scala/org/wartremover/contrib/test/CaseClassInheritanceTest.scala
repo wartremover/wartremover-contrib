@@ -32,6 +32,16 @@ class CaseClassInheritanceTest extends AnyFunSuite with ResultAssertions {
     assertEmpty(result)
   }
 
+  test("case class inheritance disallowed: nested type") {
+    val result = WartTestTraverser(CaseClassInheritance) {
+      object Cars {
+        case class Car()
+        object RedCar extends Car()
+      }
+    }
+    assertError(result)("Case class should not be inherited: Car")
+  }
+
   test("obeys SuppressWarnings") {
     val result = WartTestTraverser(CaseClassInheritance) {
       case class Car()
@@ -40,6 +50,18 @@ class CaseClassInheritanceTest extends AnyFunSuite with ResultAssertions {
       @SuppressWarnings(Array("org.wartremover.contrib.warts.CaseClassInheritance"))
       object BlueCar extends Car()
     }
+    assertEmpty(result)
+  }
+
+  test("obeys SuppressWarnings: nested type") {
+    val result = WartTestTraverser(CaseClassInheritance) {
+      object Cars {
+        case class Car()
+        @SuppressWarnings(Array("org.wartremover.contrib.warts.CaseClassInheritance"))
+        object RedCar extends Car()
+      }
+    }
+    // Bypass the wart for types where the SuppressWarnings is exactly annotated.
     assertEmpty(result)
   }
 }
