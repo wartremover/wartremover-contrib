@@ -1,6 +1,6 @@
 # wartremover-contrib
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.wartremover/wartremover-contrib_2.13?label=Maven%20Central)](https://central.sonatype.com/artifact/org.wartremover/sbt-wartremover-contrib)
+[![Maven Central](https://img.shields.io/maven-central/v/org.wartremover/wartremover-contrib_3?label=Maven%20Central)](https://central.sonatype.com/artifact/org.wartremover/wartremover-contrib_3)
 
 A selection of additional warts for wartremover managed by the community.
 
