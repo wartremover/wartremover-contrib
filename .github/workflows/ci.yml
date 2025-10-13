@@ -43,7 +43,7 @@ jobs:
           "scripted")
             case ${{ matrix.os }} in
               "windows-latest")
-                sbt -v publishLocal sbt-pluginJVM2_12/scripted
+                sbt -v publishLocal sbt-plugin2_12/scripted
                 ;;
               *)
                 sbt -v publishLocal scripted
@@ -51,7 +51,7 @@ jobs:
             esac
             ;;
           "test")
-            sbt -v "all coreBinaryJVM3/test coreBinaryJVM2_13/test coreBinaryJVM2_12/test"
+            sbt -v "all coreBinary3/test coreBinary2_13/test coreBinary2_12/test"
             ;;
           *)
             echo "unknown job"

@@ -100,7 +100,7 @@ lazy val coreSettings = Def.settings(
 
 lazy val coreBinary = projectMatrix
   .in(file("core"))
-  .defaultAxes()
+  .defaultAxes(VirtualAxis.jvm)
   .jvmPlatform(
     scalaVersions = Seq(
       scala212Latest,
@@ -133,7 +133,7 @@ lazy val coreBinary = projectMatrix
 
 lazy val coreFull = projectMatrix
   .in(file("core-full"))
-  .defaultAxes()
+  .defaultAxes(VirtualAxis.jvm)
   .jvmPlatform(
     scalaVersions = Seq(
       scala212Versions,
@@ -172,7 +172,7 @@ lazy val coreFull = projectMatrix
 lazy val sbtPlug: ProjectMatrix = projectMatrix
   .in(file("sbt-plugin"))
   .withId("sbt-plugin")
-  .defaultAxes()
+  .defaultAxes(VirtualAxis.jvm)
   .jvmPlatform(
     scalaVersions = Seq(
       scala212Latest,
