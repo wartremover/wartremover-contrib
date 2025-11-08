@@ -33,7 +33,7 @@ class MissingOverrideTest extends AnyFunSuite with ResultAssertions {
   test("Abstract override is allowed") {
     val result = WartTestTraverser(MissingOverride) {
       trait T {
-        def f(): Unit
+        def f(): Unit = ()
       }
       trait C extends T {
         abstract override def f() = super.f()
