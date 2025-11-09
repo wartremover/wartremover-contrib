@@ -9,6 +9,7 @@ import scala.tasty.inspector.Inspector
 import scala.tasty.inspector.Tasty
 import scala.tasty.inspector.TastyInspector
 
+@annotation.experimental
 class WartRemoverInspectorTest extends AnyFunSuite {
   extension (groupId: String) {
     def %(artifactId: String): coursier.core.Module =

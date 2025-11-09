@@ -16,8 +16,8 @@ object MissingOverride extends WartTraverser {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
           case t: DefDef
-              if t.symbol.overrides.nonEmpty && !t.mods
-                .hasFlag(Flag.OVERRIDE) && !isSynthetic(u)(t) && !isPartialFunctionIsDefinedAt(t) =>
+              if t.symbol.overrides.nonEmpty && !(t.mods.hasFlag(Flag.OVERRIDE) || t.mods.hasFlag(Flag.ABSOVERRIDE)) &&
+                !isSynthetic(u)(t) && !isPartialFunctionIsDefinedAt(t) =>
             error(u)(tree.pos, "Method must have override modifier")
             super.traverse(tree)
           case _ =>
