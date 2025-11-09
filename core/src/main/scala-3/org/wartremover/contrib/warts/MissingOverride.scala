@@ -3,6 +3,7 @@ package org.wartremover.contrib.warts
 import org.wartremover.WartTraverser
 import org.wartremover.WartUniverse
 
+@annotation.experimental
 object MissingOverride extends WartTraverser {
   def apply(u: WartUniverse): u.Traverser = {
     new u.Traverser(this) {
@@ -14,7 +15,7 @@ object MissingOverride extends WartTraverser {
         tree match {
           case _ if hasWartAnnotation(tree) =>
           case t: DefDef
-              if !t.symbol.flags.is(Flags.Override) && !t.symbol.flags.is(
+              if !(t.symbol.flags.is(Flags.Override) || t.symbol.flags.is(Flags.AbsOverride)) && !t.symbol.flags.is(
                 Flags.Synthetic
               ) && !isPartialFunctionIsDefinedAt(t) && t.symbol.allOverriddenSymbols.nonEmpty &&
                 !t.name.contains("$default$") =>
