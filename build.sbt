@@ -32,7 +32,15 @@ val scala3Versions = Seq(
   "3.7.2",
   "3.7.3",
   "3.7.4",
-)
+) ++ {
+  if (scala.util.Properties.isJavaAtLeast("17")) {
+    Seq(
+      "3.8.0-RC1",
+    )
+  } else {
+    Nil
+  }
+}
 
 def latest(versions: Seq[String]) = {
   val prefix = versions.head.split('.').init.mkString("", ".", ".")
