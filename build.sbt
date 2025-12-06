@@ -3,7 +3,7 @@ import sbt.internal.ProjectMatrix
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val wartremoverVersion = "3.4.1"
+val wartremoverVersion = "3.4.2"
 
 val scala212Versions = Seq(
   "2.12.18",
@@ -35,7 +35,7 @@ val scala3Versions = Seq(
 ) ++ {
   if (scala.util.Properties.isJavaAtLeast("17")) {
     Seq(
-      "3.8.0-RC1",
+      "3.8.0-RC3",
     )
   } else {
     Nil
