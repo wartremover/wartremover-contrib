@@ -9,6 +9,7 @@ val scala212Versions = Seq(
   "2.12.18",
   "2.12.19",
   "2.12.20",
+  "2.12.21",
 )
 val scala213Versions = Seq(
   "2.13.14",
