@@ -10,9 +10,11 @@ object SomeApply extends WartTraverser {
       override def traverseTree(tree: Tree)(owner: Symbol): Unit = {
         tree match {
           case _ if hasWartAnnotation(tree) =>
+          case Apply(TypeApply(Select(some, "apply"), _), _ :: Nil) if some.tpe =:= TypeRepr.of[Some.type] =>
+            error(tree.pos, "Some.apply is disabled - use Option.apply instead")
           case _ if tree.isExpr =>
             tree.asExpr match {
-              case '{ Some($x: Any) } =>
+              case '{ new Some($_) } =>
                 error(tree.pos, "Some.apply is disabled - use Option.apply instead")
               case _ =>
                 super.traverseTree(tree)(owner)
