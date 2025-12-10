@@ -29,6 +29,26 @@ class SomeApplyTest extends AnyFunSuite with ResultAssertions {
     assertError(result)("Some.apply is disabled - use Option.apply instead")
   }
 
+  test("new") {
+    val result = WartTestTraverser(SomeApply) {
+      new Some("b")
+    }
+    assertError(result)("Some.apply is disabled - use Option.apply instead")
+  }
+
+  test("alias") {
+    val SomeAlias1 = Some
+    import scala.{Some => SomeAlias2}
+    Seq(
+      WartTestTraverser(SomeApply) {
+        SomeAlias1("a")
+      },
+      WartTestTraverser(SomeApply) {
+        SomeAlias2("a")
+      },
+    ).foreach(result => assertError(result)("Some.apply is disabled - use Option.apply instead"))
+  }
+
   test("can use Some.unapply in pattern matching") {
     val result = WartTestTraverser(SomeApply) {
       Option("test") match {
