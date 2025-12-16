@@ -18,6 +18,13 @@ object MissingOverride extends WartTraverser {
       val prefix = "$typecreator"
       str.startsWith(prefix) && str.drop(prefix.length).forall(c => '0' <= c && c <= '9')
     }
+    def isTreeCreatorName(s: TypeName): Boolean = {
+      // https://github.com/scala/scala/blob/41f6cfcd4b05298/src/reflect/scala/reflect/internal/StdNames.scala#L251
+      // https://github.com/scala/scala/blob/41f6cfcd4b05298/src/compiler/scala/reflect/reify/utils/Extractors.scala#L23-L99
+      val str = s.toString
+      val prefix = "$treecreator"
+      str.startsWith(prefix) && str.drop(prefix.length).forall(c => '0' <= c && c <= '9')
+    }
 
     new u.Traverser {
       override def traverse(tree: Tree): Unit = {
@@ -27,6 +34,9 @@ object MissingOverride extends WartTraverser {
           case t: ClassDef
               if isTypeCreatorName(t.name) && t.impl.tpe.baseClasses
                 .exists(_.fullName == "scala.reflect.api.TypeCreator") =>
+          case t: ClassDef
+              if isTreeCreatorName(t.name) && t.impl.tpe.baseClasses
+                .exists(_.fullName == "scala.reflect.api.TreeCreator") =>
           case t: DefDef
               if t.symbol.overrides.nonEmpty && !(t.mods.hasFlag(Flag.OVERRIDE) || t.mods.hasFlag(Flag.ABSOVERRIDE)) &&
                 !isSynthetic(u)(t) && !isPartialFunctionIsDefinedAt(t) =>
