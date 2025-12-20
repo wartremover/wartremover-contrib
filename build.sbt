@@ -147,6 +147,14 @@ lazy val coreFull = projectMatrix
   )
   .settings(
     coreSettings,
+    libraryDependencies ++= {
+      if (scalaVersion.value == scala3Latest) {
+        // for uncheckedOverride test
+        Seq(scalaOrganization.value % "scala-library" % "2.13.18" % Test)
+      } else {
+        Nil
+      }
+    },
     Test / unmanagedSourceDirectories ++= Def.settingDyn {
       Seq(
         scala3Latest,
