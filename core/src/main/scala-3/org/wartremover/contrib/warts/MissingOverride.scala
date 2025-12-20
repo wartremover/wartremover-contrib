@@ -18,7 +18,9 @@ object MissingOverride extends WartTraverser {
               if !(t.symbol.flags.is(Flags.Override) || t.symbol.flags.is(Flags.AbsOverride)) && !t.symbol.flags.is(
                 Flags.Synthetic
               ) && !isPartialFunctionIsDefinedAt(t) && t.symbol.allOverriddenSymbols.nonEmpty &&
-                !t.name.contains("$default$") =>
+                !t.name.contains("$default$") && !t.symbol.annotations.exists(
+                  _.tpe.typeSymbol.fullName == "scala.annotation.unchecked.uncheckedOverride"
+                ) =>
             error(tree.pos, "Method must have override modifier")
           case _ =>
             super.traverseTree(tree)(owner)
