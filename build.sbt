@@ -147,6 +147,24 @@ lazy val coreFull = projectMatrix
   )
   .settings(
     coreSettings,
+    Test / unmanagedSourceDirectories ++= Def.settingDyn {
+      Seq(
+        scala3Latest,
+        scala213Latest,
+        scala212Latest,
+      ).find(_ == scalaVersion.value) match {
+        case Some(v) =>
+          val p = coreBinary.jvm(v)
+          Def.setting(
+            Seq(
+              (p / Test / scalaSource).value.getParentFile / "uncheckedOverride",
+              (p / Test / scalaSource).value
+            )
+          )
+        case None =>
+          Def.setting(Nil)
+      }
+    }.value,
     Compile / scalaSource := Def.settingDyn {
       val p = coreBinary.jvm(
         scalaBinaryVersion.value match {

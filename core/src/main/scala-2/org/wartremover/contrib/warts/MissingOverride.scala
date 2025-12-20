@@ -39,7 +39,9 @@ object MissingOverride extends WartTraverser {
                 .exists(_.fullName == "scala.reflect.api.TreeCreator") =>
           case t: DefDef
               if t.symbol.overrides.nonEmpty && !(t.mods.hasFlag(Flag.OVERRIDE) || t.mods.hasFlag(Flag.ABSOVERRIDE)) &&
-                !isSynthetic(u)(t) && !isPartialFunctionIsDefinedAt(t) =>
+                !isSynthetic(u)(t) && !isPartialFunctionIsDefinedAt(t) && !t.symbol.annotations.exists(
+                  _.tree.tpe.baseClasses.exists(_.fullName == "scala.annotation.unchecked.uncheckedOverride")
+                ) =>
             error(u)(tree.pos, "Method must have override modifier")
             super.traverse(tree)
           case _ =>
