@@ -12,7 +12,7 @@ jobs:
       matrix:
         include:
           - name: "test"
-            java: 8
+            java: 17
             os: ubuntu-latest
           - name: "scripted"
             java: 17
@@ -38,15 +38,15 @@ jobs:
       run: |
         case ${{ matrix.name }} in
           "test")
-            sbt -v "all scalafmtSbtCheck scalafmtCheckAll" Test/compile test
+            sbt -v --server "all scalafmtSbtCheck scalafmtCheckAll" Test/compile test
             ;;
           "scripted")
             case ${{ matrix.os }} in
               "windows-latest")
-                sbt -v publishLocal sbt-plugin2_12/scripted
+                sbt -v --server publishLocal sbt-plugin2_12/scripted
                 ;;
               *)
-                sbt -v publishLocal scripted
+                sbt -v --server publishLocal scripted
                 ;;
             esac
             ;;
