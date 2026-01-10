@@ -38,20 +38,20 @@ jobs:
       run: |
         case ${{ matrix.name }} in
           "test-cross")
-            sbt -v "all scalafmtSbtCheck scalafmtCheckAll" Test/compile test
+            sbt -v --server "all scalafmtSbtCheck scalafmtCheckAll" Test/compile test
             ;;
           "scripted")
             case ${{ matrix.os }} in
               "windows-latest")
-                sbt -v publishLocal sbt-plugin2_12/scripted
+                sbt -v --server publishLocal sbt-plugin2_12/scripted
                 ;;
               *)
-                sbt -v publishLocal scripted
+                sbt -v --server publishLocal scripted
                 ;;
             esac
             ;;
           "test")
-            sbt -v "all coreBinary3/test coreBinary2_13/test coreBinary2_12/test"
+            sbt -v --server "all coreBinary3/test coreBinary2_13/test coreBinary2_12/test"
             ;;
           *)
             echo "unknown job"
