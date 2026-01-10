@@ -1,7 +1,10 @@
 import ReleaseTransformations._
-import sbt.internal.ProjectMatrix
+
+// https://github.com/sbt/sbt/issues/8248
+outputPath := thisProject.value.id
 
 def sbt2 = "2.0.0-RC12"
+def sbt1 = "1.12.11"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -27,17 +30,10 @@ val scala3Versions = Seq(
   "3.7.2",
   "3.7.3",
   "3.7.4",
-) ++ {
-  if (scala.util.Properties.isJavaAtLeast("17")) {
-    Seq(
-      "3.8.1",
-      "3.8.2",
-      "3.8.3",
-    )
-  } else {
-    Nil
-  }
-}
+  "3.8.1",
+  "3.8.2",
+  "3.8.3",
+)
 
 def latest(versions: Seq[String]) = {
   val prefix = versions.head.split('.').init.mkString("", ".", ".")
@@ -55,6 +51,16 @@ lazy val commonSettings = Seq(
     "The Apache Software License, Version 2.0" ->
       url("https://www.apache.org/licenses/LICENSE-2.0.txt")
   ),
+  scalacOptions ++= {
+    scalaBinaryVersion.value match {
+      case "3" =>
+        Nil
+      case _ =>
+        Seq(
+          "-release:8",
+        )
+    }
+  },
   scalacOptions ++= Seq(
     "-deprecation"
   ),
@@ -75,20 +81,26 @@ lazy val commonSettings = Seq(
     </developers>,
 )
 
-commonSettings
-publishArtifact := false
-releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,
-  inquireVersions,
-  setReleaseVersion,
-  commitReleaseVersion,
-  tagRelease,
-  releaseStepCommandAndRemaining("publishSigned"),
-  releaseStepCommand("sonaRelease"),
-  setNextVersion,
-  commitNextVersion,
-  pushChanges
-)
+val root = project
+  .in(file("."))
+  .autoAggregate
+  .settings(
+    commonSettings,
+    publishArtifact := false,
+    autoScalaLibrary := false,
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      setReleaseVersion,
+      commitReleaseVersion,
+      tagRelease,
+      releaseStepCommandAndRemaining("publishSigned"),
+      releaseStepCommand("sonaRelease"),
+      setNextVersion,
+      commitNextVersion,
+      pushChanges
+    )
+  )
 
 lazy val coreSettings = Def.settings(
   commonSettings,
@@ -142,6 +154,7 @@ lazy val coreBinary = projectMatrix
 
 lazy val coreFull = projectMatrix
   .in(file("core-full"))
+  .withId("core")
   .defaultAxes(VirtualAxis.jvm)
   .jvmPlatform(
     scalaVersions = Seq(
@@ -219,12 +232,10 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   .withId("sbt-plugin")
   .defaultAxes(VirtualAxis.jvm)
   .jvmPlatform(
-    scalaVersions =
-      if (scala.util.Properties.isJavaAtLeast("17")) {
-        Seq(scala212Latest, scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2))
-      } else {
-        Seq(scala212Latest)
-      }
+    scalaVersions = Seq(
+      scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt1),
+      scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2)
+    )
   )
   .settings(
     commonSettings,
@@ -233,7 +244,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
     pluginCrossBuild / sbtVersion := {
       scalaBinaryVersion.value match {
         case "2.12" =>
-          sbtVersion.value
+          sbt1
         case _ =>
           sbt2
       }
@@ -242,7 +253,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
     scriptedBufferLog := false,
     scriptedLaunchOpts ++= {
       val javaVmArgs = {
-        import scala.collection.JavaConverters._
+        import scala.jdk.CollectionConverters.*
         java.lang.management.ManagementFactory.getRuntimeMXBean.getInputArguments.asScala.toList
       }
       javaVmArgs.filter(a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith))
@@ -254,7 +265,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
       val file = base / "wartremover" / "contrib" / "Wart.scala"
       val wartsDir = coreBinary.base / "src" / "main" / "scala-2" / "org" / "wartremover" / "contrib" / "warts"
       val deprecatedWarts = Set("NoNeedImport")
-      val warts: Seq[String] = wartsDir.listFiles
+      val warts: Seq[String] = wartsDir.listFiles.toSeq
         .withFilter(f => f.getName.endsWith(".scala") && f.isFile)
         .map(_.getName.replaceAll("""\.scala$""", ""))
         .filterNot(deprecatedWarts)
@@ -292,12 +303,7 @@ def benchmarkLogFile = "benchmark.log"
 lazy val benchmark = projectMatrix
   .defaultAxes(VirtualAxis.jvm)
   .jvmPlatform(
-    scalaVersions =
-      if (scala.util.Properties.isJavaAtLeast("17")) {
-        Seq(benchmarkScalaVersion)
-      } else {
-        Nil
-      }
+    scalaVersions = Seq(benchmarkScalaVersion)
   )
   .enablePlugins(JmhPlugin)
   .settings(
@@ -349,7 +355,7 @@ lazy val benchmark = projectMatrix
     },
     Compile / sourceGenerators += Def.task {
       val wartsDir = coreBinary.base / "src" / "main" / "scala-3" / "org" / "wartremover" / "contrib" / "warts"
-      val allClasses: Seq[String] = wartsDir.listFiles
+      val allClasses: Seq[String] = wartsDir.listFiles.toSeq
         .withFilter(f => f.getName.endsWith(".scala") && f.isFile)
         .map(_.getName.dropRight(".scala".length))
         .filterNot(Set("NoNeedImport"))
