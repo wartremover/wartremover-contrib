@@ -9,7 +9,7 @@ A selection of additional warts for wartremover managed by the community.
 Add the following to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "2.4.0")
+addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "2.4.1")
 ```
 
 ```scala
@@ -179,7 +179,7 @@ def :+:(): Unit = {}
 ### UnintendedLaziness
 
 The `mapValues` and `filterKeys` methods of maps implicitly turn a strictly evaluated collection into a lazily evaluated one.
-This has been [the subject of many debates](https://issues.scala-lang.org/browse/SI-4776) and will be fixed in the new collections library in Scala 2.13, but until then should be avoided.
+This has been [the subject of many debates](https://github.com/scala/bug/issues/4776) and will be fixed in the new collections library in Scala 2.13, but until then should be avoided.
 
 You should instead consider using the explicit call to the `view` or `toStream` methods. 
 
