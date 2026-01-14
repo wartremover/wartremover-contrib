@@ -239,3 +239,26 @@ case class Car()
 // Won't compile: Case class should not be inherited: Car
 class RedCar() extends Car()
 ```
+
+### RefinedClasstag
+
+```scala
+Welcome to Scala 2.13.18 (OpenJDK 64-Bit Server VM, Java 21.0.9).
+Type in expressions for evaluation. Or try :help.
+
+scala> class A { def a = 1 } ; class B { def b = 2 }
+class A
+class B
+
+scala> import scala.reflect._
+import scala.reflect._
+
+scala> def f[C: ClassTag](xs: List[Any]): List[C] = xs.collect { case c: C => c }
+def f[C](xs: List[Any])(implicit evidence$1: scala.reflect.ClassTag[C]): List[C]
+
+scala> f[A with B](List(new A, new B)).map(_.b) // Won't compile
+java.lang.ClassCastException: class A cannot be cast to class B (A and B are in unnamed module of loader scala.tools.nsc.interpreter.IMain$TranslatingClassLoader @2a27cb34)
+  at $anonfun$res0$1(<console>:1)
+  at $anonfun$res0$1$adapted(<console>:1)
+  at scala.collection.immutable.List.map(List.scala:236)
+```
