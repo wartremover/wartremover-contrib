@@ -242,7 +242,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
         .map(_.getName.replaceAll("""\.scala$""", ""))
         .filterNot(deprecatedWarts)
         .sorted
-      val expectCount = 13
+      val expectCount = 14
       assert(
         warts.size == expectCount,
         s"${warts.size} != ${expectCount}. please update build.sbt when add or remove wart"
