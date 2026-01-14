@@ -3,10 +3,10 @@ package org.wartremover.contrib.warts
 import org.wartremover.WartTraverser
 import org.wartremover.WartUniverse
 
-object RefinedClasstag extends WartTraverser {
+object RefinedManifest extends WartTraverser {
 
-  def ctMessage(typeName: String): String =
-    s"Refined types should not be used in Classtags since only the first type will be checked at runtime. Type found: $typeName"
+  def mfMessage(typeName: String): String =
+    s"Refined types should not be used in Manifests since only the first type will be checked at runtime. Type found: $typeName"
 
   def apply(u: WartUniverse): u.Traverser = {
     import u.universe._
@@ -28,8 +28,8 @@ object RefinedClasstag extends WartTraverser {
       }
     }
 
-    val classTag = TermName("ClassTag")
-    val applyMethod = TermName("apply")
+    val manifestFactory = TermName("ManifestFactory")
+    val intersectionType = TermName("intersectionType")
 
     new u.Traverser {
 
@@ -39,8 +39,8 @@ object RefinedClasstag extends WartTraverser {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
 
-          case TypeApply(Select(Ident(`classTag`), `applyMethod`), args) =>
-            checkIfRefined(args, ctMessage)
+          case TypeApply(Select(Select(_, `manifestFactory`), `intersectionType`), args) =>
+            checkIfRefined(args, mfMessage)
             super.traverse(tree)
 
           case _ =>
