@@ -3,7 +3,7 @@ import sbt.internal.ProjectMatrix
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val wartremoverVersion = "3.5.0"
+val wartremoverVersion = "3.5.1"
 
 val scala212Versions = Seq(
   "2.12.19",
