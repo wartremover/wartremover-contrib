@@ -59,6 +59,14 @@ class SomeApplyTest extends AnyFunSuite with ResultAssertions {
     assertEmpty(result)
   }
 
+  test("case class") {
+    val result = WartTestTraverser(SomeApply) {
+      case class A1(x1: Int)
+      case class A2(x1: Int, x2: String)
+    }
+    assertEmpty(result)
+  }
+
   test("obeys SuppressWarnings") {
     val result = WartTestTraverser(SomeApply) {
       @SuppressWarnings(Array("org.wartremover.contrib.warts.SomeApply"))

@@ -14,6 +14,8 @@ object SomeApply extends WartTraverser {
           // Ignore trees marked by SuppressWarnings
           case t if hasWartAnnotation(u)(t) =>
 
+          case t: DefDef if (t.name.toString == "unapply") && isSynthetic(u)(t) =>
+
           case Apply(
                 TypeApply(Select(obj, TermName("apply")), _),
                 _
