@@ -258,7 +258,6 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
            |  def allBut(ws: Wart*): List[Wart] = All.filterNot(w => ws.exists(_.clazz == w.clazz))
            |  /** A fully-qualified class name of a custom Wart implementing `org.wartremover.WartTraverser`. */
            |  private[this] def w(nm: String): Wart = new Wart(s"org.wartremover.contrib.warts.$$nm")
-           |  @deprecated("move to core https://github.com/wartremover/wartremover/commit/25b3a07a912c5f82f", "2.0.0") def NoNeedImport: Wart = _root_.wartremover.Wart.NoNeedImport
            |""".stripMargin +
           warts.map(w => s"""  val $w: Wart = w("${w}")""").mkString("", "\n", "\n") +
           s"""  val All: List[Wart] = List(${warts mkString ", "})""" +
