@@ -268,4 +268,53 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   )
   .enablePlugins(ScriptedPlugin)
 
+def benchmarkScalaVersion = "3.7.4"
+
+lazy val benchmark = project
+  .enablePlugins(JmhPlugin)
+  .settings(
+    commonSettings,
+    scalaVersion := benchmarkScalaVersion,
+    libraryDependencies += "org.scala-lang" %% "scala3-tasty-inspector" % scalaVersion.value,
+    Compile / sourceGenerators += Def.task {
+      val wartsDir = coreBinary.base / "src" / "main" / "scala-3" / "org" / "wartremover" / "contrib" / "warts"
+      val allClasses: Seq[String] = wartsDir.listFiles
+        .withFilter(f => f.getName.endsWith(".scala") && f.isFile)
+        .map(_.getName.dropRight(".scala".length))
+        .filterNot(Set("NoNeedImport"))
+        .sorted
+      val dir = (Compile / sourceManaged).value
+      def get(key: String): Option[Int] = sys.props.get(key).map(_.toInt)
+      val classes = (get("benchmark_total"), get("benchmark_index")) match {
+        case (Some(total), Some(index)) =>
+          val count = allClasses.size
+          val size = (count / total) + {
+            if (count % total == 0) 0 else 1
+          }
+          allClasses.drop(index * size).take(size)
+        case _ =>
+          allClasses
+      }
+      assert(classes.nonEmpty)
+      classes.map { className =>
+        val f = dir / s"${className}.scala"
+        IO.write(
+          f,
+          s"""|package org.wartremover.benchmark
+              |
+              |@annotation.experimental
+              |class ${className} extends WartremoverBenchmark {
+              |  override def wart = org.wartremover.contrib.warts.${className}
+              |}
+              |""".stripMargin
+        )
+        f
+      }
+    }.taskValue,
+    publish / skip := true,
+  )
+  .dependsOn(
+    coreFull.jvm(benchmarkScalaVersion)
+  )
+
 ThisBuild / sbtPluginPublishLegacyMavenStyle := false
