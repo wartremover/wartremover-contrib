@@ -17,6 +17,7 @@ object UnintendedLaziness extends WartTraverser {
       import q.reflect.*
       override def traverseTree(tree: Tree)(owner: Symbol): Unit = {
         tree match {
+          case _ if sourceCodeNotContains(tree, "filterKeys") && sourceCodeNotContains(tree, "mapValues") =>
           case _ if hasWartAnnotation(tree) =>
           case _ if tree.isExpr =>
             tree.asExpr match {
