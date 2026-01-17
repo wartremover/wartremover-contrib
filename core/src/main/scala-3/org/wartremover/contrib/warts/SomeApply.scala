@@ -12,13 +12,8 @@ object SomeApply extends WartTraverser {
           case _ if hasWartAnnotation(tree) =>
           case Apply(TypeApply(Select(some, "apply"), _), _ :: Nil) if some.tpe =:= TypeRepr.of[Some.type] =>
             error(tree.pos, "Some.apply is disabled - use Option.apply instead")
-          case _ if tree.isExpr =>
-            tree.asExpr match {
-              case '{ new Some($_) } =>
-                error(tree.pos, "Some.apply is disabled - use Option.apply instead")
-              case _ =>
-                super.traverseTree(tree)(owner)
-            }
+          case t: New if t.tpe.typeSymbol.fullName == "scala.Some" =>
+            error(tree.pos, "Some.apply is disabled - use Option.apply instead")
           case _ =>
             super.traverseTree(tree)(owner)
         }
