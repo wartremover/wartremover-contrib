@@ -24,4 +24,4 @@ jobs:
            -v
            -Dbenchmark_total=2
            -Dbenchmark_index=${{ matrix.index }}
-           "benchmark/Jmh/run -i 1 -wi 1 -f1 -t1"
+           "benchmark/Jmh/run -i 2 -wi 2 -f1 -t1"
