@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: "test-cross"
+          - name: "test"
             java: 8
             os: ubuntu-latest
           - name: "scripted"
@@ -37,7 +37,7 @@ jobs:
         JAVA_OPTS: "-Xmx6G"
       run: |
         case ${{ matrix.name }} in
-          "test-cross")
+          "test")
             sbt -v "all scalafmtSbtCheck scalafmtCheckAll" Test/compile test
             ;;
           "scripted")
@@ -49,9 +49,6 @@ jobs:
                 sbt -v publishLocal scripted
                 ;;
             esac
-            ;;
-          "test")
-            sbt -v "all coreBinary3/test coreBinary2_13/test coreBinary2_12/test"
             ;;
           *)
             echo "unknown job"
