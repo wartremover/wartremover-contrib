@@ -278,7 +278,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   )
   .enablePlugins(ScriptedPlugin)
 
-def benchmarkScalaVersion = "3.7.4"
+def benchmarkScalaVersion = "3.8.1"
 
 def benchmarkLogFile = "benchmark.log"
 
