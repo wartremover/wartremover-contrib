@@ -28,8 +28,7 @@ val scala3Versions = Seq(
 ) ++ {
   if (scala.util.Properties.isJavaAtLeast("17")) {
     Seq(
-      "3.8.0",
-      "3.8.1-RC1",
+      "3.8.1",
     )
   } else {
     Nil
