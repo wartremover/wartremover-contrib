@@ -15,10 +15,10 @@ jobs:
             java: 8
             os: ubuntu-latest
           - name: "scripted"
-            java: 8
+            java: 17
             os: ubuntu-latest
           - name: "scripted"
-            java: 8
+            java: 17
             os: windows-latest
           - name: "test"
             java: 25
