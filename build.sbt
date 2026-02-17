@@ -216,7 +216,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   .jvmPlatform(
     scalaVersions =
       if (scala.util.Properties.isJavaAtLeast("17")) {
-        Seq(scala212Latest, "3.8.2-RC3")
+        Seq(scala212Latest, "3.8.1")
       } else {
         Seq(scala212Latest)
       }
