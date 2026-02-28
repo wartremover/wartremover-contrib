@@ -31,7 +31,7 @@ val scala3Versions = Seq(
   if (scala.util.Properties.isJavaAtLeast("17")) {
     Seq(
       "3.8.1",
-      "3.8.2-RC1",
+      "3.8.2",
     )
   } else {
     Nil
@@ -289,11 +289,20 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   )
   .enablePlugins(ScriptedPlugin)
 
-def benchmarkScalaVersion = "3.7.4"
+def benchmarkScalaVersion = "3.8.2"
 
 def benchmarkLogFile = "benchmark.log"
 
-lazy val benchmark = project
+lazy val benchmark = projectMatrix
+  .defaultAxes(VirtualAxis.jvm)
+  .jvmPlatform(
+    scalaVersions =
+      if (scala.util.Properties.isJavaAtLeast("17")) {
+        Seq(benchmarkScalaVersion)
+      } else {
+        Nil
+      }
+  )
   .enablePlugins(JmhPlugin)
   .settings(
     commonSettings,
@@ -380,7 +389,7 @@ lazy val benchmark = project
     publish / skip := true,
   )
   .dependsOn(
-    coreFull.jvm(benchmarkScalaVersion)
+    coreFull
   )
 
 ThisBuild / sbtPluginPublishLegacyMavenStyle := false
