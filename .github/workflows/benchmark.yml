@@ -22,6 +22,7 @@ jobs:
     - uses: sbt/setup-sbt@v1
     - run: sbt
            -v
+           --server
            -Dbenchmark_total=2
            -Dbenchmark_index=${{ matrix.index }}
            "benchmark3/Jmh/run -i 2 -wi 2 -f1 -t1"
