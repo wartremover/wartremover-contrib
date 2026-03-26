@@ -216,7 +216,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   .jvmPlatform(
     scalaVersions =
       if (scala.util.Properties.isJavaAtLeast("17")) {
-        Seq(scala212Latest, "3.8.1")
+        Seq(scala212Latest, "3.8.2")
       } else {
         Seq(scala212Latest)
       }
@@ -230,7 +230,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
         case "2.12" =>
           sbtVersion.value
         case _ =>
-          "2.0.0-RC9"
+          "2.0.0-RC10"
       }
     },
     name := "sbt-wartremover-contrib",
