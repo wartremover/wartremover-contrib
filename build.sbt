@@ -217,7 +217,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   .jvmPlatform(
     scalaVersions =
       if (scala.util.Properties.isJavaAtLeast("17")) {
-        Seq(scala212Latest, "3.8.2")
+        Seq(scala212Latest, "3.8.3")
       } else {
         Seq(scala212Latest)
       }
@@ -281,7 +281,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   )
   .enablePlugins(ScriptedPlugin)
 
-def benchmarkScalaVersion = "3.8.2"
+def benchmarkScalaVersion = "3.8.3"
 
 def benchmarkLogFile = "benchmark.log"
 
