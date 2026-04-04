@@ -1,5 +1,7 @@
 import ReleaseTransformations._
-import sbt.internal.ProjectMatrix
+
+// https://github.com/sbt/sbt/issues/8248
+outputPath := thisProject.value.id
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -73,20 +75,25 @@ lazy val commonSettings = Seq(
     </developers>,
 )
 
-commonSettings
-publishArtifact := false
-releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,
-  inquireVersions,
-  setReleaseVersion,
-  commitReleaseVersion,
-  tagRelease,
-  releaseStepCommandAndRemaining("publishSigned"),
-  releaseStepCommand("sonaRelease"),
-  setNextVersion,
-  commitNextVersion,
-  pushChanges
-)
+val root = project
+  .in(file("."))
+  .autoAggregate
+  .settings(
+    commonSettings,
+    publishArtifact := false,
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      setReleaseVersion,
+      commitReleaseVersion,
+      tagRelease,
+      releaseStepCommandAndRemaining("publishSigned"),
+      releaseStepCommand("sonaRelease"),
+      setNextVersion,
+      commitNextVersion,
+      pushChanges
+    )
+  )
 
 lazy val coreSettings = Def.settings(
   commonSettings,
@@ -138,6 +145,7 @@ lazy val coreBinary = projectMatrix
 
 lazy val coreFull = projectMatrix
   .in(file("core-full"))
+  .withId("core")
   .defaultAxes(VirtualAxis.jvm)
   .jvmPlatform(
     scalaVersions = Seq(
@@ -229,16 +237,16 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
     pluginCrossBuild / sbtVersion := {
       scalaBinaryVersion.value match {
         case "2.12" =>
-          sbtVersion.value
+          "1.12.8"
         case _ =>
-          "2.0.0-RC10"
+          sbtVersion.value
       }
     },
     name := "sbt-wartremover-contrib",
     scriptedBufferLog := false,
     scriptedLaunchOpts ++= {
       val javaVmArgs = {
-        import scala.collection.JavaConverters._
+        import scala.jdk.CollectionConverters.*
         java.lang.management.ManagementFactory.getRuntimeMXBean.getInputArguments.asScala.toList
       }
       javaVmArgs.filter(a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith))
@@ -255,6 +263,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
         .map(_.getName.replaceAll("""\.scala$""", ""))
         .filterNot(deprecatedWarts)
         .sorted
+        .toSeq
       val expectCount = 14
       assert(
         warts.size == expectCount,
