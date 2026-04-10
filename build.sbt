@@ -1,6 +1,8 @@
 import ReleaseTransformations._
 import sbt.internal.ProjectMatrix
 
+def sbt2 = "2.0.0-RC11"
+
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 val wartremoverVersion = "3.5.6"
@@ -217,7 +219,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   .jvmPlatform(
     scalaVersions =
       if (scala.util.Properties.isJavaAtLeast("17")) {
-        Seq(scala212Latest, "3.8.2")
+        Seq(scala212Latest, scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2))
       } else {
         Seq(scala212Latest)
       }
@@ -231,7 +233,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
         case "2.12" =>
           sbtVersion.value
         case _ =>
-          "2.0.0-RC11"
+          sbt2
       }
     },
     name := "sbt-wartremover-contrib",
