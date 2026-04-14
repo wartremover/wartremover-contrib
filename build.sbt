@@ -41,13 +41,13 @@ val scala3Versions = Seq(
 
 def latest(versions: Seq[String]) = {
   val prefix = versions.head.split('.').init.mkString("", ".", ".")
-  assert(versions.forall(_ startsWith prefix))
+  assert(versions.forall(_.startsWith(prefix)))
   prefix + versions.map(_.drop(prefix.length).toLong).max
 }
 
 val scala212Latest = latest(scala212Versions)
 val scala213Latest = latest(scala213Versions)
-val scala3Latest = scala3Versions.filterNot(_ contains "-RC").filter(_ startsWith "3.3.").last // TODO more better way
+val scala3Latest = scala3Versions.filterNot(_.contains("-RC")).filter(_.startsWith("3.3.")).last // TODO more better way
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
@@ -122,10 +122,12 @@ lazy val coreBinary = projectMatrix
       if (scalaBinaryVersion.value == "3") {
         Seq(
           "org.scala-lang" %% "scala3-tasty-inspector" % scalaVersion.value % Test,
-          "io.get-coursier" % "coursier" % "2.1.24" % Test cross CrossVersion.for3Use2_13 exclude (
-            "org.scala-lang.modules",
-            "scala-xml_2.13"
-          ),
+          ("io.get-coursier" % "coursier" % "2.1.24" % Test)
+            .cross(CrossVersion.for3Use2_13)
+            .exclude(
+              "org.scala-lang.modules",
+              "scala-xml_2.13"
+            ),
           "org.scala-sbt" %% "io" % "1.10.5" % Test,
           "org.wartremover" %% "wartremover-inspector" % wartremoverVersion % Test,
         )
@@ -275,7 +277,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
            |  private[this] def w(nm: String): Wart = new Wart(s"org.wartremover.contrib.warts.$$nm")
            |""".stripMargin +
           warts.map(w => s"""  val $w: Wart = w("${w}")""").mkString("", "\n", "\n") +
-          s"""  val All: List[Wart] = List(${warts mkString ", "})""" +
+          s"""  val All: List[Wart] = List(${warts.mkString(", ")})""" +
           "\n}\n"
       IO.write(file, content)
       Seq(file)
