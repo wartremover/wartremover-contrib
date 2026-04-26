@@ -5,7 +5,7 @@ def sbt2 = "2.0.0-RC12"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val wartremoverVersion = "3.5.6"
+val wartremoverVersion = "3.5.7"
 
 val scala212Versions = Seq(
   "2.12.19",
