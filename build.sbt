@@ -136,7 +136,7 @@ lazy val coreBinary = projectMatrix
       }
     },
     libraryDependencies ++= Seq(
-      "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.binary
+      ("org.wartremover" %% "wartremover" % wartremoverVersion).cross(CrossVersion.binary)
     ),
   )
 
@@ -210,7 +210,7 @@ lazy val coreFull = projectMatrix
       target.value / s"scala-${scalaVersion.value}"
     },
     libraryDependencies ++= Seq(
-      "org.wartremover" %% "wartremover" % wartremoverVersion cross CrossVersion.full
+      ("org.wartremover" %% "wartremover" % wartremoverVersion).cross(CrossVersion.full)
     ),
   )
 
