@@ -113,6 +113,7 @@ lazy val coreSettings = Def.settings(
   },
   libraryDependencies ++= Seq(
     "joda-time" % "joda-time" % "2.14.2" % Test,
+    "org.scalacheck" %% "scalacheck" % "1.19.0" % Test,
     "org.scalatest" %% "scalatest-funsuite" % "3.2.20" % Test
   )
 )
@@ -270,7 +271,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
         .map(_.getName.replaceAll("""\.scala$""", ""))
         .filterNot(deprecatedWarts)
         .sorted
-      val expectCount = 14
+      val expectCount = 15
       assert(
         warts.size == expectCount,
         s"${warts.size} != ${expectCount}. please update build.sbt when add or remove wart"
