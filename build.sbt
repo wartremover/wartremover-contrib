@@ -33,6 +33,7 @@ val scala3Versions = Seq(
   "3.8.1",
   "3.8.2",
   "3.8.3",
+  "3.8.4",
 )
 
 def latest(versions: Seq[String]) = {
@@ -297,7 +298,7 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   )
   .enablePlugins(ScriptedPlugin)
 
-def benchmarkScalaVersion = "3.8.3"
+def benchmarkScalaVersion = "3.8.4"
 
 def benchmarkLogFile = "benchmark.log"
 
