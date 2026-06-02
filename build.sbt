@@ -105,7 +105,7 @@ val root = project
 lazy val coreSettings = Def.settings(
   commonSettings,
   name := "wartremover-contrib",
-  Test / scalacOptions += {
+  Test / scalacOptions += Def.uncached {
     val hash = (Compile / sources).value.map { f =>
       sbt.internal.inc.HashUtil.farmHash(f.toPath)
     }.sum
