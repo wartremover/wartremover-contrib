@@ -3,7 +3,7 @@ import ReleaseTransformations._
 // https://github.com/sbt/sbt/issues/8248
 outputPath := thisProject.value.id
 
-def sbt2 = "2.0.0-RC15"
+def sbt2 = "2.0.0-RC16"
 def sbt1 = "1.12.11"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
