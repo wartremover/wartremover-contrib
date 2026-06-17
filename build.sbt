@@ -134,7 +134,7 @@ lazy val coreBinary = projectMatrix
               "org.scala-lang.modules",
               "scala-xml_2.13"
             ),
-          "org.scala-sbt" %% "io" % "1.12.1" % Test,
+          "org.scala-sbt" %% "io" % "1.12.2" % Test,
           "org.wartremover" %% "wartremover-inspector" % wartremoverVersion % Test,
         )
       } else {
