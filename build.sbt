@@ -4,7 +4,7 @@ import ReleaseTransformations._
 outputPath := thisProject.value.id
 
 def sbt2 = "2.0.1"
-def sbt1 = "1.12.11"
+def sbt1 = "1.12.13"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
