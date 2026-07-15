@@ -46,7 +46,7 @@ lazy val commonSettings = Seq(
   organization := "org.wartremover",
   licenses := Seq(
     "The Apache Software License, Version 2.0" ->
-      url("https://www.apache.org/licenses/LICENSE-2.0.txt")
+      uri("https://www.apache.org/licenses/LICENSE-2.0.txt")
   ),
   scalacOptions ++= {
     scalaBinaryVersion.value match {
@@ -64,7 +64,7 @@ lazy val commonSettings = Seq(
   publishMavenStyle := true,
   Test / publishArtifact := false,
   publishTo := (if (isSnapshot.value) None else localStaging.value),
-  homepage := Some(url("https://github.com/wartremover/wartremover-contrib")),
+  homepage := Some(uri("https://github.com/wartremover/wartremover-contrib")),
   pomExtra :=
     <scm>
       <url>git@github.com:wartremover/wartremover-contrib.git</url>
