@@ -8,7 +8,7 @@ val sbt2 = {
   p.load(new java.io.FileInputStream("project/build.properties"))
   p.getProperty("sbt.version").trim
 }
-def sbt1 = "1.12.14"
+def sbt1 = "1.13.0"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
