@@ -111,7 +111,7 @@ lazy val coreSettings = Def.settings(
   },
   libraryDependencies ++= Seq(
     "joda-time" % "joda-time" % "2.14.3" % Test,
-    "org.scalacheck" %% "scalacheck" % "1.19.0" % Test,
+    "org.scalacheck" %% "scalacheck" % "1.20.0" % Test,
     "org.scalatest" %% "scalatest-funsuite" % "3.2.20" % Test
   )
 )
