@@ -168,7 +168,7 @@ lazy val coreFull = projectMatrix
     libraryDependencies ++= {
       if (scalaVersion.value == scala3Latest) {
         // for uncheckedOverride test
-        Seq(scalaOrganization.value % "scala-library" % "2.13.18" % Test)
+        Seq(scalaOrganization.value % "scala-library" % "3.9.0" % Test)
       } else {
         Nil
       }
