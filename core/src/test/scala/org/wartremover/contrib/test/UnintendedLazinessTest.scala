@@ -3,9 +3,9 @@ package contrib.test
 
 import org.wartremover.contrib.warts.UnintendedLaziness
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
-class UnintendedLazinessTest extends AnyFunSuite with ResultAssertions {
+class UnintendedLazinessTest extends FunSuite with ResultAssertions {
   test("Can't call filterKeys on a map") {
     val map = Map.empty[String, Int]
     val result = WartTestTraverser(UnintendedLaziness) {

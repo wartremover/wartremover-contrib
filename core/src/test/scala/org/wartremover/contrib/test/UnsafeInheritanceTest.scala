@@ -3,9 +3,9 @@ package contrib.test
 
 import org.wartremover.contrib.warts.UnsafeInheritance
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
-class UnsafeInheritanceTest extends AnyFunSuite with ResultAssertions {
+class UnsafeInheritanceTest extends FunSuite with ResultAssertions {
   test("Method must be final or abstract") {
     val result = WartTestTraverser(UnsafeInheritance) {
       trait T {

@@ -112,7 +112,7 @@ lazy val coreSettings = Def.settings(
   libraryDependencies ++= Seq(
     "joda-time" % "joda-time" % "2.14.4" % Test,
     "org.scalacheck" %% "scalacheck" % "1.20.0" % Test,
-    "org.scalatest" %% "scalatest-funsuite" % "3.2.20" % Test
+    "org.scalameta" %% "munit" % "1.3.6" % Test,
   )
 )
 
@@ -133,12 +133,7 @@ lazy val coreBinary = projectMatrix
       if (scalaBinaryVersion.value == "3") {
         Seq(
           "org.scala-lang" %% "scala3-tasty-inspector" % scalaVersion.value % Test,
-          ("io.get-coursier" % "coursier" % "2.1.25" % Test)
-            .cross(CrossVersion.for3Use2_13)
-            .exclude(
-              "org.scala-lang.modules",
-              "scala-xml_2.13"
-            ),
+          ("io.get-coursier" % "coursier" % "2.1.25" % Test).cross(CrossVersion.for3Use2_13),
           "org.scala-sbt" %% "io" % "1.13.3" % Test,
           "org.wartremover" %% "wartremover-inspector" % wartremoverVersion % Test,
         )

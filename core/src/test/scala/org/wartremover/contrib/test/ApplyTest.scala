@@ -3,9 +3,9 @@ package contrib.test
 
 import org.wartremover.contrib.warts.Apply
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
-class ApplyTest extends AnyFunSuite with ResultAssertions {
+class ApplyTest extends FunSuite with ResultAssertions {
   test("apply is disabled") {
     val result = WartTestTraverser(Apply) {
       class c {

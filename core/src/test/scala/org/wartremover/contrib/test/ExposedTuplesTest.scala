@@ -3,9 +3,9 @@ package contrib.test
 
 import org.wartremover.contrib.warts.ExposedTuples
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
-class ExposedTuplesTest extends AnyFunSuite with ResultAssertions {
+class ExposedTuplesTest extends FunSuite with ResultAssertions {
 
   test("can't expose a tuple from a public method") {
     val result: WartTestTraverser.Result = WartTestTraverser(ExposedTuples) {
