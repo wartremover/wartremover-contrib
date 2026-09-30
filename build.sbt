@@ -45,6 +45,7 @@ val scala3Latest = scala3Versions.filterNot(_.contains("-RC")).filter(_.startsWi
 
 lazy val commonSettings = Seq(
   organization := "org.wartremover",
+  exportJars := false,
   licenses := Seq(
     "The Apache Software License, Version 2.0" ->
       uri("https://www.apache.org/licenses/LICENSE-2.0.txt")
