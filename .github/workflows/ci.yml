@@ -38,7 +38,7 @@ jobs:
       run: |
         case ${{ matrix.name }} in
           "test")
-            sbt -v --server "all scalafmtSbtCheck scalafmtCheckAll" Test/compile test
+            sbt -v --server "all scalafmtSbtCheck scalafmtCheckAll" Test/compile testFull
             ;;
           "scripted")
             case ${{ matrix.os }} in

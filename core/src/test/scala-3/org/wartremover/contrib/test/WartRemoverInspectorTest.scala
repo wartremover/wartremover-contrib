@@ -1,6 +1,6 @@
 package org.wartremover.contrib.test
 
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 import org.wartremover.InspectParam
 import org.wartremover.WartRemoverInspector
 import sbt.io.IO
@@ -10,7 +10,7 @@ import scala.tasty.inspector.Tasty
 import scala.tasty.inspector.TastyInspector
 
 @annotation.experimental
-class WartRemoverInspectorTest extends AnyFunSuite {
+class WartRemoverInspectorTest extends FunSuite {
   extension (groupId: String) {
     def %(artifactId: String): coursier.core.Module =
       coursier.core.Module(
@@ -76,15 +76,15 @@ class WartRemoverInspectorTest extends AnyFunSuite {
   test("cats") {
     val result = inspectLibrary("org.typelevel" %% "cats-core" % "2.10.0")
     assert(
-      result("cats-kernel_3-2.10.0.jar") === Map(
+      result("cats-kernel_3-2.10.0.jar") == Map(
         "SomeApply" -> 29,
         "MissingOverride" -> 379,
         "UnsafeInheritance" -> 1160,
         "Apply" -> 3,
       )
     )
-    assert(result("cats-core_3-2.10.0.jar") === Map.empty)
-    assert(result("scala-library-2.13.10.jar") === Map.empty)
-    assert(result.size === 3)
+    assert(result("cats-core_3-2.10.0.jar") == Map.empty)
+    assert(result("scala-library-2.13.10.jar") == Map.empty)
+    assert(result.size == 3)
   }
 }

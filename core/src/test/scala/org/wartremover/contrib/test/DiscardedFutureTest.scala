@@ -1,13 +1,13 @@
 package org.wartremover
 package contrib.test
 
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 import org.wartremover.contrib.warts.DiscardedFuture
 import org.wartremover.test.WartTestTraverser
 import scala.concurrent.Future
 import scala.util.Try
 
-class DiscardedFutureTest extends AnyFunSuite with ResultAssertions {
+class DiscardedFutureTest extends FunSuite with ResultAssertions {
   implicit val ec: scala.concurrent.ExecutionContext =
     scala.concurrent.ExecutionContext.global
 

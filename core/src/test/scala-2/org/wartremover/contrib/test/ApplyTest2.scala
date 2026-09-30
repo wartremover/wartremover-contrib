@@ -3,9 +3,9 @@ package contrib.test
 
 import org.wartremover.contrib.warts.Apply
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
-class ApplyTest2 extends AnyFunSuite with ResultAssertions {
+class ApplyTest2 extends FunSuite with ResultAssertions {
   test("TypeTag, reify") {
     val result = WartTestTraverser(Apply) {
       implicitly[scala.reflect.runtime.universe.TypeTag[List[Int]]]

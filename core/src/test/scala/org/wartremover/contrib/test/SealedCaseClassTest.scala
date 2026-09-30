@@ -3,9 +3,9 @@ package contrib.test
 
 import org.wartremover.contrib.warts.SealedCaseClass
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
-class SealedCaseClassTest extends AnyFunSuite with ResultAssertions {
+class SealedCaseClassTest extends FunSuite with ResultAssertions {
   test("can't declare sealed case classes") {
     val result = WartTestTraverser(SealedCaseClass) {
       sealed case class Foo(i: Int)

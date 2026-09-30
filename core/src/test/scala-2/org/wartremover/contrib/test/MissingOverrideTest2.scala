@@ -3,9 +3,9 @@ package contrib.test
 
 import org.wartremover.contrib.warts.MissingOverride
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
-class MissingOverrideTest2 extends AnyFunSuite with ResultAssertions {
+class MissingOverrideTest2 extends FunSuite with ResultAssertions {
   test("TypeTag, reify") {
     val result = WartTestTraverser(MissingOverride) {
       implicitly[scala.reflect.runtime.universe.TypeTag[List[Int]]]

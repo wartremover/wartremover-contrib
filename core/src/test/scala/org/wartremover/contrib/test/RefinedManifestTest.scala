@@ -3,10 +3,10 @@ package org.wartremover.contrib.test
 import org.wartremover.contrib.warts.RefinedManifest
 import org.wartremover.test.WartTestTraverser
 import scala.annotation.nowarn
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
 @nowarn("msg=Manifest")
-class RefinedManifestTest extends AnyFunSuite with ResultAssertions {
+class RefinedManifestTest extends FunSuite with ResultAssertions {
 
   import RefinedManifestTest._
 

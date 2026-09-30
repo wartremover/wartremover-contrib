@@ -3,9 +3,9 @@ package contrib.test
 
 import org.wartremover.contrib.warts.SymbolicName
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
-class SymbolicNameTest extends AnyFunSuite with ResultAssertions {
+class SymbolicNameTest extends FunSuite with ResultAssertions {
   test("Symbolic name is disabled") {
     val result = WartTestTraverser(SymbolicName) {
       class \&/ {

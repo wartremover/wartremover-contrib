@@ -3,10 +3,10 @@ package contrib.test
 
 import org.wartremover.contrib.warts.MissingOverride
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 import scala.annotation.unchecked.uncheckedOverride
 
-class UncheckedOverrideTest extends AnyFunSuite with ResultAssertions {
+class UncheckedOverrideTest extends FunSuite with ResultAssertions {
   test("@uncheckedOverride") {
     val result = WartTestTraverser(MissingOverride) {
       trait T {

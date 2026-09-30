@@ -3,9 +3,9 @@ package contrib.test
 
 import org.wartremover.contrib.warts.CaseClassInheritance
 import org.wartremover.test.WartTestTraverser
-import org.scalatest.funsuite.AnyFunSuite
+import munit.FunSuite
 
-class CaseClassInheritanceTest extends AnyFunSuite with ResultAssertions {
+class CaseClassInheritanceTest extends FunSuite with ResultAssertions {
   test("case class inheritance disallowed: as class") {
     val result = WartTestTraverser(CaseClassInheritance) {
       case class Car()
