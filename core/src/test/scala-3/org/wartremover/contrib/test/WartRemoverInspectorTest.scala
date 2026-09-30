@@ -25,7 +25,10 @@ class WartRemoverInspectorTest extends FunSuite {
 
   extension (module: coursier.core.Module) {
     def %(version: String): coursier.core.Dependency =
-      coursier.core.Dependency(module, version)
+      coursier.core.Dependency(
+        module,
+        coursier.version.VersionConstraint(version)
+      )
   }
 
   private val inspector = new WartRemoverInspector
