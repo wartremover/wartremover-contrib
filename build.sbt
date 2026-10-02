@@ -111,7 +111,7 @@ lazy val coreSettings = Def.settings(
     s"-Dplease-recompile-because-main-source-files-changed-${hash}"
   },
   libraryDependencies ++= Seq(
-    "joda-time" % "joda-time" % "2.14.4" % Test,
+    "joda-time" % "joda-time" % "2.15.0" % Test,
     "org.scalacheck" %% "scalacheck" % "1.20.0" % Test,
     "org.scalameta" %% "munit" % "1.3.6" % Test,
   )
