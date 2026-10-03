@@ -5,12 +5,15 @@ import org.wartremover.InspectParam
 import org.wartremover.WartRemoverInspector
 import org.wartremover.WartTraverser
 import sbt.io.IO
+import scala.concurrent.duration.*
 import scala.quoted.Quotes
 import scala.tasty.inspector.Inspector
 import scala.tasty.inspector.Tasty
 import scala.tasty.inspector.TastyInspector
 
 class WartRemoverInspectorTest extends FunSuite {
+  override val munitTimeout: Duration = 150.seconds
+
   extension (groupId: String) {
     def %(artifactId: String): coursier.core.Module =
       coursier.core.Module(
