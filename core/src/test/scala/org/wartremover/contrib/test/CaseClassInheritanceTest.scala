@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.CaseClassInheritance
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 
 class CaseClassInheritanceTest extends FunSuite with ResultAssertions {
   test("case class inheritance disallowed: as class") {

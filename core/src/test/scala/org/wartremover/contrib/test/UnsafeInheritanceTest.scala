@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.UnsafeInheritance
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 
 class UnsafeInheritanceTest extends FunSuite with ResultAssertions {
   test("Method must be final or abstract") {

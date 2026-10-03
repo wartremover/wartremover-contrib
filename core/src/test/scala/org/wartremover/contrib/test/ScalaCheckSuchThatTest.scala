@@ -1,10 +1,10 @@
 package org.wartremover
 package contrib.test
 
-import org.wartremover.contrib.warts.ScalaCheckSuchThat
-import org.wartremover.test.WartTestTraverser
 import munit.FunSuite
 import org.scalacheck.Gen
+import org.wartremover.contrib.warts.ScalaCheckSuchThat
+import org.wartremover.test.WartTestTraverser
 
 class ScalaCheckSuchThatTest extends FunSuite with ResultAssertions {
   private val gen1: Gen[Int] = Gen.posNum[Int]

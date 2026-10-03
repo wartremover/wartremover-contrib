@@ -1,9 +1,9 @@
 package org.wartremover.contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.RefinedClasstag
 import org.wartremover.test.WartTestTraverser
 import scala.reflect.ClassTag
-import munit.FunSuite
 
 class RefinedClasstagTest extends FunSuite with ResultAssertions {
 

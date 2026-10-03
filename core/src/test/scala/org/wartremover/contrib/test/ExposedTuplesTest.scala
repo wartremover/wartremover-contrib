@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.ExposedTuples
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 
 class ExposedTuplesTest extends FunSuite with ResultAssertions {
 
