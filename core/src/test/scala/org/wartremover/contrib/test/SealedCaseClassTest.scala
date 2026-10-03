@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.SealedCaseClass
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 
 class SealedCaseClassTest extends FunSuite with ResultAssertions {
   test("can't declare sealed case classes") {

@@ -1,11 +1,11 @@
 package org.wartremover.contrib
 
-import sbt._
 import sbt.Keys._
-import wartremover.contrib.ContribWart
+import sbt._
 import wartremover.WartRemover
-import wartremover.WartRemover.autoImport.wartremoverDependencies
 import wartremover.WartRemover.autoImport.wartremoverCrossVersion
+import wartremover.WartRemover.autoImport.wartremoverDependencies
+import wartremover.contrib.ContribWart
 
 object ContribWarts extends AutoPlugin {
 

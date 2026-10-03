@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.Apply
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 
 class ApplyTest extends FunSuite with ResultAssertions {
   test("apply is disabled") {

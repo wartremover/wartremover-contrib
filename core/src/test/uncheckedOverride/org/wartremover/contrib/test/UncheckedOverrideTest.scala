@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.MissingOverride
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 import scala.annotation.unchecked.uncheckedOverride
 
 class UncheckedOverrideTest extends FunSuite with ResultAssertions {

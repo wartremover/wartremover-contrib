@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.UnintendedLaziness
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 
 class UnintendedLazinessTest extends FunSuite with ResultAssertions {
   test("Can't call filterKeys on a map") {

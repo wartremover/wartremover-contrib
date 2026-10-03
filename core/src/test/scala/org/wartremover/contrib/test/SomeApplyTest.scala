@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.SomeApply
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 
 class SomeApplyTest extends FunSuite with ResultAssertions {
 

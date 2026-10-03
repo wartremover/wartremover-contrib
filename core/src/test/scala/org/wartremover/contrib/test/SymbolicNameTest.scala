@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.SymbolicName
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 
 class SymbolicNameTest extends FunSuite with ResultAssertions {
   test("Symbolic name is disabled") {

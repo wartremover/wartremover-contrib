@@ -1,8 +1,8 @@
 package org.wartremover
 package contrib.test
 
-import org.wartremover.test.WartTestTraverser
 import munit.FunSuite
+import org.wartremover.test.WartTestTraverser
 
 trait ResultAssertions extends FunSuite {
 

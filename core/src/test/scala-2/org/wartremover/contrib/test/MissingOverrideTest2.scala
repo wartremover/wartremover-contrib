@@ -1,9 +1,9 @@
 package org.wartremover
 package contrib.test
 
+import munit.FunSuite
 import org.wartremover.contrib.warts.MissingOverride
 import org.wartremover.test.WartTestTraverser
-import munit.FunSuite
 
 class MissingOverrideTest2 extends FunSuite with ResultAssertions {
   test("TypeTag, reify") {
