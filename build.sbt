@@ -135,7 +135,7 @@ lazy val coreBinary = projectMatrix
         Seq(
           "org.scala-lang" %% "scala3-tasty-inspector" % scalaVersion.value % Test,
           "io.get-coursier" %% "coursier" % "2.1.26" % Test,
-          "org.scala-sbt" %% "io" % "1.13.4" % Test,
+          "org.scala-sbt" %% "io" % "1.13.5" % Test,
           "org.wartremover" %% "wartremover-inspector" % wartremoverVersion % Test,
         )
       } else {
