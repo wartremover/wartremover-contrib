@@ -55,6 +55,16 @@ lazy val commonSettings = Seq(
     scalaBinaryVersion.value match {
       case "3" =>
         Nil
+      case "2.13" =>
+        Seq("-Xsource:3-cross")
+      case "2.12" =>
+        Seq("-Xsource:3")
+    }
+  },
+  scalacOptions ++= {
+    scalaBinaryVersion.value match {
+      case "3" =>
+        Nil
       case _ =>
         Seq(
           "-release:8",

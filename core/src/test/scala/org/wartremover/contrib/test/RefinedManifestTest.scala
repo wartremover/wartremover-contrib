@@ -19,7 +19,7 @@ class RefinedManifestTest extends FunSuite with ResultAssertions {
 
   test("can't use refined types with manifests") {
     val result: WartTestTraverser.Result = WartTestTraverser(RefinedManifest) {
-      methodWithManifest[A with B]()
+      methodWithManifest[A & B]()
     }
     assertError(result)(RefinedManifest.mfMessage(AwithB))
   }
@@ -38,7 +38,7 @@ class RefinedManifestTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(RefinedManifest) {
       @SuppressWarnings(Array("org.wartremover.contrib.warts.RefinedManifest"))
       def fun = {
-        methodWithManifest[A with B]()
+        methodWithManifest[A & B]()
       }
     }
     assertEmpty(result)

@@ -17,7 +17,7 @@ class RefinedClasstagTest extends FunSuite with ResultAssertions {
   }
   test("can't use refined types with classTags") {
     val result: WartTestTraverser.Result = WartTestTraverser(RefinedClasstag) {
-      methodWithClassTag[A with B]()
+      methodWithClassTag[A & B]()
     }
     assertError(result)(RefinedClasstag.ctMessage(AwithB))
   }
@@ -36,7 +36,7 @@ class RefinedClasstagTest extends FunSuite with ResultAssertions {
     val result: WartTestTraverser.Result = WartTestTraverser(RefinedClasstag) {
       @SuppressWarnings(Array("org.wartremover.contrib.warts.RefinedClasstag"))
       def fun = {
-        methodWithClassTag[A with B]()
+        methodWithClassTag[A & B]()
       }
     }
     assertEmpty(result)
@@ -52,6 +52,6 @@ object RefinedClasstagTest {
 
   case object Obj extends A with C
 
-  type Ab = A with B
+  type Ab = A & B
 
 }
