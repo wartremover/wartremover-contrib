@@ -18,6 +18,12 @@ jobs:
             java: 17
             os: ubuntu-latest
           - name: "scripted"
+            java: 21
+            os: ubuntu-latest
+          - name: "scripted"
+            java: 25
+            os: ubuntu-latest
+          - name: "scripted"
             java: 17
             os: windows-latest
           - name: "test"
