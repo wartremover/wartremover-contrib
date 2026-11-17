@@ -1,6 +1,6 @@
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.5.0")
 
-addSbtPlugin("com.github.sbt" % "sbt-release" % "1.5.0")
+addSbtPlugin("com.github.sbt" % "sbt-release" % "1.6.0")
 
 addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.4.8")
 
