@@ -3,11 +3,7 @@ import ReleaseTransformations._
 // https://github.com/sbt/sbt/issues/8248
 outputPath := thisProject.value.id
 
-val sbt2 = {
-  val p = new java.util.Properties
-  p.load(new java.io.FileInputStream("project/build.properties"))
-  p.getProperty("sbt.version").trim
-}
+val sbt2 = "2.1.0"
 def sbt1 = "1.13.1"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
@@ -241,8 +237,8 @@ lazy val sbtPlug: ProjectMatrix = projectMatrix
   .defaultAxes(VirtualAxis.jvm)
   .jvmPlatform(
     scalaVersions = Seq(
-      scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt1),
-      scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2)
+      "2.12.21",
+      "3.9.0"
     )
   )
   .settings(
