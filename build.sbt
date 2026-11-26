@@ -3,11 +3,7 @@ import ReleaseTransformations._
 // https://github.com/sbt/sbt/issues/8248
 outputPath := thisProject.value.id
 
-val sbt2 = {
-  val p = new java.util.Properties
-  p.load(new java.io.FileInputStream("project/build.properties"))
-  p.getProperty("sbt.version").trim
-}
+val sbt2 = scala_version_from_sbt_version.ScalaVersionFromSbtVersion.sbtVersionFromProjectBuildProperties
 def sbt1 = "1.13.1"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
